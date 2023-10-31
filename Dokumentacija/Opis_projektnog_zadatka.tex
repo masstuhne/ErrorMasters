@@ -2,114 +2,112 @@
 		
 		\textbf{\textit{dio 1. revizije}}\\
 		
-		\textit{Na osnovi projektnog zadatka detaljno opisati korisničke zahtjeve. Što jasnije opisati cilj projektnog zadatka, razraditi problematiku zadatka, dodati nove aspekte problema i potencijalnih rješenja. Očekuje se minimalno 3, a poželjno 4-5 stranica opisa.	Teme koje treba dodatno razraditi u ovom poglavlju su:}
+		Cilj ovog projekta je razviti programsku podršku za stvaranje web aplikacije "CookBooked" koja će
+		omogućiti korisnicima razmjenu recepata za kuhanje i pečenje kolača te povezivanje i komunikaciju s autorima
+		recepata. Platforma će ponuditi različit spektar mogućnosti ovisno o tome je li korisnik registriran ili nije.
+
+		Prilikom pokretanja sustava prikazuje se izbornik recepata po kategorijama (zemlja podrijetla recepta).		
+		
+		Neregistrirani korisnici mogu \textbf{samo pregledavati} recepte temeljem kategorija.
+		Neregistrirani korisnici vide sve detalje recepata (naslov, sastojci, koraci pripreme, posebne oznake...).
+		Kako bi korisniku bilo omogućeno vršiti dodatne radnje (objava recepata, komentiranje recepata, spremanje recepata...),
+		potrebno se prijaviti sa postojećim korisničkim računom ili registracijom kreirati novi korisnički račun.
+
+		\textbf{
+			Za kreiranje novog korisničkog računa potrebni su slijedeći podatci:
+		}
 		\begin{packed_item}
-			\item \textit{potencijalna korist ovog projekta}
-			\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
-			\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
-			\item \textit{mogućnost prilagodbe rješenja }
-			\item \textit{opseg projektnog zadatka}
-			\item \textit{moguće nadogradnje projektnog zadatka}
+			\item \textit{korisničko ime}
+			\item \textit{lozinka}
+			\item \textit{ime}
+			\item \textit{prezime}
+			\item \textit{broj mobitela}
+			\item \textit{email adresa}
 		\end{packed_item}
-		
-		\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
-		\eject
-		
-		\section{Primjeri u \LaTeX u}
-		
-		\textit{Ovo potpoglavlje izbrisati.}\\
 
-		U nastavku se nalaze različiti primjeri kako koristiti osnovne funkcionalnosti \LaTeX a koje su potrebne za izradu dokumentacije. Za dodatnu pomoć obratiti se asistentu na projektu ili potražiti upute na sljedećim web sjedištima:
-		\begin{itemize}
-			\item Upute za izradu diplomskog rada u \LaTeX u - \url{https://www.fer.unizg.hr/_download/repository/LaTeX-upute.pdf}
-			\item \LaTeX\ projekt - \url{https://www.latex-project.org/help/}
-			\item StackExchange za Tex - \url{https://tex.stackexchange.com/}\\
-		
-		\end{itemize} 	
-
-
-		
-		\noindent \underbar{podcrtani tekst}, \textbf{podebljani tekst}, 	\textit{nagnuti tekst}\\
-		\noindent \normalsize primjer \large primjer \Large primjer \LARGE {primjer} \huge {primjer} \Huge primjer \normalsize
+		Registracijom u sustav korisniku se dodjeljuju prava klijenta, a naknadno mu se mogu dodijeliti prava
+		vlasnika portala ili administratora. Registrirani korisnik može objavljivati recepte za kuhanje i pečenje,
+		komentirati na ostale recepte itd.
 				
-		\begin{packed_item}
-			
-			\item  primjer
-			\item  primjer
-			\item  primjer
-			\item[] \begin{packed_enum}
-				\item primjer
-				\item[] \begin{packed_enum}
-					\item[1.a] primjer
-					\item[b] primjer
-				\end{packed_enum}
-				\item primjer
-			\end{packed_enum}
-			
-		\end{packed_item}
+		\underline{\textit{Klijent}} objavom recepta postaje njegov autor. Autori recepata mogu komunicirati s ostalim
+		korisnicima vezano za svoje recepte (termin komunikacija = chat, videopozivi itd.). Klijent ima mogućnost označavanja, 
+		komentiranja i spremanja recepata za buduću referencu. Također, kao dodatna mogućnost, pruža se i opcija praćenja 
+		omiljenih autora (obavijesti). Klijent ima dvije vrste profila, javni i privatni. Na javnom su prikazani recepti,
+		pratitelji i autori koje klijent prati; dok su na privatnom prikazane osobne informacije kojima klijent može
+		upravljati.
 		
-		\noindent primjer url-a: \url{https://www.fer.unizg.hr/predmet/proinz/projekt}
-		
-		\noindent posebni znakovi: \# \$ \% \& \{ \} \_ 
-		$|$ $<$ $>$ 
-		\^{} 
-		\~{} 
-		$\backslash$ 
-		
-		
-		\begin{longtblr}[
-			label=none,
-			entry=none
-			]{
-				width = \textwidth,
-				colspec={|X[8,l]|X[8, l]|X[16, l]|}, 
-				rowhead = 1,
-			} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-			\hline \SetCell[c=3]{c}{\textbf{naslov unutar tablice}}	 \\ \hline[3pt]
-			\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-			korisnickoIme	& VARCHAR &   	\\ \hline 
-			email & VARCHAR &   \\ \hline 
-			ime & VARCHAR	&  		\\ \hline 
-			\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
-		\end{longtblr}
-		
+		\underline{\textit{Vlasnik}} portala ima dodatne mogućnosti brisanja neželjenih recepata i/ili komentara ispod njih
+		te mogućnost brisanja i/ili dodavanja novih kategorija recepata.
 
-		\begin{longtblr}[
-				caption = {Naslov s referencom izvan tablice},
-				entry = {Short Caption},
-			]{
-				width = \textwidth, 
-				colspec = {|X[8,l]|X[8,l]|X[16,l]|}, 
-				rowhead = 1,
-			}
-			\hline
-			\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-			korisnickoIme	& VARCHAR &   	\\ \hline 
-			email & VARCHAR &   \\ \hline 
-			ime & VARCHAR	&  		\\ \hline 
-			\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
-		\end{longtblr}
-	
-
-
+		\underline{\textit{Administrator}} sustava ima najveće ovlasti. On ima pristup bazi s popisom registriranih korisnika
+		te ima mogućnost brisanja ili promijene korisničkih podataka. Također, ima svu funkcionalnost vlasnika restorana.
 		
-		
-		%unos slike
+		\bigskip
+
+		\textbf{Postojeća slična rješenja:}
+
+		\url{https://www.coolinarika.com/}
+
 		\begin{figure}[H]
-			\includegraphics[scale=0.4]{slike/aktivnost.PNG} %veličina slike u odnosu na originalnu datoteku i pozicija slike
+			\includegraphics[scale=0.2]{slike/coolinarika.png}
 			\centering
-			\caption{Primjer slike s potpisom}
-			\label{fig:promjene}
+			\caption{Izgled coolinarika web portala}
+			\label{fig:coolinarika}
 		\end{figure}
-		
+
+		\url{https://recepti.index.hr/}
+
 		\begin{figure}[H]
-			\includegraphics[width=\textwidth]{slike/aktivnost.PNG} %veličina u odnosu na širinu linije
-			\caption{Primjer slike s potpisom 2}
-			\label{fig:promjene2} %label mora biti drugaciji za svaku sliku
+			\includegraphics[scale=0.2]{slike/index-recepti.png} 
+			\centering
+			\caption{Izgled index-recepti web portala}
+			\label{fig:coolinarika}
 		\end{figure}
+
+		\bigskip
+		\bigskip
+		\bigskip
+
+		Postojeća rješenja baziraju se na proširenoj funkcionalnosti (osim kolača nude i recepte ostalih jela).
+		Coolinarika nudi i dodatnu funckionalost razgovora sa AI ChatBot-om koji pomaže ljudima oko generalnog
+		pojma prehrane. Također, Coolinarika ima i blog te pregled svojstava namirnica koje se koriste u receptima.
+
+		\bigskip
+
+		\textbf{Mogućnost nadogradnje web portala CookBooked:}
+
+		Web portal CookBooked primarno je zamišljen kao pomoćnik u kuhanju i pečenju kolača.
+		Kao takav, usmjeren je na korisnike čiji je primarni interes područje slastica.
+
+		\smallskip
+
+		Svaka nadogradnja postojećeg portala morala bi biti dobro iskomunicirana sa postojećim klijentima.
+
+		\smallskip
+
+		Mogućnosti nadogradnje:
 		
-		Referenciranje slike \ref{fig:promjene2} u tekstu.
-		
+		\begin{packed_item}
+			\item \textit{dodavanje recepata koji nisu vezani za kolače}
+			\item \textit{dodavanje videozapisa pripreme recepata}
+			\item \textit{prijenos uživo pripremanja recepata}
+			\item \textit{dodavanje oglasnik poslova vezanih uz kulinarstvo/slastičarstvo}
+			\item \textit{dodavanje premium sadržaja dostupnog samo plaćenim klijentima}
+		\end{packed_item}
+
+		\textbf{Financiranje web portala CookBooked:}
+
+		Održavanje i nadogradnja web portala CookBooked planiraju se financirati iz slijedećih izvora:
+
+		\begin{packed_item}
+			\item \textit{plaćeni oglasi na web portalu}
+			\item \textit{prodaja premium korisničkih mogućnosti (u planu)}
+			\item \textit{donacije}
+		\end{packed_item}
+
+
+
+
 		\eject
 		
 	
