@@ -2,14 +2,13 @@ package com.fer.progi.errormasters.Cookbooked.entities;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "Cuisine")
-@Getter
-@Setter
-
+@Data
 public class Cuisine {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
