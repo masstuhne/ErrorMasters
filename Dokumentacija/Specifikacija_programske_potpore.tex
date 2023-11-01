@@ -50,7 +50,7 @@
 				\begin{packed_enum}
 					\item \textbf{*sva funkcionalnost Klijenta w/o brisanje svog računa*}
 					\item brisati neželjene recepte
-					\item brisati neželjene komentiranj
+					\item brisati neželjene komentare
 					\item brisati/dodavati kategorije
 				\end{packed_enum}
 
@@ -79,10 +79,7 @@
 			
 			
 				
-			\subsection{Obrasci uporabe}
-
-				\textbf{U ovom poglavlju termini opisani kao "korisnički" predstavljaju istoznačnicu za
-						termin "klijentski."}				
+			\subsection{Obrasci uporabe}				
 				\subsubsection{Opis obrazaca uporabe}					
 
 					\noindent \underbar{\textbf{UC1 - Pregled recepata}}
@@ -230,6 +227,7 @@
 							\item Klijent pregledava osobne podatke
 							\item Klijent odabire opciju brisanja korisničkog računa
 							\item Klijent kriše račun
+							\item Posljedično se brišu i svi recepti te komentari klijenta
 							\item Baza podataka se ažurira
 							\item Otvara se stranica za registraciju
 						
@@ -250,6 +248,7 @@
 							\item Klijent odabire opciju objavi recept
 							\item Klijent unosi potrebne podatke o receptu
 							\item Klijent prima obavijest o uspješnoj objavi recepta
+							\item Šalje se obavijest svim pratiteljima klijenta/autora
 							\item Baza podataka se ažurira
 							\item Otvara su stranica sa receptima korisnika
 						\end{packed_enum}
@@ -316,6 +315,7 @@
 							\item Klijent odabire opciju brisanja recepta
 							\item Klijent prima obavijest o uspješnom brisanju recepta
 							\item Baza podataka se ažurira
+							\item Klijenti koji su recept imali spremljen, više ga nemaju
 							\item Otvara su stranica sa receptima korisnika
 						\end{packed_enum}
 					\end{packed_item}
@@ -620,6 +620,7 @@
 							\item Administrator odabire željenog korisnika
 							\item Administrator odabire opciju brisanja korisnika
 							\item Korisnički račun klijenta se obriše
+							\item Posljedično se brišu i svi recepti te komentari klijenta
 							\item Baza podataka se ažurira
 						\end{packed_enum}
 					\end{packed_item}
