@@ -21,7 +21,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> GetCategories(){
+    public ResponseEntity<List<Category>> getCategories(){
         List<Category> categories = categoryService.getAllCategories();
 
         if (categories.isEmpty()){
@@ -32,7 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Category> GetCategory(@PathVariable int id){
+    public ResponseEntity<Category> getCategory(@PathVariable int id){
         Optional<Category> category = categoryService.getCategory(id);
 
         if (category.isPresent()){
