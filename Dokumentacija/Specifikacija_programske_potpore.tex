@@ -94,8 +94,8 @@
 						\item[] \begin{packed_enum}
 	
 							\item Kategorije recepata su prikazane prilikom učitavanja aplikacije
-							\item Korisnik/Klijent odabire željene kategorija 
-							\item Prikazuje se recepti iz željenih kategorija
+							\item Korisnik/Klijent odabire željene kategorije 
+							\item Prikazuju se recepti iz željenih kategorija
 						\end{packed_enum}
 					\end{packed_item}
 
@@ -226,7 +226,7 @@
 	
 							\item Klijent pregledava osobne podatke
 							\item Klijent odabire opciju brisanja korisničkog računa
-							\item Klijent kriše račun
+							\item Klijent briše račun
 							\item Posljedično se brišu i svi recepti te komentari klijenta
 							\item Baza podataka se ažurira
 							\item Otvara se stranica za registraciju
@@ -247,10 +247,11 @@
 	
 							\item Klijent odabire opciju objavi recept
 							\item Klijent unosi potrebne podatke o receptu
+							\item Klijent objavljuje recept
 							\item Klijent prima obavijest o uspješnoj objavi recepta
 							\item Šalje se obavijest svim pratiteljima klijenta/autora
 							\item Baza podataka se ažurira
-							\item Otvara su stranica sa receptima korisnika
+							\item Otvara se stranica sa receptima korisnika
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -281,9 +282,10 @@
 							\item Klijent otvara stranicu sa svojim receptima
 							\item Klijent odabire opciju uređivanja recepta
 							\item Klijent mijenja određene podatke o receptu
+							\item Klijent sprema promijene
 							\item Klijent prima obavijest o uspješnoj promijeni recepta
 							\item Baza podataka se ažurira
-							\item Otvara su stranica sa receptima korisnika
+							\item Otvara se stranica sa receptima korisnika
 						\end{packed_enum}
 
 						\item  \textbf{Opis mogućih odstupanja:}
@@ -478,7 +480,7 @@
 						\item \textbf{Glavni sudionik: } Klijent
 						\item  \textbf{Cilj:} Prestati pratiti autora, tj. od njega primati obavijesti
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav
+						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav, UC17 - Praćenje autora
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -549,6 +551,12 @@
 								kategorije, vraća ga na stranicu s kategorijama
 								
 							\end{packed_enum}
+
+							\item[3.b] Unos neispravnih podataka (dopušteni znakovi)
+							\item[] \begin{packed_enum}
+								
+								\item Sustav obavještava korisnika o neuspjelom dodavanju 
+								kategorije, vraća ga na stranicu s kategorijama							\end{packed_enum}
 						\end{packed_item}
 					\end{packed_item}
 
