@@ -1,13 +1,13 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "Ingredient")
-@Getter
-@Setter
+@Data
 public class Ingredient {
 
     @Id
