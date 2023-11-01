@@ -2,6 +2,7 @@ package com.fer.progi.errormasters.Cookbooked.controllers;
 
 import com.fer.progi.errormasters.Cookbooked.entities.Category;
 import com.fer.progi.errormasters.Cookbooked.services.CategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
