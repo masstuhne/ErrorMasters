@@ -3,6 +3,7 @@ package com.fer.progi.errormasters.Cookbooked.controllers;
 import com.fer.progi.errormasters.Cookbooked.entities.Ingredient;
 import com.fer.progi.errormasters.Cookbooked.repositories.IngredientRepository;
 import com.fer.progi.errormasters.Cookbooked.services.CategoryService;
+import com.fer.progi.errormasters.Cookbooked.services.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,10 @@ import java.util.Optional;
 @RequestMapping("/ingredients")
 public class IngredientController {
     @Autowired
-    private IngredientRepository ingredientRepository;
+    private IngredientService ingredientService;
     @GetMapping
     public ResponseEntity<List<Ingredient>> GetIngredients(){
-        List<Ingredient> ingredients = ingredientRepository.findAll();
+        List<Ingredient> ingredients = ingredientService.getAllIngredients();
 
         if (ingredients.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -31,7 +32,7 @@ public class IngredientController {
 
     @GetMapping("{id}")
     public ResponseEntity<Ingredient> GetIngredient(@PathVariable int id){
-        Optional<Ingredient> ingredient = ingredientRepository.findById(id);
+        Optional<Ingredient> ingredient = ingredientService.getIngredientById(id);
 
         if (ingredient.isPresent()){
             return ResponseEntity.ok(ingredient.get());
