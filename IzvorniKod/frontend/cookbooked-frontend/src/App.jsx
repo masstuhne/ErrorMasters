@@ -1,16 +1,14 @@
 import React from "react"
 import './index.css'
+import NavBar from "./components/NavBar";
+
+
 
 function App() {
+  console.log("APP");
 
     return (
-
-        <div className="App">
-
-            <h1>React App</h1>
-
-        </div>
-
+      <NavBar/>
     );
 
 }

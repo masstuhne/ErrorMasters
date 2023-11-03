@@ -4,7 +4,8 @@ import App from './App'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  // Zbog ovo strict se sve da put učitava hocemo to maknuti ili ne?
   <React.StrictMode>
-    <App />
+    <App/>
   </React.StrictMode>,
 )
