@@ -679,17 +679,33 @@
 				\eject 
 			\subsection{Sekvencijski dijagrami}
 				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
-				
+				\textbf{Obrazac uporabe UC8 – Uređivanje recepta}
+
+				Klijent šalje zahtjev za prikaz svojih recepata kako bi mogao 
+				odabrati recept koji želi urediti. Poslužitelj dohvaća dostupne recepte 
+				i prikazuje ih ukoliko postoje. U slučaju da ne postoji niti jedan recept 
+				poslužitelj vraća odgovarajuću poruku. Odabirom recepta poslužitelj iz 
+				baze podataka dohvaća podatke o receptu i prikazuje ih korisniku. 
+				Korisnik unosi nove podatke o željenom receptu i šalje zahtjev za 
+				promjenom. Poslužitelj izmijeni recept u bazi podataka koja vraća potvrdu.
+
 				\begin{figure}[H]
 					\includegraphics[scale=0.6]{dijagrami/SD8.png} 
 					\centering
 					\caption{Sekvencijski dijagram za UC8}
 					\label{fig:sd8}
 				\end{figure}		
-				\eject 
+				\eject
+				
+				\textbf{Obrazac uporabe UC10 – Slanje poruke}
+
+				Klijent šalje zahtjev za prikaz recepata po kategorijama. Poslužitelj 
+				dohvaća dostupne recepte i prikazuje ih ukoliko postoje. U slučaju 
+				da ne postoji niti jedan recept poslužitelj vraća odgovarajuću poruku. 
+				Odabirom recepta poslužitelj iz baze podataka dohvaća podatke o receptu 
+				i prikazuje ih korisniku. Klijent šalje zahtjev za slanje poruke autoru 
+				recepta i samu poruku. Poslužitelj prosljeđuje poruku bazi podataka koja 
+				sprema poruku i vraća potvrdu što znači da je poruka poslana.
 					
 				\begin{figure}[H]
 					\includegraphics[scale=0.6]{dijagrami/SD10.png} 
@@ -699,6 +715,13 @@
 				\end{figure}		
 				\eject 
 
+				\textbf{Obrazac uporabe UC11 – Primanje poruke}
+
+				Poslužitelj svake 2 minute u bazi podataka provjerava za prijavljenog 
+				korisnika da li su pristigle neke poruke za njega. Ukoliko baza podataka 
+				pošalje potvrdu da je primljena poruka poslužitelj javlja klijentu i 
+				poruke se prikazuju u pretincu obavijesti.
+
 				\begin{figure}[H]
 					\includegraphics[scale=0.6]{dijagrami/SD11.png} 
 					\centering
@@ -706,7 +729,18 @@
 					\label{fig:sd11}
 				\end{figure}		
 				\eject 
-	
+
+				\textbf{Obrazac uporabe UC25 – Brisanje korisnika}
+
+				Administrator traži od poslužitelja pristup popisu klijenata i ukoliko je 
+				sve u redu poslužitelj vraća potvrdu i odobrava mu pristup. Zatim 
+				administrator šalje zahtjev za prikaz popisa klijenata. Poslužitelj 
+				prosljeđuje zahtjev bazi podataka koja šalje potvrdu i administratoru 
+				se prikazuje popis klijenata. Odabirom klijenta administrator šalje zahtjev 
+				za brisanjem tog klijenta iz baze podataka. Poslužitelj prosljeđuje zahtjev 
+				bazi podataka koja briše odabranog klijenta i sve njegove poveznice te na 
+				kraju šalje potvrdu o uspješnom brisanju.
+				
 				\begin{figure}[H]
 					\includegraphics[scale=0.6]{dijagrami/SD25.png} 
 					\centering
