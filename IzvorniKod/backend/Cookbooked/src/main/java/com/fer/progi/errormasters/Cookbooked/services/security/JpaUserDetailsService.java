@@ -2,7 +2,7 @@ package com.fer.progi.errormasters.Cookbooked.services.security;
 
 
 import com.fer.progi.errormasters.Cookbooked.entities.User;
-import com.fer.progi.errormasters.Cookbooked.model.security.SecurityUser;
+import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUser;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

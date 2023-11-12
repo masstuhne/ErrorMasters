@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
         );
 
+
         http.csrf(AbstractHttpConfigurer::disable);
         http.addFilterBefore(null, UsernamePasswordAuthenticationFilter.class);
         return http.build();

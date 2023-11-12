@@ -1,4 +1,4 @@
-package com.fer.progi.errormasters.Cookbooked.model.security;
+package com.fer.progi.errormasters.Cookbooked.models.security;
 
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import lombok.AllArgsConstructor;
