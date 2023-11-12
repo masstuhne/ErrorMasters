@@ -5,13 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class JwtToken {
+public class JwtTokenModel {
     private String token;
-    private String type = "Bearer";
-    private Long id;
-    private String username;
-    private String email;
-    private String role;
-
-
 }
