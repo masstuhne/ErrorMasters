@@ -13,9 +13,9 @@ public class User {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany
-    @Column(name = "roleID")
-    private Integer roleId;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @Column(name = "firstName", nullable = false)
     private String firstName;

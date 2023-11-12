@@ -17,6 +17,6 @@ public class Role {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @ManyToOne
+    @OneToMany
     private List<User> users;
 }
