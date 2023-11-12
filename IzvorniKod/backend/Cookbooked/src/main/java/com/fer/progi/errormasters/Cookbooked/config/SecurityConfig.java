@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .requestMatchers("/categories").permitAll()
                 .requestMatchers("/cuisines").permitAll()
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/register").permitAll()
+                .requestMatchers("/swagger.html").permitAll()
                 .anyRequest().authenticated()
         );
 
