@@ -1,6 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Data
 @Table(name = "user")
 @Entity
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
@@ -31,4 +33,8 @@ public class User {
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
+
+    public User() {
+
+    }
 }
