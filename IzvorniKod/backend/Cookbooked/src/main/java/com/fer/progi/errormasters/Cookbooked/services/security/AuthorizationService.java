@@ -1,7 +1,5 @@
 package com.fer.progi.errormasters.Cookbooked.services.security;
 
-import com.fer.progi.errormasters.Cookbooked.models.JwtTokenModel;
-import com.fer.progi.errormasters.Cookbooked.models.LoginModel;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
