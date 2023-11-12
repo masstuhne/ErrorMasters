@@ -20,7 +20,7 @@ public class IngredientController {
     @Autowired
     private IngredientService ingredientService;
     @GetMapping
-    public ResponseEntity<List<Ingredient>> GetIngredients(){
+    public ResponseEntity<List<Ingredient>> getIngredients(){
         List<Ingredient> ingredients = ingredientService.getAllIngredients();
 
         if (ingredients.isEmpty()){
@@ -31,7 +31,7 @@ public class IngredientController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Ingredient> GetIngredient(@PathVariable int id){
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable int id){
         Optional<Ingredient> ingredient = ingredientService.getIngredientById(id);
 
         if (ingredient.isPresent()){

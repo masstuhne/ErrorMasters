@@ -19,7 +19,7 @@ public class CuisineController {
 
     private final CuisineService cuisineService;
     @GetMapping
-    public ResponseEntity<List<Cuisine>> GetCuisines(){
+    public ResponseEntity<List<Cuisine>> getCuisines(){
         List<Cuisine> cuisines = cuisineService.getAllCuisines();
         if (cuisines.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -28,7 +28,7 @@ public class CuisineController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Cuisine> GetCuisine(@PathVariable int id){
+    public ResponseEntity<Cuisine> getCuisine(@PathVariable int id){
         Optional<Cuisine> cuisine = cuisineService.getCuisineById(id);
         if(cuisine.isPresent()){
             return ResponseEntity.ok(cuisine.get());
