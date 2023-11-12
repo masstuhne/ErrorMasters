@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Table(name = "user")
+@Table(name = "users")
 @Entity
 @AllArgsConstructor
 public class User {
@@ -19,10 +19,10 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(name = "username", unique = true, nullable = false)

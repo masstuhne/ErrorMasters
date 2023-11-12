@@ -1,6 +1,5 @@
 package com.fer.progi.errormasters.Cookbooked.services.security;
 
-import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUser;
 import com.fer.progi.errormasters.Cookbooked.utils.JwtUtils;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

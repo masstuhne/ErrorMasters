@@ -29,13 +29,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                .requestMatchers("/ingredients").permitAll()
-                .requestMatchers("/categories").permitAll()
-                .requestMatchers("/cuisines").permitAll()
+                .requestMatchers("/ingredients/**").permitAll()
+                .requestMatchers("/categories/**").permitAll()
+                .requestMatchers("/cuisines/**").permitAll()
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/register").permitAll()
                 .requestMatchers("/swagger.html").permitAll()
                 .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/api-docs/**").permitAll()
                 .anyRequest().authenticated()
         );
 
