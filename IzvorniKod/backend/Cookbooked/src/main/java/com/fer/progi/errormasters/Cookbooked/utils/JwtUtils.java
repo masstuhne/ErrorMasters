@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
@@ -25,18 +26,16 @@ public class JwtUtils {
 
 
 
-    public String generateJwtToken(Authentication authentication) {
-        SecurityUser userPrincipal = (SecurityUser) authentication.getPrincipal();
-
+    public String generateJwtToken(UserDetails userDetails) {
         return Jwts.builder()
-                .subject((userPrincipal.getUsername()))
+                .subject((userDetails.getUsername()))
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(jwtSecret)
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String extractUsername(String token) {
         return Jwts.parser().decryptWith(jwtSecret).build().parseEncryptedClaims(token).getPayload().getSubject();
     }
 

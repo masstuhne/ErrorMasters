@@ -1,5 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.services.security;
 
+import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUser;
+import com.fer.progi.errormasters.Cookbooked.utils.JwtUtils;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +18,7 @@ public class AuthorizationService {
     @Autowired
     JpaUserDetailsService userDetailsService;
     @Autowired
-    JwtUtil jwtUtil;
+    JwtUtils jwtUtils;
 
     public String generateToken(String username, String password) throws BadCredentialsException {
 
@@ -28,7 +30,7 @@ public class AuthorizationService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        String jwt = jwtUtil.generateToken(userDetails);
+        String jwt = jwtUtils.generateJwtToken(userDetails);
 
         return jwt;
     }
