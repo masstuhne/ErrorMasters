@@ -33,3 +33,10 @@ build/
 .vscode/
 
 .idea/
+/.idea
+
+.idea/libraries/
+
+
+### Mac ###
+.DS_Store
