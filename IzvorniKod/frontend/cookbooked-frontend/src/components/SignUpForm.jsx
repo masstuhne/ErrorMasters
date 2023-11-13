@@ -1,7 +1,7 @@
 
 import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import axios from '../../api/axios';
+import axios from "axios";
 
 const REG_URL='http://localhost:8080/api/v1/register'
 
@@ -25,10 +25,7 @@ function SignUpForm() {
         username : user_name,
         password : password,
         email : mail
-      }),{
-        headers:{"Content-Type": "applicatio/jason"},
-        withCredentials:true
-      })
+      }),{headers :{"Content-Type":"application/json"} })
       console.log(response);
       console.log('Sucess')
     }
