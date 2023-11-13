@@ -28,6 +28,7 @@ function SignUpForm() {
       }),{headers :{"Content-Type":"application/json"} })
       console.log(response);
       console.log('Sucess')
+      
     }
     catch(err){
       console.log(err)
