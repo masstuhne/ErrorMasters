@@ -35,33 +35,29 @@ public class JwtUtils {
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSignKey())
+                .claim("role", userDetails.getAuthorities())
                 .compact();
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser().decryptWith(getSignKey()).build().parseEncryptedClaims(token).getPayload().getSubject();
+        return extractAllClaims(token).getSubject();
+    }
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
     }
 
 
 
 
-    public boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parser().decryptWith(getSignKey()).build().parseEncryptedClaims(authToken);
-            return true;
-        } catch (SignatureException e) {
-            log.error("Invalid JWT signature: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            log.error("Invalid JWT: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            log.error("JWT token expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            log.error("JWT token unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.error("JWT claims empty: {}", e.getMessage());
-        }
+    public boolean validateJwtToken(String authToken, UserDetails userDetails) {
+            final String username = extractUsername(authToken);
+            return (username.equals(userDetails.getUsername()) && !isExpired(authToken));
 
-        return false;
+    }
+
+    private boolean isExpired(String token) {
+        return extractAllClaims(token).getExpiration().before(new Date());
 
     }
 }

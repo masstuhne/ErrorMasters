@@ -66,6 +66,7 @@ public class AuthorizationController {
             user.setFirstName(registerModel.getFirstName());
             user.setLastName(registerModel.getLastName());
             user.setPassword(passwordEncoder.encode(registerModel.getPassword()));
+            user.setPhoneNumber(registerModel.getPhoneNumber());
 
             Optional<Role> role = roleRepository.findByName(RoleEnum.MEMBER);
 

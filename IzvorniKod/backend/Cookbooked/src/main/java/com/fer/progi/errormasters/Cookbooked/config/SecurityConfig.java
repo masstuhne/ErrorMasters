@@ -1,9 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.config;
 
-import com.fer.progi.errormasters.Cookbooked.filters.JwtRequestFilter;
-import com.fer.progi.errormasters.Cookbooked.services.security.JpaUserDetailsService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.fer.progi.errormasters.Cookbooked.filters.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    JwtRequestFilter jwtRequestFilter;
+    JwtAuthFilter jwtRequestFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -38,6 +36,11 @@ public class SecurityConfig {
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/api-docs/**").permitAll()
                 .anyRequest().authenticated()
+        );
+
+        http.sessionManagement((sessionManagement) -> sessionManagement
+                .sessionFixation().migrateSession()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
 
