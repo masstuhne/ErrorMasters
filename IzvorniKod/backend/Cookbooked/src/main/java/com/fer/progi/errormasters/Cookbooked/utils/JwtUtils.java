@@ -51,12 +51,32 @@ public class JwtUtils {
 
 
     public boolean validateJwtToken(String authToken, UserDetails userDetails) {
+        try {
             final String username = extractUsername(authToken);
             return (username.equals(userDetails.getUsername()) && !isExpired(authToken));
+        }
+        catch (SignatureException e) {
+            log.error("Invalid JWT signature: {}", e.getMessage());
+        }
+        catch (MalformedJwtException e) {
+            log.error("Invalid JWT token: {}", e.getMessage());
+        }
+        catch (ExpiredJwtException e) {
+            log.error("JWT token is expired: {}", e.getMessage());
+        }
+        catch (UnsupportedJwtException e) {
+            log.error("JWT token is unsupported: {}", e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            log.error("JWT claims string is empty: {}", e.getMessage());
+        }
+        return false;
 
     }
 
     private boolean isExpired(String token) {
+
+        extractAllClaims(token);
         return extractAllClaims(token).getExpiration().before(new Date());
 
     }
