@@ -24,7 +24,8 @@ function SignUpForm() {
         lastName : last_name,
         username : user_name,
         password : password,
-        email : mail
+        email : mail,
+        phoneNumber :tel_num
       }),{headers :{"Content-Type":"application/json"} })
       console.log(response);
       console.log('Sucess')
