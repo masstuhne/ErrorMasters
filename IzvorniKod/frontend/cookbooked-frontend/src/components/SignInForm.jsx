@@ -35,6 +35,7 @@ function SignInForm() {
           localStorage.setItem('user_ret', response.data);
           
           navigateTo('/');
+          window.location.reload();
         }
         catch(err){
           console.log(err.response.data);
