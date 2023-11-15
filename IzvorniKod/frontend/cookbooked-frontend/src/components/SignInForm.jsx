@@ -26,8 +26,7 @@ function SignInForm() {
           setSuccess(true);
         }
         catch(err){
-          console.log(err);
-          console.log('Fail');
+         
         }
       }
 
