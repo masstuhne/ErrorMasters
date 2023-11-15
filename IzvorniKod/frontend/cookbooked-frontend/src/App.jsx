@@ -8,7 +8,7 @@ import SignUp from "./pages/SignUp";
 
 
 function App() {
-  console.log("APP");
+  // console.log("APP");
 
     return (
       <>

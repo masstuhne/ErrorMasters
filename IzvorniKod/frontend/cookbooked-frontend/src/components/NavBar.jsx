@@ -1,10 +1,14 @@
-import React from "react";
+import React, {createContext, useState} from "react";
 import SignUpButton from "./SignUpButton";
 import BarKategorije from "./BarKategorije";
+import UserLog from "./UserLog";
 import { Link } from "react-router-dom";
 
+export const AuthContext = createContext();
+
 function NavBar() {
-    console.log("NAVBAR");
+    // console.log("NAVBAR");
+
     return (
         <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600"> 
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -18,7 +22,11 @@ function NavBar() {
                 </div>
                 
                 <div className="flex md:order-2">
-                    <SignUpButton/>
+                    {localStorage.getItem('user_ret') ? (
+                        <UserLog>{localStorage.getItem('user')}</UserLog>
+                    ) : (
+                        <SignUpButton/>
+                    )}
                 </div>
             </div>
         </nav>

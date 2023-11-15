@@ -7,10 +7,10 @@ function DohvatKategorija({cat, children}) {
 
     const navBarId = "dropdownNavbar " + cat;
 
-    console.log(cat);
+    // console.log(cat);
     
     const apiUrl = 'http://localhost:8080/api/v1/' + cat;
-    console.log(apiUrl);
+    // console.log(apiUrl);
     useEffect(() => {
         axios.get(apiUrl)
             .then((response) => {
@@ -21,7 +21,7 @@ function DohvatKategorija({cat, children}) {
             });
     }, []);
 
-    console.log(categories);
+    // console.log(categories);
 
     // const handleDropDown = () => {
     //     setOpen(!isOpen);

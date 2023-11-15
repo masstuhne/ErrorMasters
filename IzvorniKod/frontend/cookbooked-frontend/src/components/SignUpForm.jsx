@@ -1,7 +1,8 @@
-
 import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import axios from "axios";
+import RedAlert from './RedAlert';
+import { useNavigate } from "react-router-dom";
 
 const REG_URL='http://localhost:8080/api/v1/register'
 
@@ -14,6 +15,10 @@ function SignUpForm() {
   const [user_name,setUserName]=useState('');
   const [password,setPassword]=useState('');
 
+  const [errorText, setErrorText]=useState('');
+  const [showAlert, setShowAlert]=useState(false);
+
+  const navigateTo = useNavigate();
 
   const handleSubmit= async (e)=>{
     e.preventDefault() 
@@ -26,13 +31,17 @@ function SignUpForm() {
         password : password,
         email : mail
       }),{headers :{"Content-Type":"application/json"} })
-      console.log(response);
-      console.log('Sucess')
-      
+      console.log(response.data);
+      console.log('Sucess');
+      setShowAlert(false);
+      navigateTo('/prijava');
+      window.location.reload();
     }
     catch(err){
-      console.log(err)
-      console.log('Fail')
+      console.log(err.response.data);
+      console.log('Fail');
+      setErrorText(err.response.data);
+      setShowAlert(true);
     }
   }
 
@@ -49,17 +58,17 @@ function SignUpForm() {
     <div className="flex items-center justify-center min-h-screen">
         <form onSubmit={handleSubmit} className="flex min-w-[28rem] min-h-[30rem] flex-col gap-4">
             <div>
-              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ime</label>
-              <input type="text" id="first_name" onChange={(e)=> setName(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ana" required/>
+              <label for="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ime</label>
+              <input type="text" id="first_name" onChange={(e)=> setName(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ana" required/>
             </div>
             <div>
-              <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prezime</label>
-              <input type="text" id="last_name" onChange={(e)=> setLastName(e.target.value)}class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Anić" required/>
+              <label for="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prezime</label>
+              <input type="text" id="last_name" onChange={(e)=> setLastName(e.target.value)}className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Anić" required/>
             </div>
 
             <div>
-              <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefonski broj</label>
-              <input type="tel" id="phone" onChange={(e)=> setTelNum(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="099 123 4567" pattern="[0-9]{3} [0-9]{3} [0-9]{4}" required/>
+              <label for="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefonski broj</label>
+              <input type="tel" id="phone" onChange={(e)=> setTelNum(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="099 123 4567" pattern="[0-9]{3} [0-9]{3} [0-9]{4}" required/>
             </div>
 
             <div>
@@ -84,10 +93,11 @@ function SignUpForm() {
             </div>
             <div></div>
             <Button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Registracija</Button>
+            {showAlert && (
+              <RedAlert>{errorText}</RedAlert>
+            )}        
         </form>
     </div>
-
-
   );
 }
 
