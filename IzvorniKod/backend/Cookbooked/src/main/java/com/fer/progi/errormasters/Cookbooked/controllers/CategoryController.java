@@ -35,10 +35,6 @@ public class CategoryController {
     public ResponseEntity<Category> getCategory(@PathVariable int id){
         Optional<Category> category = categoryService.getCategory(id);
 
-        if (category.isPresent()){
-            return ResponseEntity.ok(category.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

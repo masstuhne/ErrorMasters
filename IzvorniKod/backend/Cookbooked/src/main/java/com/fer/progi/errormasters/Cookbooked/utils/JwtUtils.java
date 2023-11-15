@@ -30,13 +30,19 @@ public class JwtUtils {
 
 
     public String generateJwtToken(UserDetails userDetails) {
-        return Jwts.builder()
-                .subject((userDetails.getUsername()))
-                .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(getSignKey())
-                .claim("role", userDetails.getAuthorities())
-                .compact();
+        try {
+            return Jwts.builder()
+                    .subject((userDetails.getUsername()))
+                    .issuedAt(new Date())
+                    .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                    .signWith(getSignKey())
+                    .claim("role", userDetails.getAuthorities())
+                    .compact();
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
     public String extractUsername(String token) {
@@ -44,7 +50,13 @@ public class JwtUtils {
     }
 
     public Claims extractAllClaims(String token) {
-        return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
+        try {
+            return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+            return null;
+        }
     }
 
 

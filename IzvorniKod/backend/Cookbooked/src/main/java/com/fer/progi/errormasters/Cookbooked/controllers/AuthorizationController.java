@@ -42,6 +42,11 @@ public class AuthorizationController {
 
         }catch (Exception e){
 
+            if(e.getMessage().equals("Incorrect username or password!"))
+                return ResponseEntity
+                        .badRequest()
+                        .body("Pogrešno korisničko ime ili lozinka!");
+
             return ResponseEntity
                     .badRequest()
                     .body(e.getMessage());
