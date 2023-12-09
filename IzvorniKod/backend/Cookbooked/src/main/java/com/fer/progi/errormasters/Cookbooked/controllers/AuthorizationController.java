@@ -12,6 +12,7 @@ import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import com.fer.progi.errormasters.Cookbooked.services.security.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,17 +43,15 @@ public class AuthorizationController {
             String token = authorizationService.generateToken(loginModel.getUsername(), loginModel.getPassword());
             return ResponseEntity.ok(token);
 
-        }catch (Exception e){
+        } catch (BadCredentialsException e){
+            return ResponseEntity
+                    .badRequest()
+                    .body("Pogrešno korisničko ime ili lozinka!");
 
-            if(e.getMessage().equals("Incorrect username or password!")) //TODO ne usporedjivati message nego catchati bas taj exception
-                return ResponseEntity
-                        .badRequest()
-                        .body("Pogrešno korisničko ime ili lozinka!");
-
+        } catch (Exception e){
             return ResponseEntity
                     .badRequest()
                     .body(e.getMessage());
-
         }
     }
 
