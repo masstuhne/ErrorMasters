@@ -29,9 +29,7 @@ public class AuthorizationService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        String jwt = jwtUtils.generateJwtToken(userDetails);
-
-        return jwt;
+        return jwtUtils.generateJwtToken(userDetails);
     }
 
 }

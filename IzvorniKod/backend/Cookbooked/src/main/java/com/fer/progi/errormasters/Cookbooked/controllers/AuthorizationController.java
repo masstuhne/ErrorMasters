@@ -42,6 +42,11 @@ public class AuthorizationController {
 
         }catch (Exception e){
 
+            if(e.getMessage().equals("Incorrect username or password!"))
+                return ResponseEntity
+                        .badRequest()
+                        .body("Pogrešno korisničko ime ili lozinka!");
+
             return ResponseEntity
                     .badRequest()
                     .body(e.getMessage());
@@ -54,10 +59,10 @@ public class AuthorizationController {
         try {
 
             if (userRepository.existsByUsername(registerModel.getUsername())){
-                throw new Exception("User with that username already exists!");
+                throw new Exception("Korisničko ime je zauzeto!");
             }
             if (userRepository.existsByEmail(registerModel.getEmail())){
-                throw new Exception("User with that email already exists!");
+                throw new Exception("Email adresa je zauzeta!");
             }
 
             User user = new User();
@@ -66,6 +71,7 @@ public class AuthorizationController {
             user.setFirstName(registerModel.getFirstName());
             user.setLastName(registerModel.getLastName());
             user.setPassword(passwordEncoder.encode(registerModel.getPassword()));
+            user.setPhoneNumber(registerModel.getPhoneNumber());
 
             Optional<Role> role = roleRepository.findByName(RoleEnum.MEMBER);
 
@@ -73,7 +79,7 @@ public class AuthorizationController {
 
             userRepository.save(user);
 
-            return ResponseEntity.ok(String.format("New user %s successfully registered!", registerModel.getUsername()));
+            return ResponseEntity.ok(String.format("Uspješno ste registirani, %s", registerModel.getUsername()));
 
         } catch (Exception e){
 

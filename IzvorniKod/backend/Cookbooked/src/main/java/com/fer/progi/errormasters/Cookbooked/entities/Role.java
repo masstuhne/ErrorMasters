@@ -7,7 +7,7 @@ import lombok.Data;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "role")
 @Data
 @Table(name = "role")
 public class Role {
@@ -19,6 +19,6 @@ public class Role {
     @Column(name = "name", unique = true, nullable = false)
     private RoleEnum name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "role")
     private List<User> users;
 }
