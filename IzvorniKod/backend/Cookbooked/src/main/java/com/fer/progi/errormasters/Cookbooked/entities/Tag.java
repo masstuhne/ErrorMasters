@@ -1,24 +1,25 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
-@Table(name = "ingredient")
 @Data
-public class Ingredient {
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "tag")
+public class Tag {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "ingredients")
-    private List<Recipe> recipes;
+    @ManyToMany(mappedBy = "tags")
+    private List<Recipe> recipe;
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "category")
 @Data
@@ -16,5 +18,7 @@ public class Category {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @OneToMany
+    private List<Recipe> recipes;
 
 }
