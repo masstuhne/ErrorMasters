@@ -7,6 +7,8 @@ import com.fer.progi.errormasters.Cookbooked.models.LoginModel;
 import com.fer.progi.errormasters.Cookbooked.models.RegisterModel;
 import com.fer.progi.errormasters.Cookbooked.repositories.RoleRepository;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
+import com.fer.progi.errormasters.Cookbooked.services.RoleService;
+import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import com.fer.progi.errormasters.Cookbooked.services.security.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +26,10 @@ public class AuthorizationController {
     AuthorizationService authorizationService;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
-    RoleRepository roleRepository;
+    RoleService roleService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -42,7 +44,7 @@ public class AuthorizationController {
 
         }catch (Exception e){
 
-            if(e.getMessage().equals("Incorrect username or password!"))
+            if(e.getMessage().equals("Incorrect username or password!")) //TODO ne usporedjivati message nego catchati bas taj exception
                 return ResponseEntity
                         .badRequest()
                         .body("Pogrešno korisničko ime ili lozinka!");
@@ -58,10 +60,10 @@ public class AuthorizationController {
     public ResponseEntity<String> register(@RequestBody RegisterModel registerModel){
         try {
 
-            if (userRepository.existsByUsername(registerModel.getUsername())){
+            if (userService.userExistsByUsername(registerModel.getUsername())){
                 throw new Exception("Korisničko ime je zauzeto!");
             }
-            if (userRepository.existsByEmail(registerModel.getEmail())){
+            if (userService.userExistsByEmail(registerModel.getEmail())){
                 throw new Exception("Email adresa je zauzeta!");
             }
 
@@ -73,11 +75,11 @@ public class AuthorizationController {
             user.setPassword(passwordEncoder.encode(registerModel.getPassword()));
             user.setPhoneNumber(registerModel.getPhoneNumber());
 
-            Optional<Role> role = roleRepository.findByName(RoleEnum.MEMBER);
+            Optional<Role> role = roleService.getRoleByName(RoleEnum.MEMBER);
 
             user.setRole(role.get());
 
-            userRepository.save(user);
+            userService.saveUser(user);
 
             return ResponseEntity.ok(String.format("Uspješno ste registirani, %s", registerModel.getUsername()));
 
