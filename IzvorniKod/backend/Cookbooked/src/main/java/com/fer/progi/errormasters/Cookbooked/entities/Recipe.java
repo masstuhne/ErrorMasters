@@ -39,13 +39,13 @@ public class Recipe {
     @Column(columnDefinition = "interval", name = "cooking_time")
     private Duration cookingTime;
 
-    @OneToMany
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Media> media;
 
-    @OneToMany
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<BookmarkedRecipe> bookmarkedRecipes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeRating> recipeRatings;
 
     @ManyToMany

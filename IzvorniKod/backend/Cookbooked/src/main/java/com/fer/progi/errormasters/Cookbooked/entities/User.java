@@ -41,10 +41,10 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<CommunicationTime> communicationTimes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Recipe> recipes;
 
     @OneToMany(mappedBy = "follower")
