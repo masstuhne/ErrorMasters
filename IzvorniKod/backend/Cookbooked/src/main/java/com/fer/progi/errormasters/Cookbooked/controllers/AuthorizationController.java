@@ -38,17 +38,17 @@ public class AuthorizationController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginModel loginModel){
 
-        try{
+        try {
 
             String token = authorizationService.generateToken(loginModel.getUsername(), loginModel.getPassword());
             return ResponseEntity.ok(token);
 
-        } catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             return ResponseEntity
                     .badRequest()
                     .body("Pogrešno korisničko ime ili lozinka!");
 
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity
                     .badRequest()
                     .body(e.getMessage());
