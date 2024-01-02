@@ -1,6 +1,63 @@
 import Select from 'react-select';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function promjenaSastojka() {
+    	
+
+};
+
 
 function NewRecipeForm() {
+    const [cuisines, setCuisines] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
+
+    const url1 = 'http://localhost:8080/api/v1/cuisines';
+    const url2 = 'http://localhost:8080/api/v1/categories';
+    const url3 = 'http://localhost:8080/api/v1/ingredients';
+
+    useEffect(() => {
+        axios.get(url1)
+            .then((response) => {
+                setCuisines(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        axios.get(url2)
+            .then((response) => {
+                setCategories(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        
+        axios.get(url3)
+            .then((response) => {
+                setIngredients(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    const cuisines_names = cuisines.map(item => ({
+        value: item.id,
+        label: item.name
+      }));
+    const categories_names = categories.map(item => ({
+        value: item.id,
+        label: item.name
+      }));
+    const ingredients_names = ingredients.map(item => ({
+        value: item.id,
+        label: item.name
+      }));
+
+    const [userChoice, setUserChoice] = useState([]);
+
     return (
         <div className="flex items-center justify-center min-h-screen">
             <form className="flex min-w-[110rem] min-h-[40rem] flex-row gap-4">
@@ -11,10 +68,9 @@ function NewRecipeForm() {
                     </div>
                     <div className="relative max-w-[40rem]">
                         <Select
-                            defaultValue={"0"}
-                            isMulti
+                            defaultValue={"-"}
                             name="Kuhinja"
-                            options={"0"}
+                            options= {cuisines_names}
                             className="basic-single"
                             classNamePrefix="select"
                             placeholder="Odaberi kuhinju"
@@ -22,10 +78,9 @@ function NewRecipeForm() {
                     </div>
                     <div className="relative max-w-[40rem]">
                         <Select
-                            defaultValue={"0"}
-                            isMulti
+                            defaultValue={"-"}
                             name="Kategorija"
-                            options={"0"}
+                            options= {categories_names}
                             className="basic-single"
                             classNamePrefix="select"
                             placeholder="Odaberi kategoriju"
@@ -33,15 +88,33 @@ function NewRecipeForm() {
                     </div>
                     <div className="relative max-w-[40rem]">
                         <Select
-                            defaultValue={"0"}
                             isMulti
                             name="Sastojci"
-                            options={"0"}
+                            options={ingredients_names}
                             className="basic-multi-select"
                             classNamePrefix="select"
                             placeholder="Odaberi sastojke"
+                            onChange={(choice) => setUserChoice(choice)}
                         />
                     </div>
+                    <div className='flex flex-col gap-4'>
+                        {userChoice.map(el => (
+                            <div className='flex flex-row gap-4'>
+                                <label htmlFor="kol_sastojka" className="max-w-[15rem] block mb-2 text-sm font-medium text-gray-900 dark:text-white">{el.label}</label>
+                                <input type="number" id="kol_sastojka" className="max-w-[10rem] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-[15rem]" placeholder="Količina"/>
+                                <Select
+                                    defaultValue={"-"}
+                                    name={el.label}
+                                    options= {"-"}
+                                    className="basic-single max-w-[10rem]"
+                                    classNamePrefix="select"
+                                    placeholder="mjerna jedinica"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className='min-w-[50rem] flex flex-col gap-6'>
                     <div className="relative max-w-[40rem]">
                         <label htmlFor="priprema" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Koraci pripreme</label>
                         <textarea id="priprema" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Opiši pripremu..." required></textarea>
@@ -61,37 +134,16 @@ function NewRecipeForm() {
                             placeholder="Odaberi oznake"
                         />
                     </div>
-                </div>
-                <div className='min-w-[50rem] flex flex-col gap-6'>
-                    <div>
-                        <label className="block mb-2 text-xl font-medium text-gray-900 dark:text-white" htmlFor="unos_slika">Dodajte slike: </label>
-                        <div className="flex items-center justify-center w-full" id='unos_slika'>
-                            <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                    </svg>
-                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                </div>
-                                <input id="dropzone-file" type="file" className="hidden" />
-                            </label>
-                        </div> 
+                    <div className='max-h-[20rem]'>
+
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="multiple_files">Dodajte slike</label>
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple/>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
                     </div>
                     <div>
-                        <label className="block mb-2 text-xl text-sm font-medium text-gray-900 dark:text-white" htmlFor="unos_videa">Dodajte video: </label>
-                        <div className="flex items-center justify-center w-full" id='unos_videa'>
-                            <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                    </svg>
-                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                </div>
-                                <input id="dropzone-file" type="file" className="hidden" />
-                            </label>
-                        </div> 
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Dodajte video</label>
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
                     </div>
 
                 </div>
