@@ -21,7 +21,7 @@ function UserData() {
 
         axios.get(url, {
             headers: {
-                'Authorization': `Bearer <${authToken}>`
+                'Authorization': `Bearer ${authToken}`
             },
         })
         .then((response) => {
