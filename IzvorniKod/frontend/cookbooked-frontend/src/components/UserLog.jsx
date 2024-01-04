@@ -25,6 +25,9 @@ function UserLog({children}) {
             <Link to="/moji_recepti" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Moji Recepti</Link>
           </li>
           <li>
+            <Link to="/novi_recept" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Izradi novi recept</Link>
+          </li>
+          <li>
             <Link to="/moji_podatci"className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Moji podatci</Link>
           </li>
           <li>
