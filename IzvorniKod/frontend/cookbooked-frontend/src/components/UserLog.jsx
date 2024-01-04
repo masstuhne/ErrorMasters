@@ -5,7 +5,7 @@ function UserLog({children}) {
     e.preventDefault();
     localStorage.removeItem('user');
     localStorage.removeItem('user_ret');
-    window.location.reload();
+    window.location.href = '/';
     console.log("Logging out.")
   }
 
