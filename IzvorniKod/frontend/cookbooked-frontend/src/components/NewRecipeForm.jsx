@@ -54,12 +54,12 @@ function NewRecipeForm() {
     const [userChoice, setUserChoice] = useState([]);
 
     return (
-        <div className="flex items-center justify-center min-h-screen">
-            <form className="flex min-w-[110rem] min-h-[40rem] flex-col gap-4">
-                <div className="flex min-w-[110rem] min-h-[40rem] flex-row gap-4">
-                    <div className='min-w-[50rem] flex flex-col gap-4'>
+        <div className="flex items-center justify-center mt-[10rem] w-screen">
+            <form className="flex items-center justify-center max-w-100vh min-h-[40rem] w-5/6 flex-col gap-4 ">
+                <div className="flex w-full min-h-[40rem] flex-row gap-4">
+                    <div className='w-1/2 flex flex-col gap-4'>
                         <div className="relative max-w-[40rem]">
-                            <input type="text" id="naslov_recepta" aria-describedby="floating_helper_text" className="block rounded-t-lg px-10.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <input type="text" id="naslov_recepta" aria-describedby="floating_helper_text" className="relative max-w-[40rem] w-full block rounded-t-lg px-10.5 pb-2.5 pt-5 text-sm text-gray-900 bg-gray-50 dark:bg-gray-700 border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                             <label htmlFor="naslov_recepta" className="absolute text-x1 text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto" required>Naslov recepta</label>
                         </div>
                         <div className="relative max-w-[40rem]">
@@ -96,13 +96,13 @@ function NewRecipeForm() {
                         <div className='flex flex-col gap-4 max-w-[40rem]'>
                             {userChoice.map(el => (
                                 <div className='flex flex-row gap-6 justify-center items-center'>
-                                    <label htmlFor="kol_sastojka" className="max-w-[15rem] block mb-2 text-sm font-medium text-gray-900 dark:text-white min-w-[8rem]">{el.label}</label>
-                                    <input type="number" min="0" id="kol_sastojka" className="max-w-[10rem] min-w-[10rem] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-[15rem]" placeholder="Količina"/>
+                                    <label htmlFor="kol_sastojka" className="max-w-[15rem] block mb-2 text-sm font-medium text-gray-900 dark:text-white w-1/3">{el.label}</label>
+                                    <input type="number" min="0" id="kol_sastojka" className="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-[15rem]" placeholder="Količina"/>
                                     <Select
                                         defaultValue={"-"}
                                         name={el.label}
                                         options= {"-"}
-                                        className="basic-single max-w-[10rem]"
+                                        className="basic-single w-1/3"
                                         classNamePrefix="select"
                                         placeholder="mjerna jedinica"
                                     />
@@ -110,7 +110,7 @@ function NewRecipeForm() {
                             ))}
                         </div>
                     </div>
-                    <div className='min-w-[50rem] flex flex-col gap-6'>
+                    <div className='w-1/2 flex flex-col gap-6'>
                         <div className="relative max-w-[40rem]">
                             <label htmlFor="priprema" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Koraci pripreme</label>
                             <textarea id="priprema" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Opiši pripremu..." required></textarea>
@@ -143,8 +143,8 @@ function NewRecipeForm() {
                         </div>
                     </div>
                 </div>
-                <div className="flex min-w-[110rem] gap-4 justify-center">
-                    <Button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 min-w-[40rem]'>
+                <div className="flex gap-4 justify-center w-1/3">
+                    <Button type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
                         Objavi recept
                     </Button>
                 </div>

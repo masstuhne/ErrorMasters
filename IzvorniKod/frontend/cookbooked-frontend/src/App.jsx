@@ -15,7 +15,7 @@ function App() {
   // console.log("APP");
 
     return (
-      <>
+      <div className="flex flex-col h-screen max-w-screen w-screen">
         <NavBar/>
         <div>
           <Routes>
@@ -29,7 +29,7 @@ function App() {
 
           </Routes>
         </div>
-      </>
+      </div>
     );
 
 }
