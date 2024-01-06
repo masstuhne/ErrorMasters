@@ -1,15 +1,15 @@
 function Gallery() {
     return (
-        <div id="gallery" className="relative w-100" data-carousel="slide">
-            <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+        <div id="gallery" className="relative h-screen w-screen" data-carousel="slide">
+            <div className="relative overflow-hidden h-full">
                 <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg" className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt=""></img>
+                    <img src="https://img.freepik.com/free-photo/assortment-pieces-cake_114579-30728.jpg?w=2000&t=st=1704545794~exp=1704546394~hmac=830ff889ad8c4d5a50f310c0ef0674f085ec15a78760728895b19ae76dc3a815" className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt=""></img>
                 </div>
                 <div className="hidden duration-700 ease-in-out" data-carousel-item="active">
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg" className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt=""></img>
+                    <img src="https://img.freepik.com/free-photo/sponge-cake-with-strawberries-top_144627-45517.jpg?w=2000&t=st=1704545831~exp=1704546431~hmac=072e220f16689837ab9510d4f25adbdb565b07e36cc65eb7f2f3238d8e0ed16e" className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt=""></img>
                 </div>
                 <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg" className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt=""></img>
+                    <img src="https://img.freepik.com/free-photo/decorating-delicious-homemade-eclairs-with-chocolate-peanuts_155003-4401.jpg?w=2000&t=st=1704545862~exp=1704546462~hmac=17425e92b91d78e2ad05873368c2e6c411eec082cf364858a28fd943171feeb5" className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt=""></img>
                 </div>
             </div>
             <button type="button" className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -28,6 +28,9 @@ function Gallery() {
                     <span className="sr-only">Next</span>
                 </span>
             </button>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-70 font-normal p-7 rounded-md z-20 text-5xl">
+                Dobrodošli!
+            </div>
         </div>
     );
 }

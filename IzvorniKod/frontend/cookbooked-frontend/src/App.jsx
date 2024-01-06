@@ -12,7 +12,6 @@ import Recipe from "./pages/Recipe";
 
 
 function App() {
-  // console.log("APP");
 
     return (
       <>
