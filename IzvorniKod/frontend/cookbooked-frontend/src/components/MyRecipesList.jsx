@@ -52,20 +52,20 @@ function MyRecipesList() {
 
                     <ul className="max-w-md space-y-1 text-2xl text-gray-500 list-disc  dark:text-gray-400">
                         {recepti.map(el => (
-                            <li className="py-3 sm:py-4">
-                            <div className="flex items-center space-x-4 rtl:space-x-reverse">
-                                <div className="flex-1 min-w-0">
-                                    <p className="text-2xl font-medium text-gray-900 truncate dark:text-white">
-                                    {el.ime}
-                                    </p>
-                                    <p className="text-lg text-gray-500 truncate dark:text-gray-400">
-                                    - {el.kategorija}
-                                    </p>
+                            <li key={el.id} className="py-3 sm:py-4">
+                                <div className="flex items-center space-x-4 rtl:space-x-reverse">
+                                    <div className="flex-1 min-w-0">
+                                        <Link to={`/recept/${el.id}`} className="text-2xl font-medium text-gray-900 truncate dark:text-white">
+                                        {el.ime}
+                                        </Link>
+                                        <p className="text-lg text-gray-500 truncate dark:text-gray-400">
+                                        - {el.kategorija}
+                                        </p>
+                                    </div>
+                                    <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                        kuhanje: {el.vrijeme} min
+                                    </div>
                                 </div>
-                                <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                    kuhanje: {el.vrijeme} min
-                                </div>
-                            </div>
                             </li>
                         ))}
                     </ul>

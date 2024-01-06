@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import MyRecipes from "./pages/MyRecipes";
 import NewRecipe from "./pages/NewRecipe";
 import MyData from "./pages/MyData";
+import Recipe from "./pages/Recipe";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path = "/moji_recepti" element={<MyRecipes />} />
             <Route path = "/novi_recept" element={<NewRecipe />} />
             <Route path = "/moji_podatci" element={<MyData />} />
+            <Route path = "/recept/:id" element={<Recipe />} />
 
           </Routes>
         </div>
