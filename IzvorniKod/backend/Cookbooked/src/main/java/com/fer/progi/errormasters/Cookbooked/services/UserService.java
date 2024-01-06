@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserService {
     public List<User> getAllUsers();
 
+    public User getUserByUsername(String username);
+
     public boolean userExistsByUsername(String username);
 
     public boolean userExistsByEmail(String email);

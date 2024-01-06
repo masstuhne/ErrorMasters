@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .requestMatchers("/ingredients/**").permitAll()
                 .requestMatchers("/categories/**").permitAll()
                 .requestMatchers("/cuisines/**").permitAll()
+                .requestMatchers("/recipes/**").permitAll()
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/register").permitAll()
                 .requestMatchers("/swagger.html").permitAll()

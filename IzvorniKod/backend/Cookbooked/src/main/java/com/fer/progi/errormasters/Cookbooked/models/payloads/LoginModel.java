@@ -1,4 +1,4 @@
-package com.fer.progi.errormasters.Cookbooked.models;
+package com.fer.progi.errormasters.Cookbooked.models.payloads;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

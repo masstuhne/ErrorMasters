@@ -3,10 +3,9 @@ import axios from "axios";
 import {Label, TextInput, Button } from 'flowbite-react';
 
 function UserData() {
-    const [users, setUsers] = useState([]);
     const [user, setUser] = useState([]);
 
-    const url = 'http://localhost:8080/api/v1/users';
+    const url = 'http://localhost:8080/api/v1/users/profile';
     const authToken = localStorage.getItem('user_ret');
 
     useEffect(() => {
@@ -21,8 +20,7 @@ function UserData() {
             },
         })
         .then((response) => {
-            setUsers(response.data);
-            setUser(response.data.find(user => user.username === localStorage.getItem('user')));
+            setUser(response.data);
         })
         .catch(error => {
             console.log(error);
