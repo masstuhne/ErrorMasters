@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface CuisineService {
 
-    public List<Cuisine> getAllCuisines();
+    List<Cuisine> getAllCuisines();
 
-    public Optional<Cuisine> getCuisineById(Integer id);
+    Optional<Cuisine> getCuisineById(Integer id);
 
 
 }

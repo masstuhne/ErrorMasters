@@ -41,21 +41,26 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<CommunicationTime> communicationTimes;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Recipe> recipes;
 
-    @OneToMany(mappedBy = "follower")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<BookmarkedRecipe> bookmarkedRecipes;
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<UserFollow> following;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<UserFollow> followers;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<ChatMessage> sentMessages;
 
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<ChatMessage> receivedMessages;
 }

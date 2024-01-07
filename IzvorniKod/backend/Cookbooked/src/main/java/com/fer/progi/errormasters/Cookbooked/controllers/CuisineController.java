@@ -1,7 +1,9 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
 import com.fer.progi.errormasters.Cookbooked.entities.Cuisine;
+import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.services.CuisineService;
+import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class CuisineController {
 
     private final CuisineService cuisineService;
+    private final RecipeService recipeService;
     @GetMapping
     public ResponseEntity<List<Cuisine>> getCuisines(){
         List<Cuisine> cuisines = cuisineService.getAllCuisines();
@@ -34,5 +37,10 @@ public class CuisineController {
             return ResponseEntity.ok(cuisine.get());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("{cuisineId}/recipes")
+    public ResponseEntity<List<Recipe>> getRecipesByCuisine(Integer cuisineId){
+        return ResponseEntity.ok(recipeService.getRecipesByCuisine(cuisineId));
     }
 }

@@ -27,4 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Optional<Category> getCategory(int id) {
         return categoryRepostiory.findById(id);
     }
+
+    @Override
+    public Category getCategoryById(Integer categoryId) {
+        return categoryRepostiory.findById(categoryId).orElse(null);
+    }
 }

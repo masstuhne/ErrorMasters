@@ -1,9 +1,11 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
+import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import java.time.Duration;
 import java.util.List;
@@ -37,6 +39,7 @@ public class Recipe {
     private String description;
 
     @Column(columnDefinition = "interval", name = "cooking_time")
+    @Type(PostgreSQLIntervalType.class)
     private Duration cookingTime;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
@@ -48,7 +51,7 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeRating> recipeRatings;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "recipe_ingredient",
             joinColumns = @JoinColumn(name = "recipe_id"),
@@ -56,7 +59,7 @@ public class Recipe {
     )
     private List<Ingredient> ingredients;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "tag_recipe",
             joinColumns = @JoinColumn(name = "recipe_id"),
