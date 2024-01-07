@@ -18,6 +18,8 @@ public interface RecipeService {
 
     List<Recipe> getRecipesByCategory(Integer categoryId);
 
+    List<Recipe> getRecipesByIngredient(Integer ingredientId);
+
     List<Recipe> getRecipesByUserId(Integer userId);
 
     List<RecipeRating> getRecipeRatings(Integer recipeId);

@@ -52,6 +52,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public List<Recipe> getRecipesByIngredient(Integer ingredientId) {
+        return recipeRepository.findAllByIngredientId(ingredientId);
+    }
+
+    @Override
     public List<Recipe> getRecipesByUserId(Integer userId) {
         return recipeRepository.findAllByUserId(userId);
     }
