@@ -2,6 +2,7 @@ package com.fer.progi.errormasters.Cookbooked.services.impl;
 
 import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeCreationModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeRatingModel;
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import com.fer.progi.errormasters.Cookbooked.repositories.RecipeRepository;
 import com.fer.progi.errormasters.Cookbooked.services.*;
@@ -31,6 +32,17 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Recipe getRecipeById(Integer recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+
+        if (recipe != null) {
+            return recipe;
+        } else {
+            throw new RuntimeException("Recipe with id " + recipeId + " not found!");
+        }
+    }
+
+    @Override
     public List<Recipe> getRecipesByCategory(Integer categoryId) {
         return recipeRepository.findAllByCategoryId(categoryId);
 
@@ -39,6 +51,37 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> getRecipesByUserId(Integer userId) {
         return recipeRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public List<RecipeRating> getRecipeRatings(Integer recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+
+        if (recipe != null) {
+            return recipe.getRecipeRatings();
+        } else {
+            throw new RuntimeException("Recipe with id " + recipeId + " not found!");
+        }
+    }
+
+    @Override
+    public void rateRecipe(User user, Integer recipeId, RecipeRatingModel recipeRatingModel) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+
+        if (recipe == null){
+            throw new RuntimeException("Recipe with id " + recipeId + " not found!");
+        }
+
+        RecipeRating recipeRating = new RecipeRating();
+        recipeRating.setUser(user);
+        recipeRating.setRecipe(recipe);
+        recipeRating.setRating(recipeRatingModel.getRating());
+        recipeRating.setComment(recipeRatingModel.getComment());
+        recipeRating.setCreatedAt(recipeRatingModel.getCreatedAt());
+
+        recipe.getRecipeRatings().add(recipeRating);
+
+        recipeRepository.save(recipe);
     }
 
     @Override
