@@ -8,6 +8,7 @@ import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recipes")
 @AllArgsConstructor
+@Slf4j
 public class RecipeController {
 
     RecipeService recipeService;
@@ -30,15 +32,22 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getAllRecipes());
     }
 
-    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
-    public ResponseEntity<String> addRecipe(@RequestPart("recipe") RecipeCreationModel recipeCreateModel, @RequestPart("images") List<MultipartFile> imageFiles, @RequestPart("video") MultipartFile videoFiles) {
+    public ResponseEntity<String> addRecipe( @ModelAttribute RecipeCreationModel recipeCreationModel) {
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userDetails = userService.getUserByUsername(user.getUsername());
         try {
-            recipeService.addRecipe(userDetails, recipeCreateModel, imageFiles, videoFiles);
+            recipeService.addRecipe(userDetails, recipeCreationModel);
         } catch (Exception e){
+            log.error("Error while saving recipe : ", e);
+            if (recipeCreationModel!=null) {
+                log.error(recipeCreationModel.toString());
+            }
+            else {
+                log.error("Recipe creation model is null");
+            }
             return ResponseEntity.badRequest().body("Greška prilikom spremanja recepta!");
         }
         return ResponseEntity.ok("Recept uspješno spremljen!");

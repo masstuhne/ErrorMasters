@@ -9,8 +9,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +28,7 @@ public class RecipeServiceImpl implements RecipeService {
     IngredientService ingredientService;
     CuisineService cuisineService;
     TagService tagService;
+    StorageService storageService;
 
 
     @Override
@@ -42,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void addRecipe(User user, RecipeCreationModel recipeCreateModel, List<MultipartFile> imageFiles, MultipartFile videoFiles) {
+    public void addRecipe(User user, RecipeCreationModel recipeCreateModel) throws IOException {
 
         Recipe recipe = new Recipe();
 
@@ -79,8 +85,31 @@ public class RecipeServiceImpl implements RecipeService {
 
         recipe.setTags(tags);
 
+        recipe.setMedia(new ArrayList<>());
 
-        //todo s3 slike i video
+
+        for (MultipartFile imageFile: recipeCreateModel.getImageFiles()) {
+            Image image = new Image();
+            image.setRecipe(recipe);
+            image.setKey(storageService.uploadFile(imageFile));
+            image.setDescription("Slika recepta " + recipe.getTitle());
+            String extension = imageFile.getOriginalFilename().substring(imageFile.getOriginalFilename().lastIndexOf(".")+1);
+            image.setFormat(extension);
+            image.setUploadDate(new Date());
+            recipe.getMedia().add(image);
+        }
+
+        if (recipeCreateModel.getVideoFile() != null) {
+            Video video = new Video();
+            video.setRecipe(recipe);
+            video.setKey(storageService.uploadFile(recipeCreateModel.getVideoFile()));
+            video.setDescription("Video recepta " + recipe.getTitle());
+            video.setUploadDate(new Date());
+            recipe.getMedia().add(video);
+        }
+
+        recipeRepository.save(recipe);
+
 
 
     }
