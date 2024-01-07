@@ -1,10 +1,8 @@
 package com.fer.progi.errormasters.Cookbooked.services;
 
-import com.fer.progi.errormasters.Cookbooked.entities.BookmarkedRecipe;
-import com.fer.progi.errormasters.Cookbooked.entities.CommunicationTime;
-import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
-import com.fer.progi.errormasters.Cookbooked.entities.User;
+import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
 
 import java.util.List;
 
@@ -24,6 +22,10 @@ public interface UserService {
     boolean userExistsByUsername(String username);
 
     boolean userExistsByEmail(String email);
+
+    void addUser(UserModel userModel, Role role);
+
+    void updateUser(Integer userId, UserModel userModel, Role role);
 
     void saveUser(User user);
 

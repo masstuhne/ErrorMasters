@@ -3,16 +3,13 @@ package com.fer.progi.errormasters.Cookbooked.services.impl;
 import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeCreationModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeRatingModel;
-import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeUpdateModel;
 import com.fer.progi.errormasters.Cookbooked.repositories.RecipeRepository;
 import com.fer.progi.errormasters.Cookbooked.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -152,8 +149,33 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         recipeRepository.save(recipe);
+    }
 
+    @Override
+    public void updateRecipe(Integer recipeId, RecipeUpdateModel recipeModel) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
 
+        if (recipe == null){
+            throw new RuntimeException("Recipe with id " + recipeId + " not found!");
+        }
 
+        recipe.setTitle(recipeModel.getTitle());
+        recipe.setDescription(recipeModel.getDescription());
+        recipe.setCookingTime(Duration.ofMinutes(recipeModel.getCookingTime()));
+        recipe.setCategory(categoryService.getCategoryById(recipeModel.getCategoryId()));
+        recipe.setCuisine(cuisineService.getCuisineById(recipeModel.getCuisineId()).orElse(null));
+
+        recipeRepository.save(recipe);
+    }
+
+    @Override
+    public void deleteRecipe(Integer recipeId) {
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+
+        if (recipe == null){
+            throw new RuntimeException("Recipe with id " + recipeId + " not found!");
+        }
+
+        recipeRepository.delete(recipe);
     }
 }
