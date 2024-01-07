@@ -54,6 +54,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     }
 
+
+
     @Override
     public List<Recipe> getRecipesByUserId(Integer userId) {
         return recipeRepository.findAllByUserId(userId);
@@ -155,5 +157,10 @@ public class RecipeServiceImpl implements RecipeService {
 
 
 
+    }
+
+    @Override
+    public List<Recipe> getRecipesByCuisine(Integer cuisineId) {
+        return recipeRepository.findAllByCuisineId(cuisineId);
     }
 }

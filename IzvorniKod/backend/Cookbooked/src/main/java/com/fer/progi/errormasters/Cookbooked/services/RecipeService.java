@@ -26,4 +26,6 @@ public interface RecipeService {
     void rateRecipe(User user, Integer recipeId, RecipeRatingModel recipeRatingModel);
 
     void addRecipe(User user, RecipeCreationModel recipeCreateModel) throws IOException;
+
+    List<Recipe> getRecipesByCuisine(Integer cuisineId);
 }
