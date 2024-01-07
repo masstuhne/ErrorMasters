@@ -1,6 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.services.impl;
 
 import com.fer.progi.errormasters.Cookbooked.entities.Ingredient;
+import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.repositories.IngredientRepository;
 import com.fer.progi.errormasters.Cookbooked.services.IngredientService;
 import lombok.AllArgsConstructor;
@@ -24,4 +25,12 @@ public class IngredientServiceImpl implements IngredientService {
     public Optional<Ingredient> getIngredientById(Integer id) {
         return ingredientRepository.findById(id);
     }
+
+    @Override
+    public List<Recipe> getRecipesByIngredient(Integer ingredientId) {
+        List<Recipe> recipes = ingredientRepository.findById(ingredientId).get().getRecipes();
+        return recipes;
+    }
+
+
 }

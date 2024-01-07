@@ -22,7 +22,6 @@ import java.util.Optional;
 @RequestMapping("/ingredients")
 public class IngredientController {
     private final IngredientService ingredientService;
-    private final RecipeService recipeService;
 
     @GetMapping
     public ResponseEntity<List<Ingredient>> getIngredients(){
@@ -48,7 +47,7 @@ public class IngredientController {
 
     @GetMapping ("/{ingredientId}/recipes")
     public ResponseEntity<List<Recipe>> getRecipesByIngredient(@PathVariable Integer ingredientId){
-        List<Recipe> recipes = recipeService.getRecipesByIngredient(ingredientId);
+        List<Recipe> recipes = ingredientService.getRecipesByIngredient(ingredientId);
 
         if (recipes.isEmpty()){
             return ResponseEntity.notFound().build();

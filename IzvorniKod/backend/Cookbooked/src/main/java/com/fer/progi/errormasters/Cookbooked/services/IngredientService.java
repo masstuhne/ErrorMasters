@@ -2,6 +2,7 @@ package com.fer.progi.errormasters.Cookbooked.services;
 
 import com.fer.progi.errormasters.Cookbooked.entities.Category;
 import com.fer.progi.errormasters.Cookbooked.entities.Ingredient;
+import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.repositories.IngredientRepository;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface IngredientService {
 
     Optional<Ingredient> getIngredientById(Integer id);
 
-
+    List<Recipe> getRecipesByIngredient(Integer ingredientId);
 }
