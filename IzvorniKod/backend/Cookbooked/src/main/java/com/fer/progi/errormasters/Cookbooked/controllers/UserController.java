@@ -1,5 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
+import com.fer.progi.errormasters.Cookbooked.entities.CommunicationTime;
 import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ProfileModel;
@@ -74,5 +75,21 @@ public class UserController {
     public ResponseEntity<List<Recipe>> getRecipesByUserId(Integer userId){
         return ResponseEntity.ok(recipeService.getRecipesByUserId(userId));
     }
+
+    @GetMapping ("/{userId}/communication-times")
+    public ResponseEntity<List<CommunicationTime>> getCommunicationTimesByUserId(Integer userId){
+        try {
+            List<CommunicationTime> communicationTimes = userService.getUserCommunicationTimes(userId);
+
+            if (communicationTimes.isEmpty()){
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(communicationTimes);
+            }
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
 }

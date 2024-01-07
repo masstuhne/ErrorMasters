@@ -1,5 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.services.impl;
 
+import com.fer.progi.errormasters.Cookbooked.entities.CommunicationTime;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
@@ -21,6 +22,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
+    }
+
+    @Override
+    public List<CommunicationTime> getUserCommunicationTimes(Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            return user.getCommunicationTimes();
+        } else {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
     }
 
     @Override
