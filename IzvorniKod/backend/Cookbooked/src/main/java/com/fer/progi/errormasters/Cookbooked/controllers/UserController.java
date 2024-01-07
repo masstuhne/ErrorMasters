@@ -6,8 +6,10 @@ import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ProfileModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
+import com.fer.progi.errormasters.Cookbooked.services.RoleService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.Objects;
 public class UserController {
     UserService userService;
     RecipeService recipeService;
+    RoleService roleService;
 
     @GetMapping("/profile")
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
@@ -40,7 +43,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/profile/update")
+    @PutMapping("/profile/update")
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> updateUserProfile(@RequestBody ProfileModel profileModel){
@@ -61,6 +64,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
     public ResponseEntity<List<User>> getUsers(){
         List<User> users = userService.getAllUsers();
 
@@ -70,6 +74,75 @@ public class UserController {
             return ResponseEntity.ok(users);
         }
     }
+
+    @GetMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<User> getUserById(@PathVariable Integer userId){
+        User user = userService.getUserById(userId);
+
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(user);
+        }
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> addUser(@RequestBody UserModel userModel){
+        try {
+            User user = new User();
+            user.setUsername(userModel.getUsername());
+            user.setEmail(userModel.getEmail());
+            user.setFirstName(userModel.getFirstName());
+            user.setLastName(userModel.getLastName());
+            user.setPassword(userModel.getPassword());
+            user.setPhoneNumber(userModel.getPhoneNumber());
+            user.setRole(roleService.getRoleByName(userModel.getRoleEnum()).get());
+
+            userService.saveUser(user);
+            return ResponseEntity.ok("Korisnik uspješno dodan!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom dodavanja korisnika!");
+        }
+    }
+
+    @PutMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> updateUser(@PathVariable Integer userId, @RequestBody UserModel userModel){
+        try {
+            User user = userService.getUserById(userId);
+
+            user.setUsername(userModel.getUsername());
+            user.setEmail(userModel.getEmail());
+            user.setFirstName(userModel.getFirstName());
+            user.setLastName(userModel.getLastName());
+            user.setPassword(userModel.getPassword());
+            user.setPhoneNumber(userModel.getPhoneNumber());
+            user.setRole(roleService.getRoleByName(userModel.getRoleEnum()).get());
+
+            userService.saveUser(user);
+            return ResponseEntity.ok("Korisnik uspješno ažuriran!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom ažuriranja korisnika!");
+        }
+    }
+
+    @DeleteMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer userId){
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("Korisnik uspješno izbrisan!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom brisanja korisnika!");
+        }
+    }
+
 
     @GetMapping ("/{userId}/recipes")
     public ResponseEntity<List<Recipe>> getRecipesByUserId(Integer userId){

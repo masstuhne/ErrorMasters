@@ -11,6 +11,8 @@ import java.util.List;
 public interface UserService {
     List<User> getAllUsers();
 
+    User getUserById(Integer id);
+
     User getUserByUsername(String username);
 
     List<CommunicationTime> getUserCommunicationTimes(Integer userId);
@@ -24,4 +26,6 @@ public interface UserService {
     boolean userExistsByEmail(String email);
 
     void saveUser(User user);
+
+    void deleteUser(Integer id);
 }
