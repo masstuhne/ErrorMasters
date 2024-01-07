@@ -14,8 +14,6 @@ public class ChatController {
 
     @MessageMapping("/chat.register")
     @SendTo("/topic/cookbooked")
-    @PreAuthorize("isAuthenticated()")
-    @SecurityRequirement(name = "jwt")
     public ChatMessageModel register(@Payload ChatMessageModel chatMessageModel, SimpMessageHeaderAccessor headerAccessor) {
         headerAccessor.getSessionAttributes().put("username", chatMessageModel.getSender());
         return chatMessageModel;
@@ -23,8 +21,6 @@ public class ChatController {
 
     @MessageMapping("/chat.send")
     @SendTo("/topic/cookbooked")
-    @PreAuthorize("isAuthenticated()")
-    @SecurityRequirement(name = "jwt")
     public ChatMessageModel sendMessage(@Payload ChatMessageModel chatMessageModel) {
         return chatMessageModel;
     }

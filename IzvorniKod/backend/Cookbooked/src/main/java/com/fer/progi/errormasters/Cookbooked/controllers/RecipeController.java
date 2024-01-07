@@ -1,8 +1,10 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
 import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
+import com.fer.progi.errormasters.Cookbooked.entities.RecipeRating;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeCreationModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeRatingModel;
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
@@ -11,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +57,37 @@ public class RecipeController {
 
     }
 
+    @GetMapping(value = "{recipeId}/recipe-ratings")
+    @PreAuthorize("isAuthenticated()")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<List<RecipeRating>> getRecipeRatings(@PathVariable Integer recipeId) {
+        try {
+            List<RecipeRating> recipeRatings = recipeService.getRecipeRatings(recipeId);
 
+            if (recipeRatings.isEmpty()){
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(recipeRatings);
+            }
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping(value = "{recipeId}/recipe-ratings")
+    @PreAuthorize("isAuthenticated()")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> rateRecipe(@PathVariable Integer recipeId, @RequestBody RecipeRatingModel rating) {
+        SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userDetails = userService.getUserByUsername(user.getUsername());
+        try {
+            recipeService.rateRecipe(userDetails, recipeId, rating);
+            return ResponseEntity.ok("Recept uspješno ocijenjen!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom ocjenjivanja recepta!");
+        }
+    }
 
 
 
