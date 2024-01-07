@@ -1,9 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
-import com.fer.progi.errormasters.Cookbooked.entities.BookmarkedRecipe;
-import com.fer.progi.errormasters.Cookbooked.entities.CommunicationTime;
-import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
-import com.fer.progi.errormasters.Cookbooked.entities.User;
+import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ProfileModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
@@ -93,16 +90,9 @@ public class UserController {
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> addUser(@RequestBody UserModel userModel){
         try {
-            User user = new User();
-            user.setUsername(userModel.getUsername());
-            user.setEmail(userModel.getEmail());
-            user.setFirstName(userModel.getFirstName());
-            user.setLastName(userModel.getLastName());
-            user.setPassword(userModel.getPassword());
-            user.setPhoneNumber(userModel.getPhoneNumber());
-            user.setRole(roleService.getRoleByName(userModel.getRoleEnum()).get());
+            Role role = roleService.getRoleByName(userModel.getRoleEnum()).get();
+            userService.addUser(userModel, role);
 
-            userService.saveUser(user);
             return ResponseEntity.ok("Korisnik uspješno dodan!");
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Greška prilikom dodavanja korisnika!");
@@ -114,17 +104,9 @@ public class UserController {
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> updateUser(@PathVariable Integer userId, @RequestBody UserModel userModel){
         try {
-            User user = userService.getUserById(userId);
+            Role role = roleService.getRoleByName(userModel.getRoleEnum()).get();
+            userService.updateUser(userId, userModel, role);
 
-            user.setUsername(userModel.getUsername());
-            user.setEmail(userModel.getEmail());
-            user.setFirstName(userModel.getFirstName());
-            user.setLastName(userModel.getLastName());
-            user.setPassword(userModel.getPassword());
-            user.setPhoneNumber(userModel.getPhoneNumber());
-            user.setRole(roleService.getRoleByName(userModel.getRoleEnum()).get());
-
-            userService.saveUser(user);
             return ResponseEntity.ok("Korisnik uspješno ažuriran!");
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Greška prilikom ažuriranja korisnika!");

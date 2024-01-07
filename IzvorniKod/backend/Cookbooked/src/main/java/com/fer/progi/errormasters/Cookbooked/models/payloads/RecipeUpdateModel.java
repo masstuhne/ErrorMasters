@@ -1,32 +1,17 @@
 package com.fer.progi.errormasters.Cookbooked.models.payloads;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.Serializable;
 import java.util.List;
 
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class RecipeCreationModel implements Serializable {
-
+public class RecipeUpdateModel {
     private String title;
     private String description;
-
     private Integer cookingTime;
-
     private Integer categoryId;
-
     private Integer cuisineId;
-
-    private List<Integer> ingredients;
-
-    private List<String> tags;
-
-    private List<MultipartFile> imageFiles;
-    private MultipartFile videoFile;
-
 }

@@ -1,10 +1,8 @@
 package com.fer.progi.errormasters.Cookbooked.services.impl;
 
-import com.fer.progi.errormasters.Cookbooked.entities.BookmarkedRecipe;
-import com.fer.progi.errormasters.Cookbooked.entities.CommunicationTime;
-import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
-import com.fer.progi.errormasters.Cookbooked.entities.User;
+import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import lombok.AllArgsConstructor;
@@ -101,6 +99,39 @@ public class UserServiceImpl implements UserService {
         boolean exists = userRepository.existsByEmail(email);
 
         return exists;
+    }
+
+    @Override
+    public void addUser(UserModel userModel, Role role) {
+        User user = new User();
+        user.setUsername(userModel.getUsername());
+        user.setEmail(userModel.getEmail());
+        user.setFirstName(userModel.getFirstName());
+        user.setLastName(userModel.getLastName());
+        user.setPassword(userModel.getPassword());
+        user.setPhoneNumber(userModel.getPhoneNumber());
+        user.setRole(role);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateUser(Integer userId, UserModel userModel, Role role) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
+
+        user.setUsername(userModel.getUsername());
+        user.setEmail(userModel.getEmail());
+        user.setFirstName(userModel.getFirstName());
+        user.setLastName(userModel.getLastName());
+        user.setPassword(userModel.getPassword());
+        user.setPhoneNumber(userModel.getPhoneNumber());
+        user.setRole(role);
+
+        userRepository.save(user);
     }
 
     @Override

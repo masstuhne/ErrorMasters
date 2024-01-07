@@ -5,6 +5,7 @@ import com.fer.progi.errormasters.Cookbooked.entities.RecipeRating;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeCreationModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeRatingModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeUpdateModel;
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
@@ -13,11 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class RecipeController {
             recipeService.addRecipe(userDetails, recipeCreationModel);
         } catch (Exception e){
             log.error("Error while saving recipe : ", e);
-            if (recipeCreationModel!=null) {
+            if (recipeCreationModel !=null) {
                 log.error(recipeCreationModel.toString());
             }
             else {
@@ -87,6 +86,30 @@ public class RecipeController {
         }
     }
 
+    @PutMapping("/{recipeId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> updateRecipe(@PathVariable Integer recipeId, @RequestBody RecipeUpdateModel recipeModel){
+        try {
+            recipeService.updateRecipe(recipeId, recipeModel);
 
+            return ResponseEntity.ok("Recept uspješno ažuriran!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom ažuriranja recepta!");
+        }
+    }
+
+    @DeleteMapping("/{recipeId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> deleteRecipe(@PathVariable Integer recipeId){
+        try {
+            recipeService.deleteRecipe(recipeId);
+
+            return ResponseEntity.ok("Recept uspješno obrisan!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom brisanja recepta!");
+        }
+    }
 
 }

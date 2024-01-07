@@ -5,8 +5,7 @@ import com.fer.progi.errormasters.Cookbooked.entities.RecipeRating;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeCreationModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeRatingModel;
-import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
-import org.springframework.web.multipart.MultipartFile;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeUpdateModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,4 +27,8 @@ public interface RecipeService {
     void addRecipe(User user, RecipeCreationModel recipeCreateModel) throws IOException;
 
     List<Recipe> getRecipesByCuisine(Integer cuisineId);
+
+    void updateRecipe(Integer recipeId, RecipeUpdateModel recipeModel);
+
+    void deleteRecipe(Integer recipeId);
 }
