@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface TagService {
 
-    public Optional<Tag> getTagByName(String name);
+    Optional<Tag> getTagByName(String name);
 }

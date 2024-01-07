@@ -6,5 +6,5 @@ import com.fer.progi.errormasters.Cookbooked.enums.RoleEnum;
 import java.util.Optional;
 
 public interface RoleService {
-    public Optional<Role> getRoleByName(RoleEnum name);
+    Optional<Role> getRoleByName(RoleEnum name);
 }

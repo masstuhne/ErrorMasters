@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface RecipeService {
 
-    public List<Recipe> getAllRecipes();
+    List<Recipe> getAllRecipes();
 
-    public List<Recipe> getRecipesByCategory(Integer categoryId);
+    List<Recipe> getRecipesByCategory(Integer categoryId);
 
-    public List<Recipe> getRecipesByUserId(Integer userId);
+    List<Recipe> getRecipesByUserId(Integer userId);
 
 
     void addRecipe(User user, RecipeCreationModel recipeCreateModel, List<MultipartFile> imageFiles, MultipartFile videoFiles);

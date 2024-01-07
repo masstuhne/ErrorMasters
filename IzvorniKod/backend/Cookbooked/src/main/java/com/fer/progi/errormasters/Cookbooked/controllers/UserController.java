@@ -1,9 +1,12 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
+import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.entities.User;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ProfileModel;
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
+import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +22,11 @@ import java.util.Objects;
 @AllArgsConstructor
 public class UserController {
     UserService userService;
+    RecipeService recipeService;
 
     @GetMapping("/profile")
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
     public ResponseEntity<ProfileModel> getUserProfile(){
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userDetails = userService.getUserByUsername(user.getUsername());
@@ -35,6 +40,7 @@ public class UserController {
 
     @PostMapping("/profile/update")
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> updateUserProfile(@RequestBody ProfileModel profileModel){
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userDetails = userService.getUserByUsername(user.getUsername());
@@ -61,6 +67,12 @@ public class UserController {
         } else {
             return ResponseEntity.ok(users);
         }
+    }
+
+
+    @GetMapping ("/{userId}/recipes")
+    public ResponseEntity<List<Recipe>> getRecipesByUserId(Integer userId){
+        return ResponseEntity.ok(recipeService.getRecipesByUserId(userId));
     }
 
 }

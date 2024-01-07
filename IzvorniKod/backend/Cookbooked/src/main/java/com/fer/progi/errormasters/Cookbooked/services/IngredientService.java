@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface IngredientService {
 
-    public List<Ingredient> getAllIngredients();
+    List<Ingredient> getAllIngredients();
 
-    public Optional<Ingredient> getIngredientById(Integer id);
+    Optional<Ingredient> getIngredientById(Integer id);
 
 
 }

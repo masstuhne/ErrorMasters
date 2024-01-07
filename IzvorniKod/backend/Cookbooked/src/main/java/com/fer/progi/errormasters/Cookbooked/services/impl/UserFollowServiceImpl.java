@@ -29,4 +29,9 @@ public class UserFollowServiceImpl implements UserFollowService {
     public void saveUserFollow(UserFollow userFollow) {
         userFollowRepository.save(userFollow);
     }
+
+    @Override
+    public boolean doesUserAlreadyFollowAuthor(Integer userId, Integer authorId) {
+        return userFollowRepository.existsByFollowerIdAndAuthorId(userId, authorId);
+    }
 }

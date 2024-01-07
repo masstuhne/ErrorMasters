@@ -48,9 +48,11 @@ public class User {
     private List<Recipe> recipes;
 
     @OneToMany(mappedBy = "follower")
+    @JsonIgnore
     private List<UserFollow> following;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     private List<UserFollow> followers;
 
     @OneToMany(mappedBy = "sender")

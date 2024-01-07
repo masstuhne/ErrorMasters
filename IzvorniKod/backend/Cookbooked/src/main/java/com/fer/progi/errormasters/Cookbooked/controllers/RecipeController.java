@@ -6,6 +6,7 @@ import com.fer.progi.errormasters.Cookbooked.models.payloads.RecipeCreationModel
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class RecipeController {
 
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> addRecipe(@RequestPart("recipe") RecipeCreationModel recipeCreateModel, @RequestPart("images") List<MultipartFile> imageFiles, @RequestPart("video") MultipartFile videoFiles) {
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userDetails = userService.getUserByUsername(user.getUsername());
@@ -45,19 +47,6 @@ public class RecipeController {
 
 
 
-
-    // todo - razmisliti o tome da li ovo treba biti ovdje ili u drugom controlleru
-    @GetMapping ("/user/{userId}")
-    public ResponseEntity<List<Recipe>> getRecipesByUserId(Integer userId){
-        return ResponseEntity.ok(recipeService.getRecipesByUserId(userId));
-    }
-
-
-    // todo - razmisliti o tome da li ovo treba biti ovdje ili u drugom controlleru
-    @GetMapping ("/category/{categoryId}")
-    public ResponseEntity<List<Recipe>> getRecipesByCategory(Integer categoryId){
-        return ResponseEntity.ok(recipeService.getRecipesByCategory(categoryId));
-    }
 
 
 }

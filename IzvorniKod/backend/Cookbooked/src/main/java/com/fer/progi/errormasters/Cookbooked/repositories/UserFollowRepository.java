@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface UserFollowRepository extends JpaRepository<UserFollow, Integer> {
     List<UserFollow> findAllByFollowerId(Integer followerId);
+
+    boolean existsByFollowerIdAndAuthorId(Integer userId, Integer authorId);
 }

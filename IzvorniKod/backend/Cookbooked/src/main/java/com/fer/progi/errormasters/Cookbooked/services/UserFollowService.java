@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface UserFollowService {
 
-    public List<UserFollow> getAllUserFollows();
+    List<UserFollow> getAllUserFollows();
 
 
-    public List<UserFollow> getAllUserFollowsByFollowerId(Integer followerId);
+    List<UserFollow> getAllUserFollowsByFollowerId(Integer followerId);
 
     void saveUserFollow(UserFollow userFollow);
+
+    boolean doesUserAlreadyFollowAuthor(Integer userId, Integer authorId);
 }
