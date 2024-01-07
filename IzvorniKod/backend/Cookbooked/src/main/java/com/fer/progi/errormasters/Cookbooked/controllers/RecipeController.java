@@ -58,8 +58,6 @@ public class RecipeController {
     }
 
     @GetMapping(value = "{recipeId}/recipe-ratings")
-    @PreAuthorize("isAuthenticated()")
-    @SecurityRequirement(name = "jwt")
     public ResponseEntity<List<RecipeRating>> getRecipeRatings(@PathVariable Integer recipeId) {
         try {
             List<RecipeRating> recipeRatings = recipeService.getRecipeRatings(recipeId);
