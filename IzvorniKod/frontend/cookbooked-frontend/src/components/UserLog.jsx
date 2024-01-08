@@ -33,6 +33,9 @@ function UserLog({children}) {
           <li>
             <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Spremljeni Recepti</a>
           </li>
+          <li>
+            <a href="/admin_stranica" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Admin kontrole</a>
+          </li>
           <Link to="/" onClick={LogOut} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
           <li>
             Odjava

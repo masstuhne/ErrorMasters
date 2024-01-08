@@ -9,6 +9,7 @@ import MyRecipes from "./pages/MyRecipes";
 import NewRecipe from "./pages/NewRecipe";
 import MyData from "./pages/MyData";
 import Recipe from "./pages/Recipe";
+import AdminPage from "./pages/AdminPage";
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
             <Route path = "/novi_recept" element={<NewRecipe />} />
             <Route path = "/moji_podatci" element={<MyData />} />
             <Route path = "/recept/:id" element={<Recipe />} />
-
+            <Route path = "/admin_stranica" element={<AdminPage />} />
           </Routes>
         </div>
       </div>
