@@ -1,5 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fer.progi.errormasters.Cookbooked.enums.MediaTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class Media {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
+    @JsonIgnore
     private Recipe recipe;
 
     @Column(name = "key", nullable = false, unique = true)
