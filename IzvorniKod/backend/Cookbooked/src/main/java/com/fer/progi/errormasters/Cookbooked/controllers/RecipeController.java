@@ -34,6 +34,18 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getAllRecipes());
     }
 
+    @GetMapping("/{recipeId}")
+public ResponseEntity<Recipe> getRecipeById(@PathVariable Integer recipeId){
+        try {
+            Recipe recipe = recipeService.getRecipeById(recipeId);
+            return ResponseEntity.ok(recipe);
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
