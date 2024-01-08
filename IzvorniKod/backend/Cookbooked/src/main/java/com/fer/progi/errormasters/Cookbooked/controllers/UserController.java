@@ -127,8 +127,18 @@ public class UserController {
 
 
     @GetMapping ("/{userId}/recipes")
-    public ResponseEntity<List<Recipe>> getRecipesByUserId(Integer userId){
-        return ResponseEntity.ok(recipeService.getRecipesByUserId(userId));
+    public ResponseEntity<List<Recipe>> getRecipesByUserId(@PathVariable Integer userId){
+        try {
+            List<Recipe> recipes = recipeService.getRecipesByUserId(userId);
+
+            if (recipes.isEmpty()){
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(recipes);
+            }
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping ("/{userId}/communication-times")

@@ -36,6 +36,7 @@ public class User {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -45,6 +46,7 @@ public class User {
     private List<CommunicationTime> communicationTimes;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Recipe> recipes;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

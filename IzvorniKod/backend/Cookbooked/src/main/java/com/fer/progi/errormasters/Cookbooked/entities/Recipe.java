@@ -1,5 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,7 @@ public class Recipe {
     private List<Media> media;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<BookmarkedRecipe> bookmarkedRecipes;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
@@ -60,6 +62,7 @@ public class Recipe {
     private List<Ingredient> ingredients;
 
     @ManyToMany(cascade = CascadeType.ALL)
+
     @JoinTable(
             name = "tag_recipe",
             joinColumns = @JoinColumn(name = "recipe_id"),

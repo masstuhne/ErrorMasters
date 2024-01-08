@@ -1,6 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -20,5 +21,6 @@ public class Cuisine {
     private String name;
 
     @OneToMany(mappedBy = "cuisine", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Recipe> recipes;
 }

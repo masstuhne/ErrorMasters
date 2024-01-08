@@ -32,5 +32,11 @@ public class IngredientServiceImpl implements IngredientService {
         return recipes;
     }
 
+    @Override
+    public List<Recipe> getRecipesByIngredients(List<Integer> ingredientIds) {
+        List<Recipe> recipes = ingredientRepository.findRecipesByIngredientIds(ingredientIds, (long) ingredientIds.size());
+        return recipes;
+    }
+
 
 }
