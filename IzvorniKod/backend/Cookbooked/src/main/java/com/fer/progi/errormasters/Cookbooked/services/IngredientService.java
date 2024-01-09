@@ -15,4 +15,6 @@ public interface IngredientService {
     Optional<Ingredient> getIngredientById(Integer id);
 
     List<Recipe> getRecipesByIngredient(Integer ingredientId);
+
+    List<Recipe> getRecipesByIngredients(List<Integer> ingredientIds);
 }

@@ -7,12 +7,10 @@ import com.fer.progi.errormasters.Cookbooked.services.CategoryService;
 import com.fer.progi.errormasters.Cookbooked.services.IngredientService;
 import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +18,7 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/ingredients")
+@Slf4j
 public class IngredientController {
     private final IngredientService ingredientService;
 
@@ -53,6 +52,24 @@ public class IngredientController {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(recipes);
+        }
+    }
+
+    @GetMapping("/recipes")
+    public ResponseEntity<List<Recipe>> getRecipesByIngredients(@RequestParam List<Integer> ingredientIds) {
+        try {
+            List<Recipe> recipes = ingredientService.getRecipesByIngredients(ingredientIds);
+
+            if (recipes.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(recipes);
+            }
+        }
+        catch (Exception e){
+            log.error("Error while getting recipes by ingredients: ", e);
+
+            return ResponseEntity.notFound().build();
         }
     }
 }

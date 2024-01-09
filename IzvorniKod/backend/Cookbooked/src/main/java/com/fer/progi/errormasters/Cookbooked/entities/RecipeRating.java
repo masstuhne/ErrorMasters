@@ -1,5 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +19,12 @@ public class RecipeRating {
     private Integer id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
