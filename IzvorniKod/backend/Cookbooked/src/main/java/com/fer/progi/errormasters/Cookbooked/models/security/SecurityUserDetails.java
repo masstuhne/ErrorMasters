@@ -12,17 +12,16 @@ import java.util.List;
 
 @AllArgsConstructor
 public class SecurityUserDetails implements UserDetails {
-
-
     private final User user;
-
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         String ROLE_PREFIX = "ROLE_";
         return List.of(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().getName().toString()));
+    }
+
+    public Integer getId() {
+        return user.getId();
     }
 
     @Override

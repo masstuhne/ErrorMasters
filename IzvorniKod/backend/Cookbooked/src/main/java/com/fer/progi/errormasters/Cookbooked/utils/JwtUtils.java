@@ -1,5 +1,6 @@
 package com.fer.progi.errormasters.Cookbooked.utils;
 
+import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -31,13 +32,24 @@ public class JwtUtils {
 
     public String generateJwtToken(UserDetails userDetails) {
         try {
-            return Jwts.builder()
-                    .subject((userDetails.getUsername()))
-                    .issuedAt(new Date())
-                    .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                    .signWith(getSignKey())
-                    .claim("role", userDetails.getAuthorities())
-                    .compact();
+            if (userDetails instanceof SecurityUserDetails) {
+                return Jwts.builder()
+                        .claim("id", ((SecurityUserDetails) userDetails).getId())
+                        .subject((userDetails.getUsername()))
+                        .issuedAt(new Date())
+                        .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                        .signWith(getSignKey())
+                        .claim("role", userDetails.getAuthorities())
+                        .compact();
+            } else {
+                return Jwts.builder()
+                        .subject((userDetails.getUsername()))
+                        .issuedAt(new Date())
+                        .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                        .signWith(getSignKey())
+                        .claim("role", userDetails.getAuthorities())
+                        .compact();
+            }
         }
         catch (Exception e){
             log.error(e.getMessage());
