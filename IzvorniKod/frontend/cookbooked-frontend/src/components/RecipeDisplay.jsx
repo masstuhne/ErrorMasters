@@ -1,14 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function RecipeDisplay() {
     const { id } = useParams();
+    const [recept, setRecept] = useState([]);
+    const [rating, setRating] = useState(0)
+    const [mediaList, setMeidaList]= useState([])
+    
+
+    const apiUrl = 'http://localhost:8080/api/v1/recipes/' + id;
 
     console.log(id);
 
+    useEffect(() => {
+        axios.get(apiUrl)
+        .then(response =>{
+            setRecept(response.data)
+            
+            if(response.data.recipeRatings.length>0){
+                let sum_raiting=0
+                for(let i=0; i<response.data.recipeRatings.length;i++){
+                    let rt=response.data.recipeRatings[i].rating
+                    sum_raiting=sum_raiting+rt
+                }
+                setRating(sum_raiting/response.data.recipeRatings.length)
+            }
+
+            let media_ids= response.data.media.map(media=>media.id)
+            
+            console.log(media_ids)
+
+            const fetchMedia= async(media_ids) =>{
+                try{
+
+                    let requests= media_ids.map(id=> 
+                        axios.get('http://localhost:8080/api/v1/media/'+id));
+                    
+                    let responses = await Promise.all(requests);
+
+                    let tmpMediaList=responses.map(mediaResponse=>mediaResponse.data)
+                    console.log(tmpMediaList)
+                    setMeidaList(tmpMediaList)
+
+                }
+                catch(err){
+                    console.error('Error fetching data:', err);
+                }
+            }
+
+            fetchMedia(media_ids);
+            
+            
+            console.log(response.data)
+
+        })
+        .catch(err=>{
+            console.error('Error fetching data:', err);
+        })
+    },[])
+
     const recipes = [
         {
-          id: "1",
+          id: "2",
           category: 'Dessert',
           cuisine: 'Italian',
           ingredients: [
@@ -89,8 +143,8 @@ Slice and serve chilled. Enjoy your homemade tiramisu!`,
 
     const [recipe, setRecipe] = useState(recipes[0]);
     const foundRecipe = recipes.find((recept) => recept.id === id);
-    console.log(foundRecipe);
-    console.log(recipe.ingredients);
+    //console.log(foundRecipe);
+    //console.log(recipe.ingredients);
 
     useEffect(() => {
         setRecipe(foundRecipe);
@@ -132,8 +186,8 @@ Slice and serve chilled. Enjoy your homemade tiramisu!`,
             </div>
             <div className='px-36 justify-center p-4 relative w-full p-4 grid grid-cols-2'>
                 <div>
-                    <h1 className='text-4xl text-blue-700 p-1'>{recipe.title}</h1>
-                    <p className='flex p-1'><p>Autor: {recipe.userId}</p>
+                    <h1 className='text-4xl text-blue-700 p-1'>{recept.title}</h1>
+                    <p className='flex p-1'><p>Autor: {recept?.user?.firstName}</p>
                     <a href='#' className='px-1 text-blue-700'>
                         {false ?  
                         <svg class="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 25">
@@ -163,33 +217,33 @@ Slice and serve chilled. Enjoy your homemade tiramisu!`,
                     </a>
                     </p>
                     <h1 className='text-xs text-gray-500 p-1'>          
-                        {recipe.tags.map(tag => (
+                        {recept?.tags?.map(tag => (
                             <span>#{tag.name} </span>
                         ))} </h1>
                     <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-400 p-1">
                         <li className='text-sm'>
-                            Kuhinja: {recipe.cuisine}
+                            Kuhinja: {recept?.cuisine?.name}
                         </li>
                         <li className='text-sm'>
-                            Kategorija: {recipe.category}
+                            Kategorija: {recept?.category?.name}
                         </li>
                     </ul>
                     <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-400 p-1">
                         <p className='text-xl text-blue-700'>Sastojci</p>
-                        {recipe.ingredients.map(ingredient => (
+                        {recept?.ingredients?.map(ingredient => (
                             <li key={ingredient.id}>
                                 {ingredient.name} : {ingredient.amount} {ingredient.measuringUnit}    
                             </li>
                         ))}
                     </ul>
-                    <h5 className='text-sm p-1'>Vrijeme kuhanja: {recipe.cooking_time} minuta</h5>
+                    <h5 className='text-sm p-1'>Vrijeme kuhanja: {recept.cookingTime} minuta</h5>
                     <div class="flex items-center p-1">
                         <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
                         </svg>
-                        <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white"> {recipe.rating}</p>
+                        <p class="ms-2 text-sm font-bold text-gray-900 dark:text-white"> {rating}</p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{recipe.reviews.length} reviews</a>
+                        <a href="#" class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{recept?.recipeRatings?.length} reviews</a>
                     </div>
                     {recipe.video ? 
                         <video className="w-full pr-4" controls>
@@ -201,7 +255,7 @@ Slice and serve chilled. Enjoy your homemade tiramisu!`,
                 </div>
                 <div>
                     <p className='text-xl text-blue-700'>Priprema: </p>
-                    <p>{recipe.description}</p>
+                    <p>{recept.description}</p>
                 </div>
             </div>
         </div>
