@@ -10,6 +10,7 @@ import NewRecipe from "./pages/NewRecipe";
 import MyData from "./pages/MyData";
 import Recipe from "./pages/Recipe";
 import AdminPage from "./pages/AdminPage";
+import SavedRecipes from "./pages/SavedRecipes";
 
 
 function App() {
@@ -23,10 +24,12 @@ function App() {
             <Route path = "/prijava" element={<SignIn />} />
             <Route path = "/registracija" element={<SignUp />} />
             <Route path = "/moji_recepti" element={<MyRecipes />} />
+            <Route path = "/spremljeni_recepti" element={<SavedRecipes />} />
             <Route path = "/novi_recept" element={<NewRecipe />} />
             <Route path = "/moji_podatci" element={<MyData />} />
             <Route path = "/recept/:id" element={<Recipe />} />
             <Route path = "/admin_stranica" element={<AdminPage />} />
+      
           </Routes>
         </div>
       </div>

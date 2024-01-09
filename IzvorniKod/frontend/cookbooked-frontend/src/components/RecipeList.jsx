@@ -1,52 +1,18 @@
 import { Link } from "react-router-dom"
-
-function MyRecipesList() {
-
-    const recepti = [
-        {
-          id: "1",
-          ime: "Torta s narančom",
-          kategorija: "desert",
-          vrijeme: "45"
-        },
-        {
-          id: "2",
-          ime: "Mese",
-          kategorija: "Glavno jelo",
-          vrijeme: "5"
-        },
-        {
-          id: "3",
-          ime: "Bažulj sa zeljem",
-          kategorija: "salata",
-          vrijeme: "25"
-        },
-        {
-          id: "4",
-          ime: "Kesten pire",
-          kategorija: "sok",
-          vrijeme: "20"
-        },
-        {
-          id: "5",
-          ime: "Sok od naranče",
-          kategorija: "Predjelo",
-          vrijeme: "30"
-        }
-      ];
+function RecipeList({headline, recipes}) {
 
     return (
             <div className="flex items-center justify-center flex-col mt-[10rem] w-screen gap-10">
                 <div className="flex items-center justify-center flex-row min-w-[100rem]">
                     <div className="flex items-center justify-content: flex-end  gap-10 ">
-                        <h2 className="mb-2 text-4xl font-semibold text-gray-900 dark:text-white">Moji recepti:</h2> 
+                        <h2 className="mb-2 text-4xl font-semibold text-gray-900 dark:text-white">{headline}</h2> 
                     </div>
                 </div>
                 
                 <div className="flex w-screen min-h-[35rem] flex-col items-center justify-center gap-4">
 
                     <ul className="w-2/5 space-y-1 text-2xl text-gray-500 list-disc  dark:text-gray-400">
-                        {recepti.map(el => (
+                        {recipes.map(el => (
                             <li key={el.id} className="py-3 sm:py-4 border-b border-gray-300">
                                 <div className="flex items-center space-x-4 rtl:space-x-reverse">
                                     <div className="w-3/6">
@@ -75,4 +41,4 @@ function MyRecipesList() {
     );
 ;}
 
-export default MyRecipesList;
+export default RecipeList;

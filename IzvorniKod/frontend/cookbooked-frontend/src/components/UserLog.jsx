@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 function UserLog({children}) {
   const LogOut = (e) => {
     e.preventDefault();
@@ -22,25 +20,25 @@ function UserLog({children}) {
         </div>
         <ul className="py-2" aria-labelledby="user-menu-button">
           <li>
-            <Link to="/moji_recepti" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Moji Recepti</Link>
+            <a href="/moji_recepti" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Moji Recepti</a>
           </li>
           <li>
-            <Link to="/novi_recept" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Izradi novi recept</Link>
+            <a href="/novi_recept" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Izradi novi recept</a>
           </li>
           <li>
-            <Link to="/moji_podatci"className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Moji podatci</Link>
+            <a href="/moji_podatci"className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Moji podatci</a>
           </li>
           <li>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Spremljeni Recepti</a>
+            <a href="/spremljeni_recepti" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Spremljeni Recepti</a>
           </li>
           <li>
             <a href="/admin_stranica" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Admin kontrole</a>
           </li>
-          <Link to="/" onClick={LogOut} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+          <a href="/" onClick={LogOut} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
           <li>
             Odjava
           </li>
-          </Link>
+          </a>
         </ul>
       </div>
     </>
