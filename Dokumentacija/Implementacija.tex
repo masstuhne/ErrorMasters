@@ -48,11 +48,21 @@
 		
 		
 		\section{Dijagram razmještaja}
+
+			 \noindent Dijagram razmještaja prikazuje fizički razmještaj programskih artefakata 
+			 na fizičkoj ili virtualnoj infrastrukturi. Na platformi DigitalOcean implementirano je
+			 rješenje koje koristi Docker kontejnere za ispunjavanje pozadinske funkcionalnosti 
+			 web aplikacije. Klijenti koriste web preglednik kako bi pristupili web applikaciji.
+			 Sustav je baziran na arhitekturu "klijent-poslužitelj", dok je komunikacija između 
+			 računala korisnika i računala poslužitelja ostvarena putem HTTP veze.
 			
-			\textbf{\textit{dio 2. revizije}}
-			
-			 \textit{Potrebno je umetnuti \textbf{specifikacijski} dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.}
-			
+
+			\begin{figure}[H]
+				\includegraphics[scale=0.28]{dijagrami/dijagram_razmjestaja.jpeg}
+				\centering
+				\caption{Dijagram aktivnosti}
+				\label{fig:bpdiag}
+			\end{figure}
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
