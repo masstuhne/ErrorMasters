@@ -503,4 +503,53 @@
 			\caption{Dijagram aktivnosti}
 			\label{fig:bpdiag}
 		\end{figure}
+
+		\eject
+
+		\noindent Na slici 4.7 prikazan je dijagram komponenti koji opisuje organizaciju i međuovisnost
+		komponenti, interne strukture i odnose prema okolini.
+
+		\noindent Sustavu se može pristupiti preko dva raziličita sučelja:
+
+		\medbreak
+		\noindent 1. Sučelje za dohvat HTML, CSS i JS datoteka
+
+		- služi za posluživanje datoteka koje pripadaju \textit{frontend} dijelu aplikacije
+
+		- router je komponenta koja ovisno o url-u u upitu poslužuje određene datoteke
+		
+		- \textit{frontend} dio sastoji se od niza JavaScript datoteka raspoređenih u logičke 
+		
+		cjeline
+		
+		- JavaScript datoteke ovise o React biblioteci
+		
+		\medbreak
+		\noindent 2. Sučelje za dohvat JSON podataka
+
+		- preko njega se pristupa REST API komponenti
+		
+		- REST API poslužuje podatke koji pripadaju \textit{backend} dijelu aplikacije
+
+		- Hibernate je zadužen za dohvaćanje tablica iz baze podataka pomoću SQL 
+		
+		upita
+
+		- podaci koji su pristigli iz baze se šalju dalje MVC arhitekturi u obliku DTO-a 
+		
+		i/ili modela
+
+		\medbreak
+		\noindent React-view komponenta preko dosputnih sučelja komunicira sa CookBooked aplikacijom,
+		omogućuje ažuriranje prikaza ovisno o korisničkim radnjama te omogućuje dohvaćanje novih podataka
+		ili datoteka prema potrebi.
+
+		\eject
+
+		\begin{figure}[H]
+			\includegraphics[scale=0.2]{dijagrami/dijagram_komponenti.jpeg}
+			\centering
+			\caption{Dijagram aktivnosti}
+			\label{fig:bpdiag}
+		\end{figure}
 		\eject
