@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
+import org.springframework.context.annotation.Lazy;
 
 import java.time.Duration;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "title", nullable = false)
@@ -62,12 +64,28 @@ public class Recipe {
     private List<Ingredient> ingredients;
 
     @ManyToMany(cascade = CascadeType.ALL)
-
     @JoinTable(
             name = "tag_recipe",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags;
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", category=" + category +
+                ", cuisine=" + cuisine +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", cookingTime=" + cookingTime +
+                ", media=" + media +
+                ", bookmarkedRecipes=" + bookmarkedRecipes +
+                ", recipeRatings=" + recipeRatings +
+                ", ingredients=" + ingredients +
+                ", tags=" + tags +
+                '}';
+    }
 
 }

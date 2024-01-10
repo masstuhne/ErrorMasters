@@ -27,4 +27,12 @@ public class UserFollow {
 
     @Column(name = "followed_at")
     private Date followedAt = new Date();
+
+    @Override
+    public String toString() {
+        return "UserFollow{" +
+                "id=" + id +
+                ", followedAt=" + followedAt +
+                '}';
+    }
 }

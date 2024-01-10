@@ -25,4 +25,12 @@ public class ChatMessage {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

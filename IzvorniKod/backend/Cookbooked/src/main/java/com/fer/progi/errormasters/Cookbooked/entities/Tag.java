@@ -24,4 +24,12 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     @JsonIgnore
     private List<Recipe> recipe;
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -36,4 +36,14 @@ public class RecipeRating {
 
     @Column(name = "created_at")
     private Date createdAt = new Date();
+
+    @Override
+    public String toString() {
+        return "RecipeRating{" +
+                "id=" + id +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

@@ -24,4 +24,12 @@ public class Ingredient {
     @JsonIgnore
     @ManyToMany(mappedBy = "ingredients")
     private List<Recipe> recipes;
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

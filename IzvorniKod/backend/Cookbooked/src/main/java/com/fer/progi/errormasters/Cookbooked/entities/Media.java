@@ -38,4 +38,15 @@ public class Media {
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type", nullable = false, insertable = false, updatable = false)
     private MediaTypeEnum mediaType;
+
+    @Override
+    public String toString() {
+        return "Media{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", description='" + description + '\'' +
+                ", uploadDate=" + uploadDate +
+                ", mediaType=" + mediaType +
+                '}';
+    }
 }

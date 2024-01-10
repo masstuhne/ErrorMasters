@@ -20,6 +20,7 @@ public class BookmarkedRecipe {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
@@ -29,4 +30,12 @@ public class BookmarkedRecipe {
 
     @Column(name = "created_at")
     private Date createdAt = new Date();
+
+    @Override
+    public String toString() {
+        return "BookmarkedRecipe{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

@@ -65,4 +65,25 @@ public class User {
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<ChatMessage> receivedMessages;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", role=" + role +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", communicationTimes=" + communicationTimes +
+                ", recipes=" + recipes +
+                ", bookmarkedRecipes=" + bookmarkedRecipes +
+                ", following=" + following +
+                ", followers=" + followers +
+                ", sentMessages=" + sentMessages +
+                ", receivedMessages=" + receivedMessages +
+                '}';
+    }
 }

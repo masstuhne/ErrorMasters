@@ -20,7 +20,15 @@ public class Cuisine {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "cuisine", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cuisine", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Recipe> recipes;
+
+    @Override
+    public String toString() {
+        return "Cuisine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

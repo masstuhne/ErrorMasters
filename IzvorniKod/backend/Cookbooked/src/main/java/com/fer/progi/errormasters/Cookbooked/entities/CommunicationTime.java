@@ -28,4 +28,13 @@ public class CommunicationTime {
 
     @Column(name = "end")
     private Date end;
+
+    @Override
+    public String toString() {
+        return "CommunicationTime{" +
+                "id=" + id +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }
