@@ -105,7 +105,7 @@ function RecipeDisplay() {
         })
         .then(response =>{
             console.log(response.data);
-            setIsSaved(response.data.some(item => item.id == id));
+            setIsSaved(response.data.some(item => item?.recipe?.id == id));
         })
         .catch(err=>{
             console.error('Error fetching data:', err);

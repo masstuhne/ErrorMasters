@@ -24,7 +24,8 @@ function SavedRecipesDisplay() {
           },
     })
     .then(response =>{
-      let recpeIdList=response.data.map(recept=>(recept.id))
+      
+      let recpeIdList=[...new Set(response.data.map(item => item?.recipe?.id))]
       const fetchRecepies= async(recept_id) =>{        
         try {
           let tmpReceptList = [];
