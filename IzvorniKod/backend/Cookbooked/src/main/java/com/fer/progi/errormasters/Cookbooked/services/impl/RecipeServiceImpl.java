@@ -183,6 +183,7 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.delete(recipe);
     }
 
+
     @Override
     public List<Recipe> getRecipesByCuisine(Integer cuisineId) {
         return recipeRepository.findAllByCuisineId(cuisineId);

@@ -76,4 +76,24 @@ public class FollowController {
         return ResponseEntity.ok("You are now following " + username);
     }
 
+    @DeleteMapping("/{username}")
+    @PreAuthorize("isAuthenticated()")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> deleteFollower(@PathVariable String username){
+        SecurityUserDetails userDetails = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(userDetails.getUsername());
+        User author = userService.getUserByUsername(username);
+        if (author == null){
+            return ResponseEntity.badRequest().body("Username doesn't exist");
+        }
+        if (Objects.equals(user.getId(), author.getId())){
+            return ResponseEntity.badRequest().body("You can't unfollow yourself");
+        }
+        if(!userFollowService.doesUserAlreadyFollowAuthor(user.getId(), author.getId())){
+            return ResponseEntity.badRequest().body("You don't follow this user");
+        }
+        userFollowService.deleteUserFollow(user.getId(), author.getId());
+        return ResponseEntity.ok("You are no longer following " + username);
+    }
+
 }

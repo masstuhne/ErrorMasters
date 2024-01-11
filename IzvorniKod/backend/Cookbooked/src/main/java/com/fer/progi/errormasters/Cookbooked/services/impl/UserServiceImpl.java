@@ -143,4 +143,19 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteBookmarkedRecipe(Integer bookmarkedRecipeId, User userDetails) {
+        BookmarkedRecipe bookmarkedRecipe = userDetails.getBookmarkedRecipes().stream()
+                .filter(bookmarkedRecipe1 -> bookmarkedRecipe1.getId().equals(bookmarkedRecipeId))
+                .findFirst()
+                .orElse(null);
+
+        if (bookmarkedRecipe != null) {
+            userDetails.getBookmarkedRecipes().remove(bookmarkedRecipe);
+            userRepository.save(userDetails);
+        } else {
+            throw new RuntimeException("Bookmarked recipe with id " + bookmarkedRecipeId + " not found!");
+        }
+    }
 }

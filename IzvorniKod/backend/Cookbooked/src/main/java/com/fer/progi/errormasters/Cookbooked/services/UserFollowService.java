@@ -14,4 +14,6 @@ public interface UserFollowService {
     void saveUserFollow(UserFollow userFollow);
 
     boolean doesUserAlreadyFollowAuthor(Integer userId, Integer authorId);
+
+    void deleteUserFollow(Integer id, Integer id1);
 }

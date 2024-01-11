@@ -32,7 +32,6 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User user;
 
     @Column(name = "title", nullable = false)

@@ -25,7 +25,6 @@ public class BookmarkedRecipe {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
-    @JsonIgnore
     private Recipe recipe;
 
     @Column(name = "created_at")
