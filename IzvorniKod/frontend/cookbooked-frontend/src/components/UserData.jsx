@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Label, TextInput, Button } from 'flowbite-react';
+import parseJwt from "./parseJwt";
 
 function UserData() {
     const [user, setUser] = useState([]);
 
-    const url = 'http://localhost:8080/api/v1/users/profile';
     const authToken = localStorage.getItem('user_ret');
+    const url = 'http://localhost:8080/api/v1/users/' + parseJwt(authToken).id;
 
     useEffect(() => {
         if (!authToken) {
@@ -14,21 +15,20 @@ function UserData() {
             return;
         }
 
-        axios.get(url, {
+        axios.get(url,{
             headers: {
-                'Authorization': `Bearer ${authToken}`
-            },
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+
+              },
         })
         .then((response) => {
             setUser(response.data);
+            console.log(response.data);
         })
         .catch(error => {
             console.log(error);
         });
     }, []);
-
-    // console.log(users);
-    // console.log(user);
 
     return (
         <div className="flex items-center justify-center min-h-screen">
