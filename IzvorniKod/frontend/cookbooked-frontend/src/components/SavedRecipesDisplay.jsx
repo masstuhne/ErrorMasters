@@ -24,9 +24,38 @@ function SavedRecipesDisplay() {
           },
     })
     .then(response =>{
-      let tmpRcipeList=response.data.map(recept=>({
-        id : recept.id, ime:recept.title, kategorija:recept?.category?.name, vrijeme: recept.cookingTime}))
-        setRecipes(tmpRcipeList)
+      let recpeIdList=response.data.map(recept=>(recept.id))
+      const fetchRecepies= async(recept_id) =>{        
+        try {
+          let tmpReceptList = [];
+      
+          await Promise.all(
+            recept_id.map(async (id) => {
+              try {
+                const response = await axios.get(
+                  'http://localhost:8080/api/v1/recipes/' + id
+                );
+      
+                tmpReceptList.push({
+                  id: response.data?.id,
+                  ime: response.data?.title,
+                  kategorija: response.data?.category?.name,
+                  vrijeme: response.data?.cookingTime,
+                });
+              } catch (error) {
+                console.error(`Error fetching data for id ${id}:`, error);
+                
+              }
+            })
+          );
+      
+          console.log(tmpReceptList);
+          setRecipes(tmpReceptList);
+        } catch (err) {
+          console.error('Error fetching data:', err);
+        }
+      }
+      fetchRecepies(recpeIdList)
     })
     .catch(err=>{
         console.error('Error fetching data:', err);
@@ -62,7 +91,7 @@ function SavedRecipesDisplay() {
       ];
 
     return (
-      <RecipeList headline={"Spremljeni recepti"} recipes={recepti} />
+      <RecipeList headline={"Spremljeni recepti"} recipes={recipes} />
     );
 ;}
 
