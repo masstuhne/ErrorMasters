@@ -43,6 +43,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CommunicationTime> communicationTimes;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -50,6 +51,7 @@ public class User {
     private List<Recipe> recipes;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<BookmarkedRecipe> bookmarkedRecipes;
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
@@ -61,9 +63,11 @@ public class User {
     private List<UserFollow> followers;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ChatMessage> sentMessages;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<ChatMessage> receivedMessages;
 
     @Override

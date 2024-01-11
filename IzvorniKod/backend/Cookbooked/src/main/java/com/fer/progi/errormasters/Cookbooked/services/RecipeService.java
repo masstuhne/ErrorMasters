@@ -31,4 +31,5 @@ public interface RecipeService {
     void updateRecipe(Integer recipeId, RecipeUpdateModel recipeModel);
 
     void deleteRecipe(Integer recipeId);
+
 }

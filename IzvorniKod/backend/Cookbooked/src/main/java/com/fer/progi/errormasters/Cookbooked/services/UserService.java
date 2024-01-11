@@ -31,4 +31,5 @@ public interface UserService {
 
     void deleteUser(Integer id);
 
+    void deleteBookmarkedRecipe(Integer bookmarkedRecipeId, User userDetails);
 }

@@ -3,6 +3,7 @@ package com.fer.progi.errormasters.Cookbooked.services.impl;
 import com.fer.progi.errormasters.Cookbooked.entities.UserFollow;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserFollowRepository;
 import com.fer.progi.errormasters.Cookbooked.services.UserFollowService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,11 @@ public class UserFollowServiceImpl implements UserFollowService {
     @Override
     public boolean doesUserAlreadyFollowAuthor(Integer userId, Integer authorId) {
         return userFollowRepository.existsByFollowerIdAndAuthorId(userId, authorId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserFollow(Integer id, Integer id1) {
+        userFollowRepository.deleteByFollowerIdAndAuthorId(id, id1);
     }
 }

@@ -38,7 +38,7 @@ public class AuthorizationController {
 
         try {
 
-            String token = authorizationService.generateToken(loginModel.getUsername(), loginModel.getPassword());
+            String token = authorizationService.generateToken(loginModel.getUsername().toLowerCase(), loginModel.getPassword());
             return ResponseEntity.ok(token);
 
         } catch (BadCredentialsException e) {
@@ -57,7 +57,9 @@ public class AuthorizationController {
     public ResponseEntity<String> register(@RequestBody RegisterModel registerModel){
         try {
 
-            if (userService.userExistsByUsername(registerModel.getUsername())){
+            String username = registerModel.getUsername().toLowerCase();
+
+            if (userService.userExistsByUsername(username)){
                 throw new Exception("Korisničko ime je zauzeto!");
             }
             if (userService.userExistsByEmail(registerModel.getEmail())){
@@ -65,7 +67,7 @@ public class AuthorizationController {
             }
 
             User user = new User();
-            user.setUsername(registerModel.getUsername());
+            user.setUsername(username);
             user.setEmail(registerModel.getEmail());
             user.setFirstName(registerModel.getFirstName());
             user.setLastName(registerModel.getLastName());
@@ -78,7 +80,7 @@ public class AuthorizationController {
 
             userService.saveUser(user);
 
-            return ResponseEntity.ok(String.format("Uspješno ste registirani, %s", registerModel.getUsername()));
+            return ResponseEntity.ok(String.format("Uspješno ste registirani, %s", username));
 
         } catch (Exception e){
 

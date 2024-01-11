@@ -94,7 +94,11 @@ public class RecipeServiceImpl implements RecipeService {
 
         recipe.setTitle(recipeCreateModel.getTitle());
         recipe.setDescription(recipeCreateModel.getDescription());
-        recipe.setCookingTime(Duration.ofMinutes(recipeCreateModel.getCookingTime()));
+        try {
+            recipe.setCookingTime(Duration.ofMinutes(recipeCreateModel.getCookingTime()));
+        } catch (Exception e) {
+            recipe.setCookingTime(Duration.ofMinutes(0));
+        }
         recipe.setCategory(categoryService.getCategoryById(recipeCreateModel.getCategoryId()));
         recipe.setUser(user);
 
@@ -178,6 +182,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         recipeRepository.delete(recipe);
     }
+
 
     @Override
     public List<Recipe> getRecipesByCuisine(Integer cuisineId) {
