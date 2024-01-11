@@ -9,6 +9,7 @@ import com.fer.progi.errormasters.Cookbooked.services.UserFollowService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,21 +49,22 @@ public class FollowController {
     @PostMapping("/{username}")
     @PreAuthorize("isAuthenticated()")
     @SecurityRequirement(name = "jwt")
-    public String addFollower(@PathVariable String username){
+    public ResponseEntity<String> addFollower(@PathVariable String username){
         SecurityUserDetails userDetails = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByUsername(userDetails.getUsername());
         UserFollow userFollow = new UserFollow();
         userFollow.setFollower(user);
         User author = userService.getUserByUsername(username);
         if (author == null){
-            return "User not found";
+            return ResponseEntity.badRequest().body("Username doesn't exist");
         }
         if (Objects.equals(user.getId(), author.getId())){
-            return "Can't follow yourself";
+            return ResponseEntity.badRequest().body("You can't follow yourself");
         }
 
         if(userFollowService.doesUserAlreadyFollowAuthor(user.getId(), author.getId())){
-            return "Already following";
+
+            return new ResponseEntity<>("You already follow this user", HttpStatus.CONFLICT);
         }
         userFollow.setAuthor(author);
 
@@ -71,7 +73,7 @@ public class FollowController {
         userFollow.setFollowedAt(date);
 
         userFollowService.saveUserFollow(userFollow);
-        return "OK";
+        return ResponseEntity.ok("You are now following " + username);
     }
 
 }

@@ -19,7 +19,6 @@ public class RecipeRating {
     private Integer id;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
