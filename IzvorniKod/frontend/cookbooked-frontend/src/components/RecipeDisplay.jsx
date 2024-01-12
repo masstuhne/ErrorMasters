@@ -9,7 +9,6 @@ function saveRecipe(id) {
     axios.post(url,{
         headers: {
             Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
-
           },
     })
     .then(response =>{
