@@ -30,9 +30,11 @@ function RecipeDisplay() {
     const [recept, setRecept] = useState([]);
     const [rating, setRating] = useState(0)
     const [mediaList, setMeidaList]= useState([])
+    const [currentIndex, setCurrentIndex] = useState(0)    
     const [videoList,setVideoList]=useState([])
     const [isSaved, setIsSaved]= useState(false)
-    const [isBell, setIsBell]= useState(false)    
+    const [isBell, setIsBell]= useState(false)
+        
 
     const apiUrl = 'http://localhost:8080/api/v1/recipes/' + id;
 
@@ -71,7 +73,8 @@ function RecipeDisplay() {
                     let responses = await Promise.all(requests);
 
                     let tmpMediaList=responses.map(mediaResponse=>mediaResponse.data)
-                    console.log(tmpMediaList)
+                    // za testiranje ako je samo jedna slika da se doda jos jedan link pa da se mogu dvije mijenjati
+                    // tmpMediaList.push({link:"https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"})
                     if (video) setVideoList(tmpMediaList) 
                     else setMeidaList(tmpMediaList)
 
@@ -104,7 +107,6 @@ function RecipeDisplay() {
               },
         })
         .then(response =>{
-            console.log(response.data);
             setIsSaved(response.data.some(item => item?.recipe?.id == id));
         })
         .catch(err=>{
@@ -112,6 +114,14 @@ function RecipeDisplay() {
         })
 
     },[])
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaList.length);    
+      };
+      const handlePrevious = () => {
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + mediaList.length) % mediaList.length);
+      };
+    
 
    
 
@@ -125,39 +135,17 @@ function RecipeDisplay() {
         <div className="min-h-screen justify-center">
             
             {mediaList.length>0 ?<div id="custom-controls-gallery" className="z-10 relative w-full" data-carousel="slide">
-            {mediaList.length === 1 ? mediaList.map((m, index) => (
-            <div key={index} className="relative h-56 overflow-hidden rounded-lg md:h-96">
-                <div className= "hidden duration-700 ease-in-out" data-carousel-item>
+            <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+                <div className= "duration-700 ease-in-out" data-carousel-item>
                     <img
-                        key={index}
-                        src={m.link}
-                        className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt=""
-                    ></img>
-                </div>
-                <div className="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img
-                        key={index}
-                        src={m.link}
+                        src={mediaList[currentIndex].link}
                         className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                         alt=""
                     ></img>
                 </div>
             </div>
-        )) : <div key={index} className="relative h-56 overflow-hidden rounded-lg md:h-96">
-                {mediaList.map((m, index) => (
-                    <div className= "hidden duration-700 ease-in-out" data-carousel-item>
-                    <img
-                        key={index}
-                        src={m.link}
-                        className="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                        alt=""
-                    ></img>
-                </div>
-                ))}
-            </div>}
                 <div className="flex justify-center items-center pt-4">
-                    <button type="button" className="flex justify-center items-center me-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
+                    <button onClick={handlePrevious} type="button" className="flex justify-center items-center me-4 h-full cursor-pointer group focus:outline-none" data-carousel-prev>
                         <span className="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
                             <svg className="rtl:rotate-180 w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
@@ -165,7 +153,7 @@ function RecipeDisplay() {
                             <span className="sr-only">Previous</span>
                         </span>
                     </button>
-                    <button type="button" className="flex justify-center items-center h-full cursor-pointer group focus:outline-none" data-carousel-next>
+                    <button onClick={handleNext} type="button" className="flex justify-center items-center h-full cursor-pointer group focus:outline-none" data-carousel-next>
                         <span className="text-gray-400 hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white">
                             <svg className="rtl:rotate-180 w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
