@@ -165,7 +165,7 @@ function RecipeDisplay() {
             <div className='px-36 justify-center p-4 relative w-full p-4 grid grid-cols-2'>
                 <div>
                     <h1 className='text-4xl text-blue-700 p-1'>{recept.title}</h1>
-                    <div className='flex p-1'><p>Autor: {recept?.user?.firstName}</p>
+                    <div className='flex p-1'><p>Autor: <a href={`/profil/${recept?.user?.id}`}>{recept?.user?.username}</a></p>
                     <a href='#' className='px-1 text-blue-700'>
                         {isBell ?  
                         <svg onClick={e=>setIsBell(false)} className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 25">

@@ -13,6 +13,7 @@ import AdminPage from "./pages/AdminPage";
 import SavedRecipes from "./pages/SavedRecipes";
 import CategoriesRecipes from "./pages/CategoriesRecipes"
 import CuisinesRecipes from "./pages/CuisinesRecipes"
+import ProfilePage from "./pages/ProfilePage";
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
             <Route path = "/kuhinje/:id" element={<CuisinesRecipes/>} />
             <Route path = "/kategorije/:id" element={<CategoriesRecipes/>} />
             <Route path = "/sastojci/:id" element={<Home/>} />
+            <Route path = "/profil/:id" element={<ProfilePage/>} />
+
           </Routes>
         </div>
       </div>

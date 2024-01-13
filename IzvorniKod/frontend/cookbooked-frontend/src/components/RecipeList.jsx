@@ -6,7 +6,7 @@ function RecipeList({headline, recipes}) {
 
     return (
         <>
-              <div className="flex items-center justify-center flex-col mt-[10rem] w-screen gap-10">
+              <div className="flex items-center justify-center flex-col mt-[5rem] w-full gap-10">
                 <div className="flex items-center justify-center flex-row min-w-[100rem]">
                   <div className="flex items-center justify-end gap-10"> {/* Fix: justify-end instead of justify-content: flex-end */}
                     <h2 className="mb-2 text-4xl font-semibold text-gray-900 dark:text-white">{headline}</h2>
@@ -14,8 +14,8 @@ function RecipeList({headline, recipes}) {
                 </div>
 
                 {recipes && recipes.length > 0 ? (
-                  <div className="flex w-screen min-h-[35rem] flex-col items-center justify-center gap-4">
-                    <ul className="w-2/5 space-y-1 text-2xl text-gray-500 list-disc dark:text-gray-400">
+                  <div className="flex w-full min-h-[35rem] flex-col items-center justify-center gap-4">
+                    <ul className="w-3/5 max-w-[48rem] space-y-1 text-2xl text-gray-500 list-disc dark:text-gray-400">
                       {recipes.map((el) => (
                         <li key={el.id} className="py-3 sm:py-4 border-b border-gray-300">
                             <div className="flex items-center space-x-4 rtl:space-x-reverse">
@@ -41,7 +41,7 @@ function RecipeList({headline, recipes}) {
                     </ul>
                   </div>
                 ) : (
-                  <RedAlert>Nema recepata s ovim obilježljima</RedAlert>
+                  <RedAlert>Nema recepata s ovim obilježjima</RedAlert>
                 )}
 
               </div>
