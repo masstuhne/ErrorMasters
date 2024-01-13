@@ -2,22 +2,14 @@
 import { useState,useEffect } from "react";
 import RecipeList from "./RecipeList";
 import axios from 'axios';
+import parseJwt from "./parseJwt";
 
 function MyRecipesDisplay() {
 
-  function parseJwt (token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-  }
   useEffect(()=>{
     let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
     let userId=tokenPayload.id
-    //let userId=5 // ako neko oce testirat korisnik s id 5 ima recept
+    console.log(userId)
     axios.get('http://localhost:8080/api/v1/users/'+userId+'/recipes')
     .then(response =>{
         
@@ -26,7 +18,7 @@ function MyRecipesDisplay() {
           setRecpti(tmpRcipeList)
     })
     .catch(err=>{
-        console.error('Error fetching data:', err);
+      console.log('nema recepata');
     })
 
 },[])

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function DohvatKategorija({cat, children}) {
+function DohvatKategorija({cat, link, children}) {
     const [categories, seCategories] = useState([]);
     const [isOpen, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ function DohvatKategorija({cat, children}) {
                 <ul className="dropdown py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                 {categories.map(el => (
                     <li key={el.id}>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href={'/' + link + '/' + el.id} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             {el.name}
                         </a>
                     </li>

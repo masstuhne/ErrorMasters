@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import parseJwt from "./parseJwt";
+import ReviewPopUp from './ReviewPopUp';
 
 function saveRecipe(id) {
     const url = 'http://localhost:8080/api/v1/users/' + parseJwt(localStorage.getItem('user_ret')).id + '/bookmarked-recipes?recipeId=' + id;
     console.log('saving \n' + url);
-    axios.post(url,{
+    axios.put(url,{
         headers: {
             Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
           },
@@ -116,11 +117,10 @@ function RecipeDisplay() {
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaList.length);    
-      };
-      const handlePrevious = () => {
+    };
+    const handlePrevious = () => {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + mediaList.length) % mediaList.length);
-      };
-    
+    };
 
    
 
@@ -223,6 +223,7 @@ function RecipeDisplay() {
                         <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                         <a href="#" className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{recept?.recipeRatings?.length} reviews</a>
                     </div>
+                    <ReviewPopUp/>
                     {videoList.length>0 ? 
                         <video className="w-full pr-4 h-96" controls>
                             <source src={videoList[0].link} type="video/mp4"/>

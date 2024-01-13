@@ -52,13 +52,14 @@ function UserData() {
           });
         
         try{
-          const response= await axios.post(REG_URL,JSON.stringify({
+          const response= await axios.put('http://localhost:8080/api/v1/users/profile/update',{
             "firstName": first_name,
             "lastName": last_name,
             "email": email1,
             "phoneNumber": phone
-          }),{headers :{      
-                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+          },{headers :{      
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`
             } })
           console.log(response.data);
           console.log('Sucess');
