@@ -51,23 +51,38 @@ function UserData() {
             "phoneNumber": phone
           });
         
-        try{
-          const response= await axios.put('http://localhost:8080/api/v1/users/profile/update',{
-            "firstName": first_name,
-            "lastName": last_name,
-            "email": email1,
-            "phoneNumber": phone
-          },{headers :{      
-                "Content-Type":"application/json",
-                Authorization: `Bearer ${localStorage.getItem('user_ret')}`
-            } })
-          console.log(response.data);
-          console.log('Sucess');
-        }
-        catch(err){
-          console.log(err.response);
-          console.log('Fail');
-        }
+          try {
+            if (!first_name || !last_name || !email1 || !phone) {
+              console.error('Invalid request data');
+              return;
+            }
+          
+            const response = await axios.put(
+              'http://localhost:8080/api/v1/users/profile/update',
+              {
+                firstName: first_name,
+                lastName: last_name,
+                email: email1,
+                phoneNumber: phone,
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                },
+              }
+            );
+          
+            if (response && response.data) {
+              console.log(response.data);
+              console.log('Success');
+            } else {
+              console.error('Invalid response structure');
+            }
+          } catch (err) {
+            console.error('Error:', err);
+            console.error('Fail:', err.response ? err.response.data : 'Unknown error');
+          }
       }
 
     return (

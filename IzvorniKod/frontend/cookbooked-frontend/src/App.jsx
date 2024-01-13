@@ -12,6 +12,7 @@ import Recipe from "./pages/Recipe";
 import AdminPage from "./pages/AdminPage";
 import SavedRecipes from "./pages/SavedRecipes";
 import CategoriesRecipes from "./pages/CategoriesRecipes"
+import CuisinesRecipes from "./pages/CuisinesRecipes"
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
             <Route path = "/moji_podatci" element={<MyData />} />
             <Route path = "/recept/:id" element={<Recipe />} />
             <Route path = "/admin_stranica" element={<AdminPage />} />
-            <Route path = "/kuhinje/:id" element={<Home/>} />
+            <Route path = "/kuhinje/:id" element={<CuisinesRecipes/>} />
             <Route path = "/kategorije/:id" element={<CategoriesRecipes/>} />
             <Route path = "/sastojci/:id" element={<Home/>} />
           </Routes>
