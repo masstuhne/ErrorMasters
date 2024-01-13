@@ -142,7 +142,7 @@ function NewRecipeForm() {
                         </div>
                         <div className='flex flex-col gap-4 max-w-[40rem]'>
                             {userChoice.map(el => (
-                                <div className='flex flex-row gap-6 justify-center items-center'>
+                                <div key={el.label} className='flex flex-row gap-6 justify-center items-center'>
                                     <label htmlFor="kol_sastojka" className="max-w-[15rem] block mb-2 text-sm font-medium text-gray-900 dark:text-white w-1/3">{el.label}</label>
                                     <input type="number" min="0" id="kol_sastojka" className="w-1/3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-[15rem]" placeholder="Količina"/>
                                     <Select
