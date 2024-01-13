@@ -6,6 +6,7 @@ import RecipeList from "./RecipeList";
 function Profile() {
     const { id } = useParams();
     const [user, setUser] = useState([]);
+    const [recepti, setRecepti] = useState([]);
 
     
     const authToken = localStorage.getItem('user_ret');
