@@ -15,6 +15,7 @@ import CategoriesRecipes from "./pages/CategoriesRecipes"
 import CuisinesRecipes from "./pages/CuisinesRecipes"
 import ProfilePage from "./pages/ProfilePage";
 import MyMessages from "./pages/MyMessages";
+import IngredientRecipes from "./pages/IngredientRecipes"
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
             <Route path = "/sastojci/:id" element={<Home/>} />
             <Route path = "/profil/:id" element={<ProfilePage/>} />
             <Route path = "/moje_poruke" element={<MyMessages/>} />
+            <Route path = "/sastojci" element={<IngredientRecipes/>} />
           </Routes>
         </div>
       </div>
