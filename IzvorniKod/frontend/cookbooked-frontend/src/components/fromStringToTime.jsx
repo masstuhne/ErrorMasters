@@ -1,4 +1,5 @@
 function fromStringToTime(durationStr) {
+    if(!durationStr) return '';
     const durationMatch = durationStr.match(/PT(\d+H)?(\d+M)?/);
     let totalMinutes = 0;
 

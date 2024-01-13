@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import parseJwt from "./parseJwt";
 import ReviewPopUp from './ReviewPopUp';
+import fromStringToTime from './fromStringToTime';
 
 function saveRecipe(id) {
     const url = 'http://localhost:8080/api/v1/users/' + parseJwt(localStorage.getItem('user_ret')).id + '/bookmarked-recipes?recipeId=' + id;
@@ -188,7 +189,7 @@ function RecipeDisplay() {
                         </svg>
                         }
                     </a>
-                    <a href='#' className='px-1 text-blue-700'>
+                    <a href='/moje_poruke' className='px-1 text-blue-700'>
                         <svg className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 25">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
                         </svg>
@@ -214,7 +215,7 @@ function RecipeDisplay() {
                             </li>
                         ))}
                     </ul>
-                    <h5 className='text-sm p-1'>Vrijeme kuhanja: {recept.cookingTime} minuta</h5>
+                    <h5 className='text-sm p-1'>Vrijeme kuhanja: {fromStringToTime(recept.cookingTime)} minuta</h5>
                     <div className="flex items-center p-1">
                         <svg className="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                             <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
