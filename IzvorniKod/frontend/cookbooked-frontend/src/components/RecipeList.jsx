@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import RedAlert from "./RedAlert";
 import fromStringToTime from "./fromStringToTime";
 
@@ -31,9 +30,9 @@ function RecipeList({headline, recipes}) {
                                     kuhanje: {fromStringToTime(el.vrijeme)} min
                                 </div>
                                 <div className="flex justify-center w-2/6">
-                                    <Link to={`/recept/${el.id}`}>
+                                    <a href={`/recept/${el.id}`}>
                                       <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Pročitaj više</button>
-                                    </Link>
+                                    </a>
                                 </div>
                             </div>
                         </li>
