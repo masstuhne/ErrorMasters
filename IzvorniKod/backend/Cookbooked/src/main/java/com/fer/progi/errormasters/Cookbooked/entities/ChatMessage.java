@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +27,9 @@ public class ChatMessage {
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name = "time_sent")
+    private Date sentTime;
 
     @Override
     public String toString() {

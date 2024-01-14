@@ -196,6 +196,7 @@ public class UserServiceImpl implements UserService {
 
             chatMessage.setReceiver(reciever);
             chatMessage.setContent(chatMessageModel.getContent());
+            chatMessage.setSentTime(new Date());
 
             user.getSentMessages().add(chatMessage);
             reciever.getReceivedMessages().add(chatMessage);
