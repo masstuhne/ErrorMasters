@@ -5,6 +5,7 @@ import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
 import com.fer.progi.errormasters.Cookbooked.repositories.BookmarkedRecipeRepository;
+import com.fer.progi.errormasters.Cookbooked.repositories.ChatMessageRepository;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BookmarkedRecipeRepository bookmarkedRecipeRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -197,6 +199,7 @@ public class UserServiceImpl implements UserService {
 
             user.getSentMessages().add(chatMessage);
             reciever.getReceivedMessages().add(chatMessage);
+            chatMessageRepository.save(chatMessage);
             userRepository.save(user);
             userRepository.save(reciever);
 
