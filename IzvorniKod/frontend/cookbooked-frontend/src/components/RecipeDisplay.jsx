@@ -4,6 +4,8 @@ import axios from 'axios';
 import parseJwt from "./parseJwt";
 import ReviewPopUp from './ReviewPopUp';
 import fromStringToTime from './fromStringToTime';
+import ShowReviews from './ShowReviews';
+import AdminChangeCategory from './AdminChangeCategory';
 
 const isAdmin = true;
 
@@ -123,11 +125,7 @@ function RecipeDisplay() {
             }
 
             fetchMedia(image_ids,false);
-            fetchMedia(video_ids,true)
-            
-            
-            
-
+            fetchMedia(video_ids,true);
         })
         .catch(err=>{
             console.error('Error fetching data:', err);
@@ -135,6 +133,7 @@ function RecipeDisplay() {
     },[])
     
     useEffect(()=>{
+        if (localStorage.getItem('user_ret')) {
         let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
         let userId=tokenPayload.id
         axios.get('http://localhost:8080/api/v1/users/' + userId + '/bookmarked-recipes',{
@@ -148,6 +147,7 @@ function RecipeDisplay() {
         .catch(err=>{
             console.error('Error fetching data:', err);
         })
+        }
     },[])
 
     useEffect(()=>{
@@ -172,13 +172,23 @@ function RecipeDisplay() {
         setCurrentIndex((prevIndex) => (prevIndex - 1 + mediaList.length) % mediaList.length);
     };
 
-   
+    const handleDeleteRecipe = () => {
 
+        console.log(`http://localhost:8080/api/v1/recipes/${recept.id}`);
+    
+        axios.delete(`http://localhost:8080/api/v1/recipes/${recept.id}`,{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+            },
+        })
+        .then(response => {
+            console.log('Recipe deleted successfully:', response);
+        })
+        .catch(error => {
+            console.error('Error deleting recipe:', error);
+        });
+    };
 
-    //Ak je samo jedna slika na receptu samo ju stavi dva put tak bu dobro delalo 
-    //Ak nema ni jedne deni da nema tog elementa 
-    //Moras u if dodat dal je zapraćen il ne, umjesto true ili false kaj sam sad dela
-    //Mislim da mi nemamo rating neg stavi kolicinu lajkova/sejvova, to bi trebali imati 
     return (
         
         <div className="min-h-screen justify-center">
@@ -271,12 +281,16 @@ function RecipeDisplay() {
                         </svg>
                         <p className="ms-2 text-sm font-bold text-gray-900 dark:text-white"> {rating}</p>
                         <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#" className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{recept?.recipeRatings?.length} reviews</a>
+                        <ShowReviews reviews={recept?.recipeRatings}/>
                     </div>
                     <div className='flex gap-3'>
-                        <ReviewPopUp/>
-                        {isAdmin ? 
-                        <button type="button" >Obriši recept</button>
+                        {localStorage.getItem('user_ret') ? 
+                        <ReviewPopUp recipeId={recept.id}/> : '' }
+                        {localStorage.getItem('user_ret') && parseJwt(localStorage.getItem('user_ret')).role[0].authority == 'ROLE_ADMIN' ? 
+                        <>
+                        <button type="button" onClick={handleDeleteRecipe} className='block text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800' >Obriši recept</button>
+                        <AdminChangeCategory recipe={recept}/>
+                        </>
                         : '' }
                     </div>
                     {videoList.length>0 ? 

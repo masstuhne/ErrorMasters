@@ -1,11 +1,8 @@
-import LinkBox from "../components/LinkBox";
+import UsersList from "../components/UsersList";
 
 function AdminPage() {
     return (
-        <div className="grid justify-center p-8 object-center">
-            <LinkBox link="/korisnici_admin">Upravljanje korisnicima</LinkBox>
-            <LinkBox link="/recepti_admin">Upravljanje receptima</LinkBox>
-        </div>
+        <UsersList/>
     );
 }
 

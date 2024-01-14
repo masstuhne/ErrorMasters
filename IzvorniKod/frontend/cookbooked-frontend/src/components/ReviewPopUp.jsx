@@ -1,9 +1,60 @@
-function ReviewPopUp() {
+import { useState } from 'react';
+import axios from "axios";
+
+function ReviewPopUp({recipeId}) {
+
+    const [formData, setFormData] = useState({
+            rating: 0,
+            comment: '',
+        });
+        
+        const handleChange = (e) => {
+            const { name, value } = e.target;
+            setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+            }));
+        };
+
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+          
+            const newFormData = {
+              ...formData,
+              createdAt: new Date().toISOString(),
+            };
+          
+            console.log('Form Data:', newFormData);
+            
+            try {
+                const response = await axios.post(
+                    'http://localhost:8080/api/v1/recipes/' + recipeId + '/recipe-ratings', {
+                        "rating": Number(newFormData.rating),
+                        "comment": newFormData.comment,
+                        "createdAt": newFormData.createdAt
+                    },
+                    {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                        'Content-Type': 'application/json',
+                    },
+                    }
+                );
+                console.log(response);
+                location.reload();
+            } catch (err) {
+                console.error(err);
+            }
+        
+            setFormData(newFormData);
+          };
+
+
     return (
 
     <>
         <button data-modal-toggle="authentication-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-        Review
+        Komentiraj
         </button>
 
         <div id="authentication-modal" tabIndex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100% - 1rem)] max-h-full">
@@ -23,17 +74,23 @@ function ReviewPopUp() {
                     <div className="p-4 md:p-5">
                         <form className="space-y-4" action="#">
                             <div>
-                                <textarea id="review" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ovdje našite svoj komentar"></textarea>                    
+                                <textarea name="comment" rows="4" id='comment'     
+                                    value={formData.comment}
+                                    onChange={handleChange}
+                                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ovdje našite svoj komentar" required>
+                                </textarea>                    
                             </div>
                             <div className="flex">
                                 <label htmlFor="stars" className="w-20 block mb-2 text-sm font-medium text-gray-900 dark:text-white">Zvijezdice</label>
-                                <input name="stars" id="stars" type="number" min="0" max="5" className="h-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-16 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="0" required/>
+                                <input name="rating" id="stars" type="number" min="0" max="5" 
+                                    value={formData.rating}
+                                    onChange={handleChange} className="h-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-16 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="0" required/>
 
                                 <svg className="w-10 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
                                 </svg>
                             </div>
-                            <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Pošalji</button>
+                            <button type="submit" onClick={handleSubmit} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Pošalji</button>
                         </form>
                     </div>
                 </div>
