@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<User> getUserById(@PathVariable Integer userId){
         User user = userService.getUserById(userId);
@@ -187,6 +187,21 @@ public class UserController {
             return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
     }
+
+    @DeleteMapping("/bookmarked-recipes/{recipeId}")
+    @PreAuthorize("isAuthenticated()")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> deleteBookmarkedRecipe(@PathVariable Integer recipeId){
+        try {
+            SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User userDetails = userService.getUserByUsername(user.getUsername());
+            userService.deleteBookmarkedRecipe(recipeId,userDetails);
+            return ResponseEntity.ok("Spremljeni recept uspješno izbrisan!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Greška prilikom brisanja spremljenog recepta!");
+        }
+    }
+
 
     @PostMapping("{userId}/bookmarked-recipes")
     @PreAuthorize("isAuthenticated()")

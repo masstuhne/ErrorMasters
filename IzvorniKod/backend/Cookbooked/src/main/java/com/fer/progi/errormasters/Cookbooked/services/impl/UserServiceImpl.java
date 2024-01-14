@@ -4,8 +4,10 @@ import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
+import com.fer.progi.errormasters.Cookbooked.repositories.BookmarkedRecipeRepository;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final BookmarkedRecipeRepository bookmarkedRecipeRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -74,6 +77,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void bookmarkRecipe(Integer userId, Recipe recipe) {
         User user = userRepository.findById(userId).orElse(null);
+
+        BookmarkedRecipe bookmarkedRecipe = user.getBookmarkedRecipes().stream()
+                .filter(bookmarkedRecipe1 -> bookmarkedRecipe1.getRecipe().getId().equals(recipe.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if (bookmarkedRecipe != null) {
+            throw new RuntimeException("Recipe with id " + recipe.getId() + " already bookmarked!");
+        }
 
         if (user != null) {
             BookmarkedRecipe newBookmarkedRecipe = new BookmarkedRecipe();
@@ -248,5 +260,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void    deleteBookmarkedRecipe(Integer recipeId, User userDetails) {
+        BookmarkedRecipe bookmarkedRecipe = userDetails.getBookmarkedRecipes().stream()
+                .filter(bookmarkedRecipe1 -> bookmarkedRecipe1.getRecipe().getId().equals(recipeId))
+                .findFirst()
+                .orElse(null);
+
+        if (bookmarkedRecipe != null) {
+            userDetails.getBookmarkedRecipes().remove(bookmarkedRecipe);
+            userRepository.save(userDetails);
+            bookmarkedRecipeRepository.deleteById(bookmarkedRecipe.getId());
+        } else {
+            throw new RuntimeException("Bookmarked recipe with id " + recipeId + " not found!");
+        }
     }
 }

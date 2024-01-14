@@ -2,7 +2,6 @@ import React, {createContext, useState} from "react";
 import SignUpButton from "./SignUpButton";
 import BarKategorije from "./BarKategorije";
 import UserLog from "./UserLog";
-import { Link } from "react-router-dom";
 
 export const AuthContext = createContext();
 

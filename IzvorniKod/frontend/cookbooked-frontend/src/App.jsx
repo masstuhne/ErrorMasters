@@ -11,7 +11,11 @@ import MyData from "./pages/MyData";
 import Recipe from "./pages/Recipe";
 import AdminPage from "./pages/AdminPage";
 import SavedRecipes from "./pages/SavedRecipes";
-
+import CategoriesRecipes from "./pages/CategoriesRecipes"
+import CuisinesRecipes from "./pages/CuisinesRecipes"
+import ProfilePage from "./pages/ProfilePage";
+import MyMessages from "./pages/MyMessages";
+import IngredientRecipes from "./pages/IngredientRecipes"
 
 function App() {
 
@@ -29,7 +33,12 @@ function App() {
             <Route path = "/moji_podatci" element={<MyData />} />
             <Route path = "/recept/:id" element={<Recipe />} />
             <Route path = "/admin_stranica" element={<AdminPage />} />
-      
+            <Route path = "/kuhinje/:id" element={<CuisinesRecipes/>} />
+            <Route path = "/kategorije/:id" element={<CategoriesRecipes/>} />
+            <Route path = "/sastojci/:id" element={<Home/>} />
+            <Route path = "/profil/:id" element={<ProfilePage/>} />
+            <Route path = "/moje_poruke" element={<MyMessages/>} />
+            <Route path = "/sastojci" element={<IngredientRecipes/>} />
           </Routes>
         </div>
       </div>
