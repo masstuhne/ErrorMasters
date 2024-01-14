@@ -30,11 +30,7 @@ public class CategoryController {
     public ResponseEntity<List<Category>> getCategories(){
         List<Category> categories = categoryService.getAllCategories();
 
-        if (categories.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(categories);
-        }
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("{id}")

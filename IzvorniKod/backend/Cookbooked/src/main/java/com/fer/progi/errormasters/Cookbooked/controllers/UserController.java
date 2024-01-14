@@ -66,11 +66,7 @@ public class UserController {
     public ResponseEntity<List<User>> getUsers(){
         List<User> users = userService.getAllUsers();
 
-        if (users.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(users);
-        }
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{userId}")
@@ -132,11 +128,7 @@ public class UserController {
         try {
             List<Recipe> recipes = recipeService.getRecipesByUserId(userId);
 
-            if (recipes.isEmpty()){
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(recipes);
-            }
+            return ResponseEntity.ok(recipes);
         } catch (Exception e){
             return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
@@ -149,11 +141,7 @@ public class UserController {
         try {
             List<CommunicationTime> communicationTimes = userService.getUserCommunicationTimes(userId);
 
-            if (communicationTimes.isEmpty()){
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(communicationTimes);
-            }
+            return ResponseEntity.ok(communicationTimes);
         } catch (Exception e){
             return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
@@ -178,11 +166,7 @@ public class UserController {
         try {
             List<BookmarkedRecipe> recipes = userService.getBookmarkedRecipes(userId);
 
-            if (recipes.isEmpty()){
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(recipes);
-            }
+            return ResponseEntity.ok(recipes);
         } catch (Exception e){
             return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }

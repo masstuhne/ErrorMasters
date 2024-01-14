@@ -26,11 +26,7 @@ public class IngredientController {
     public ResponseEntity<List<Ingredient>> getIngredients(){
         List<Ingredient> ingredients = ingredientService.getAllIngredients();
 
-        if (ingredients.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(ingredients);
-        }
+        return ResponseEntity.ok(ingredients);
     }
 
     @GetMapping("{id}")
@@ -48,11 +44,7 @@ public class IngredientController {
     public ResponseEntity<List<Recipe>> getRecipesByIngredient(@PathVariable Integer ingredientId){
         List<Recipe> recipes = ingredientService.getRecipesByIngredient(ingredientId);
 
-        if (recipes.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(recipes);
-        }
+        return ResponseEntity.ok(recipes);
     }
 
     @GetMapping("/recipes")
@@ -60,11 +52,7 @@ public class IngredientController {
         try {
             List<Recipe> recipes = ingredientService.getRecipesByIngredients(ingredientIds);
 
-            if (recipes.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(recipes);
-            }
+            return ResponseEntity.ok(recipes);
         }
         catch (Exception e){
             log.error("Error while getting recipes by ingredients: ", e);

@@ -24,9 +24,6 @@ public class CuisineController {
     @GetMapping
     public ResponseEntity<List<Cuisine>> getCuisines(){
         List<Cuisine> cuisines = cuisineService.getAllCuisines();
-        if (cuisines.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(cuisines);
     }
 

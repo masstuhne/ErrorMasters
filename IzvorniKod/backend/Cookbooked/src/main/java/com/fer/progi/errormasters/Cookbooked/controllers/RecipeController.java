@@ -73,11 +73,7 @@ public class RecipeController {
         try {
             List<RecipeRating> recipeRatings = recipeService.getRecipeRatings(recipeId);
 
-            if (recipeRatings.isEmpty()){
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.ok(recipeRatings);
-            }
+            return ResponseEntity.ok(recipeRatings);
         } catch (Exception e){
             return ResponseEntity.badRequest().header("Error", e.getMessage()).body(null);
         }
