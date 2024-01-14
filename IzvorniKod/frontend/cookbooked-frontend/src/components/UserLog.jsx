@@ -1,3 +1,5 @@
+import parseJwt from "./parseJwt";
+
 function UserLog({children}) {
   const LogOut = (e) => {
     e.preventDefault();
@@ -31,9 +33,12 @@ function UserLog({children}) {
           <li>
             <a href="/spremljeni_recepti" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Spremljeni Recepti</a>
           </li>
+          {parseJwt(localStorage.getItem('user_ret')).role[0].authority == 'ROLE_ADMIN' ? 
           <li>
-            <a href="/admin_stranica" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Admin kontrole</a>
-          </li>
+            <a href="/admin_stranica" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Popis korisnika</a>
+          </li> :
+          ''
+          }
           <a href="/" onClick={LogOut} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
           <li>
             Odjava
