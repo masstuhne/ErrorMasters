@@ -30,7 +30,7 @@ public class UserController {
     RoleService roleService;
 
     @GetMapping("/profile")
-    @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<ProfileModel> getUserProfile(){
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping("/profile/update")
-    @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> updateUserProfile(@RequestBody ProfileModel profileModel){
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
