@@ -41,7 +41,7 @@ public class FollowController {
             return ResponseEntity.ok(followersModelList);
         }
         catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
     }
 

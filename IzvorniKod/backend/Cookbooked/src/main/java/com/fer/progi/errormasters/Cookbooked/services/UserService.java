@@ -1,6 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.services;
 
 import com.fer.progi.errormasters.Cookbooked.entities.*;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
 
@@ -18,6 +19,18 @@ public interface UserService {
 
     List<BookmarkedRecipe> getBookmarkedRecipes(Integer userId);
     void bookmarkRecipe(Integer userId, Recipe recipe);
+
+    List<UserFollow> getFollowing(Integer userId);
+
+    List<UserFollow> getFollowers(Integer userId);
+
+    void addFollower(Integer userId, Integer followerId);
+
+    void addFollowing(Integer userId, Integer followingId);
+
+    List<ChatMessage> getChatMessages(Integer userId);
+
+    void addChatMessage(Integer userId, ChatMessageModel chatMessageModel);
 
     boolean userExistsByUsername(String username);
 

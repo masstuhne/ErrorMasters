@@ -40,7 +40,7 @@ public class RecipeController {
             Recipe recipe = recipeService.getRecipeById(recipeId);
             return ResponseEntity.ok(recipe);
         } catch (Exception e){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().header("Error", e.getMessage()).build();
         }
     }
 
@@ -62,7 +62,7 @@ public class RecipeController {
             else {
                 log.error("Recipe creation model is null");
             }
-            return ResponseEntity.badRequest().body("Greška prilikom spremanja recepta!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom spremanja recepta!");
         }
         return ResponseEntity.ok("Recept uspješno spremljen!");
 
@@ -79,7 +79,7 @@ public class RecipeController {
                 return ResponseEntity.ok(recipeRatings);
             }
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body(null);
         }
     }
 
@@ -94,7 +94,7 @@ public class RecipeController {
             return ResponseEntity.ok("Recept uspješno ocijenjen!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom ocjenjivanja recepta!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom ocjenjivanja recepta!");
         }
     }
 
@@ -107,7 +107,7 @@ public class RecipeController {
 
             return ResponseEntity.ok("Recept uspješno ažuriran!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom ažuriranja recepta!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom ažuriranja recepta!");
         }
     }
 
@@ -120,7 +120,7 @@ public class RecipeController {
 
             return ResponseEntity.ok("Recept uspješno obrisan!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom brisanja recepta!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom brisanja recepta!");
         }
     }
 

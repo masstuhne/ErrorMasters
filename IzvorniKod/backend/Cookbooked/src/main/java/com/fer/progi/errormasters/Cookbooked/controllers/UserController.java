@@ -1,6 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
 import com.fer.progi.errormasters.Cookbooked.entities.*;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ProfileModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
@@ -53,7 +54,7 @@ public class UserController {
         try {
             userService.saveUser(userDetails);
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom spremanja podataka!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom spremanja podataka!");
         }
         return ResponseEntity.ok("Podaci uspješno spremljeni!");
     }
@@ -95,7 +96,7 @@ public class UserController {
 
             return ResponseEntity.ok("Korisnik uspješno dodan!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom dodavanja korisnika!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom dodavanja korisnika!");
         }
     }
 
@@ -109,7 +110,7 @@ public class UserController {
 
             return ResponseEntity.ok("Korisnik uspješno ažuriran!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom ažuriranja korisnika!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom ažuriranja korisnika!");
         }
     }
 
@@ -121,7 +122,7 @@ public class UserController {
             userService.deleteUser(userId);
             return ResponseEntity.ok("Korisnik uspješno izbrisan!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom brisanja korisnika!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom brisanja korisnika!");
         }
     }
 
@@ -137,7 +138,7 @@ public class UserController {
                 return ResponseEntity.ok(recipes);
             }
         } catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
     }
 
@@ -154,7 +155,7 @@ public class UserController {
                 return ResponseEntity.ok(communicationTimes);
             }
         } catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
     }
 
@@ -166,7 +167,7 @@ public class UserController {
             userService.addUserCommunicationTime(userId, communicationTimeModel);
             return ResponseEntity.ok("Vrijeme komunikacije uspješno dodano!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom dodavanja vremena komunikacije!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom dodavanja vremena komunikacije!");
         }
     }
 
@@ -183,7 +184,7 @@ public class UserController {
                 return ResponseEntity.ok(recipes);
             }
         } catch (Exception e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
     }
 
@@ -197,8 +198,81 @@ public class UserController {
             userService.bookmarkRecipe(userId, recipe);
             return ResponseEntity.ok("Recept uspješno spremljen!");
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Greška prilikom spremanja recepta!");
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom spremanja recepta!");
         }
     }
 
+    @GetMapping("{userId}/following")
+    public ResponseEntity<List<UserFollow>> getFollowing(@PathVariable Integer userId){
+        try {
+            List<UserFollow> following = userService.getFollowing(userId);
+
+            return ResponseEntity.ok(following);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
+        }
+    }
+
+    @GetMapping("{userId}/followers")
+    public ResponseEntity<List<UserFollow>> getFollowers(@PathVariable Integer userId){
+        try {
+            List<UserFollow> followers = userService.getFollowers(userId);
+
+            return ResponseEntity.ok(followers);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
+        }
+    }
+
+    @GetMapping("{userId}/chat-messages")
+    @PreAuthorize("isAuthenticated()")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<List<ChatMessage>> getChatMessages(@PathVariable Integer userId){
+        try {
+            List<ChatMessage> chatMessages = userService.getChatMessages(userId);
+
+            return ResponseEntity.ok(chatMessages);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
+        }
+    }
+
+    @PostMapping("{userId}/chat-messages")
+    @PreAuthorize("isAuthenticated()")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> addChatMessage(@PathVariable Integer userId, @RequestBody ChatMessageModel chatMessageModel){
+        try {
+            userService.addChatMessage(userId, chatMessageModel);
+
+            return ResponseEntity.ok("Poruka uspješno poslana!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom slanja poruke!");
+        }
+    }
+
+//    @PostMapping("{userId}/followers/{followerId}")
+//    @PreAuthorize("isAuthenticated()")
+//    @SecurityRequirement(name = "jwt")
+//    public ResponseEntity<String> addFollower(@PathVariable Integer userId, @PathVariable Integer followerId){
+//        try {
+//            userService.addFollower(userId, followerId);
+//
+//            return ResponseEntity.ok("Pratitelj uspješno dodan!");
+//        } catch (Exception e){
+//            return ResponseEntity.badRequest().body("Greška prilikom dodavanja pratitelja!");
+//        }
+//    }
+//
+//    @PostMapping("{userId}/following/{followingId}")
+//    @PreAuthorize("isAuthenticated()")
+//    @SecurityRequirement(name = "jwt")
+//    public ResponseEntity<String> addFollowing(@PathVariable Integer userId, @PathVariable Integer followingId){
+//        try {
+//            userService.addFollowing(userId, followingId);
+//
+//            return ResponseEntity.ok("Pratitelj uspješno dodan!");
+//        } catch (Exception e){
+//            return ResponseEntity.badRequest().body("Greška prilikom dodavanja pratitelja!");
+//        }
+//    }
 }

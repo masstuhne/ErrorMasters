@@ -69,7 +69,7 @@ public class IngredientController {
         catch (Exception e){
             log.error("Error while getting recipes by ingredients: ", e);
 
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).build();
         }
     }
 }

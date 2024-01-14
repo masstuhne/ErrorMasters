@@ -1,6 +1,7 @@
 package com.fer.progi.errormasters.Cookbooked.services.impl;
 
 import com.fer.progi.errormasters.Cookbooked.entities.*;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
@@ -82,6 +83,111 @@ public class UserServiceImpl implements UserService {
 
             user.getBookmarkedRecipes().add(newBookmarkedRecipe);
             userRepository.save(user);
+        } else {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
+    }
+
+    @Override
+    public List<UserFollow> getFollowing(Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            return user.getFollowing();
+        } else {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
+    }
+
+    @Override
+    public List<UserFollow> getFollowers(Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            return user.getFollowers();
+        } else {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
+    }
+
+    @Override
+    public void addFollower(Integer userId, Integer followerId) {
+        User user = userRepository.findById(userId).orElse(null);
+        User follower = userRepository.findById(followerId).orElse(null);
+
+        if (user != null && follower != null) {
+            UserFollow newUserFollow = new UserFollow();
+            newUserFollow.setAuthor(user);
+            newUserFollow.setFollower(follower);
+            newUserFollow.setFollowedAt(new Date());
+
+            user.getFollowers().add(newUserFollow);
+            userRepository.save(user);
+        } else if (user == null) {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        } else {
+            throw new RuntimeException("User with id " + followerId + " not found!");
+        }
+    }
+
+    @Override
+    public void addFollowing(Integer userId, Integer followingId) {
+        User user = userRepository.findById(userId).orElse(null);
+        User following = userRepository.findById(followingId).orElse(null);
+
+        if (user != null && following != null) {
+            UserFollow newUserFollow = new UserFollow();
+            newUserFollow.setAuthor(following);
+            newUserFollow.setFollower(user);
+            newUserFollow.setFollowedAt(new Date());
+
+            user.getFollowing().add(newUserFollow);
+            userRepository.save(user);
+        } else if (user == null) {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        } else {
+            throw new RuntimeException("User with id " + followingId + " not found!");
+        }
+    }
+
+    @Override
+    public List<ChatMessage> getChatMessages(Integer userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            return user.getReceivedMessages();
+        } else {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
+    }
+
+    @Override
+    public void addChatMessage(Integer userId, ChatMessageModel chatMessageModel) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            ChatMessage chatMessage = new ChatMessage();
+
+            if (user.getId() != chatMessageModel.getSenderId()) {
+                throw new RuntimeException("UserId in the path and senderId don't match but should because that user is the sender!");
+            }
+
+            chatMessage.setSender(user);
+
+            User reciever = userRepository.findById(chatMessageModel.getReceiverId()).orElse(null);
+
+            if (reciever == null) {
+                throw new RuntimeException("User reciever with id " + chatMessageModel.getReceiverId() + " not found!");
+            }
+
+            chatMessage.setReceiver(reciever);
+            chatMessage.setContent(chatMessageModel.getContent());
+
+            user.getSentMessages().add(chatMessage);
+            reciever.getReceivedMessages().add(chatMessage);
+            userRepository.save(user);
+            userRepository.save(reciever);
+
         } else {
             throw new RuntimeException("User with id " + userId + " not found!");
         }
