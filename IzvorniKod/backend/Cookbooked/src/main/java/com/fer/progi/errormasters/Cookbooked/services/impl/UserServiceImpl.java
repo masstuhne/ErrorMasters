@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             CommunicationTime newCommunicationTime = new CommunicationTime();
             newCommunicationTime.setUser(user);
-            newCommunicationTime.setStart(communicationTime.getStart());
-            newCommunicationTime.setEnd(communicationTime.getEnd());
+            newCommunicationTime.setStartTime(communicationTime.getStart());
+            newCommunicationTime.setEndTime(communicationTime.getEnd());
 
             user.getCommunicationTimes().add(newCommunicationTime);
             userRepository.save(user);

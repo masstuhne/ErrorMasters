@@ -23,18 +23,18 @@ public class CommunicationTime {
     @JsonIgnore
     private User user;
 
-    @Column(name = "start")
-    private Date start;
+    @Column(name = "start_time")
+    private Date startTime;
 
-    @Column(name = "end")
-    private Date end;
+    @Column(name = "end_time")
+    private Date endTime;
 
     @Override
     public String toString() {
         return "CommunicationTime{" +
                 "id=" + id +
-                ", start=" + start +
-                ", end=" + end +
+                ", start=" + startTime +
+                ", end=" + endTime +
                 '}';
     }
 }

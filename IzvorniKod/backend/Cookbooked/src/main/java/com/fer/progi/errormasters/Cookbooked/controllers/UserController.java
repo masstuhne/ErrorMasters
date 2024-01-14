@@ -137,7 +137,7 @@ public class UserController {
     @GetMapping ("/{userId}/communication-times")
     @PreAuthorize("isAuthenticated()")
     @SecurityRequirement(name = "jwt")
-    public ResponseEntity<List<CommunicationTime>> getUserCommunicationTimes(Integer userId){
+    public ResponseEntity<List<CommunicationTime>> getUserCommunicationTimes(@PathVariable Integer userId){
         try {
             List<CommunicationTime> communicationTimes = userService.getUserCommunicationTimes(userId);
 
@@ -150,7 +150,7 @@ public class UserController {
     @PostMapping ("/{userId}/communication-times")
     @PreAuthorize("isAuthenticated()")
     @SecurityRequirement(name = "jwt")
-    public ResponseEntity<String> addUserCommunicationTime(Integer userId, @RequestBody CommunicationTimeModel communicationTimeModel){
+    public ResponseEntity<String> addUserCommunicationTime(@PathVariable Integer userId, @RequestBody CommunicationTimeModel communicationTimeModel){
         try {
             userService.addUserCommunicationTime(userId, communicationTimeModel);
             return ResponseEntity.ok("Vrijeme komunikacije uspješno dodano!");

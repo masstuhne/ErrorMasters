@@ -22,14 +22,14 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_MEMBER') or hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<List<Tag>> getAllTags() {
         return ResponseEntity.ok(tagService.getAllTags());
     }
 
     @GetMapping("{tagId}/recipes")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_MEMBER') or hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<List<Recipe>> getRecipesByTagId(@PathVariable Integer tagId) {
         try {
