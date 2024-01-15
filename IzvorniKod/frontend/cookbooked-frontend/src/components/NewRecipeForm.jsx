@@ -2,43 +2,44 @@ import Select from 'react-select';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from 'flowbite-react';
+import CreatableSelect from 'react-select/creatable';
 
 function NewRecipeForm() {
     const [cuisines, setCuisines] = useState([]);
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [tags, setTags] = useState([]);
+
     const RCP_URL="http://localhost:8080/api/v1/recipes/add"
 
     const handleSubmit= async (e)=>{
         e.preventDefault() 
         try{
-            console.log(chosenIngredients);
-
             const ingredientsText = chosenIngredients.map((ingredient) => {
                 const { name, quantity, unit } = ingredient;
                 return `${name}: ${quantity} ${unit}`;
             }).join('\n');
     
             const recipeText = `${ingredientsText}\n$@%&#$%&\n${descripton}`;
-            console.log(recipeText);
 
             setDescription(recipeText)
 
             let token=localStorage.getItem('user_ret')
             let time=parseInt(cookingTime)
             let ingredientIds=userChoice.map(ingr => ingr.value)
+            let tagsIds=selectedTags.map(tag => tag.value)
             const formData= new FormData()
-            
+     
             if(images!='') {formData.append('imageFiles',images)}
             if(video!='') formData.append('videoFile',video)
             formData.append('title',titile)
             formData.append('description',descripton)
             formData.append('cookingTime',time)
-            formData.append('categoryId',selectedCategory)
-            formData.append('cuisineId',selectedCuisine)
+            formData.append('categoryId',selectedCategory.value)
+            formData.append('cuisineId',selectedCuisine.value)
             formData.append('ingredients',ingredientIds)
-            formData.append('tags',[])
-
+            formData.append('tags', tagsIds);
+            console.log(formData);
             const response= await axios.post(RCP_URL,formData,{headers :{"Content-Type":"multipart/form-data",
                         Authorization: `Bearer ${token}`,
             }})
@@ -53,10 +54,10 @@ function NewRecipeForm() {
       }
     
 
-
     const url1 = 'http://localhost:8080/api/v1/cuisines';
     const url2 = 'http://localhost:8080/api/v1/categories';
     const url3 = 'http://localhost:8080/api/v1/ingredients';
+    const url4 = 'http://localhost:8080/api/v1/tags';
 
     useEffect(() => {
         axios.get(url1)
@@ -65,7 +66,7 @@ function NewRecipeForm() {
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
 
         axios.get(url2)
             .then((response) => {
@@ -73,7 +74,7 @@ function NewRecipeForm() {
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
         
         axios.get(url3)
             .then((response) => {
@@ -81,7 +82,19 @@ function NewRecipeForm() {
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
+
+        axios.get(url4, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                },
+            })
+            .then((response) => {
+                setTags(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+        });
     }, []);
 
     const cuisines_names = cuisines.map(item => ({
@@ -96,6 +109,10 @@ function NewRecipeForm() {
         value: item.id,
         label: item.name
       }));
+    const tags_names = tags.map(item => ({
+        value: item.id,
+        label: item.name
+      }));
 
 
     const [userChoice, setUserChoice] = useState([]);
@@ -103,6 +120,7 @@ function NewRecipeForm() {
     const [selectedCuisine,setSelectedCousine]= useState([])
     const [titile,setTitle]=useState("")
     const [descripton,setDescription]= useState("")
+    const [selectedTags, setSelectedTags] = useState([]);
     const [cookingTime,setCookinTime]= useState('0')
     const [images,setImages]=useState('')
     const [video,setVideo]=useState('')
@@ -258,20 +276,22 @@ function NewRecipeForm() {
                             <input onChange={e=> setCookinTime(e.target.value)} type="number" id="vrijeme_kuhanja" min="0" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-[15rem]" placeholder="45" required/>
                         </div>
                         <div className="relative max-w-[40rem]">
-                            <Select
+                            <CreatableSelect
                                 defaultValue={"0"}
                                 isMulti
                                 name="Oznake"
-                                options={"0"}
+                                options={tags_names}
                                 className="basic-multi-select"
                                 classNamePrefix="select"
                                 placeholder="Odaberi oznake"
+                                onChange={(choice) => {setSelectedTags(choice);}}
+
                             />
                         </div>
                         <div className='max-h-[20rem]'>
 
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="multiple_files">Dodajte slike</label>
-                            <input onChange={e=> setImages(e.target.files[0])} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple/>
+                            <input onChange={ (e) => {setImages(e.target.files);} } className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple/>
                             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF.</p>
                         </div>
                         <div>
