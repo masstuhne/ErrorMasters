@@ -6,6 +6,7 @@ import ReviewPopUp from './ReviewPopUp';
 import fromStringToTime from './fromStringToTime';
 import ShowReviews from './ShowReviews';
 import AdminChangeCategory from './AdminChangeCategory';
+import MessageSendPopUp from './MessageSendPopUp';
 
 const isAdmin = true;
 
@@ -81,8 +82,28 @@ function RecipeDisplay() {
     useEffect(() => {
         axios.get(apiUrl)
         .then(response =>{
-            setRecept(response.data)
+            console.log(response.data.description.split("$@%&#$%&"))
+            let splitted = response.data.description.split("$@%&#$%&");
+            response.data.description = splitted[splitted.length-1].trim();
             console.log(response.data)
+            const jsonData = splitted.map(item => {
+                const parts = item.split(':');
+                if (parts.length === 2) {
+                    const name = parts[0].trim();
+                    const amountAndUnit = parts[1].trim();
+                    return { name: name, amountAndUnit: amountAndUnit };
+                }
+                return null; 
+            }).filter(item => item !== null);
+            response.data.ingredientsNew = jsonData;
+            const mergedIngredients = response.data.ingredients.map(ingredient => {
+                const matchingIngredient = response.data.ingredientsNew.find(newIngredient => newIngredient.name === ingredient.name);
+                return matchingIngredient ? { ...ingredient, ...matchingIngredient } : ingredient;
+            });
+            console.log(mergedIngredients);
+            response.data.ingredientsNew = mergedIngredients
+            console.log(response.data)
+            setRecept(response.data)
             
             if(response.data.recipeRatings.length>0){
                 let sum_raiting=0
@@ -113,8 +134,6 @@ function RecipeDisplay() {
                     let responses = await Promise.all(requests);
 
                     let tmpMediaList=responses.map(mediaResponse=>mediaResponse.data)
-                    // za testiranje ako je samo jedna slika da se doda jos jedan link pa da se mogu dvije mijenjati
-                    // tmpMediaList.push({link:"https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"})
                     if (video) setVideoList(tmpMediaList) 
                     else setMeidaList(tmpMediaList)
 
@@ -151,6 +170,7 @@ function RecipeDisplay() {
     },[])
 
     useEffect(()=>{
+        if (localStorage.getItem('user_ret')) {
         axios.get('http://localhost:8080/api/v1/follow',{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
@@ -163,6 +183,9 @@ function RecipeDisplay() {
         .catch(err=>{
             console.error('Error fetching data:', err);
         })
+        } else {
+            setIsBell(false);
+        }
     },[recept])
     
     const handleNext = () => {
@@ -226,6 +249,8 @@ function RecipeDisplay() {
                 <div>
                     <h1 className='text-4xl text-blue-700 p-1'>{recept.title}</h1>
                     <div className='flex p-1'><p>Autor: <a href={`/profil/${recept?.user?.id}`}>{recept?.user?.username}</a></p>
+                    {localStorage.getItem('user_ret') ? 
+                    <>
                     <a href='#' className='px-1 text-blue-700'>
                         {isBell ?  
                         <svg onClick={e=>{setIsBell(false); unfollowAuthor(recept?.user?.username);}} className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 25">
@@ -248,16 +273,19 @@ function RecipeDisplay() {
                         </svg>
                         }
                     </a>
-                    <a href='/moje_poruke' className='px-1 text-blue-700'>
+                    <a className='px-1 text-blue-700' data-modal-toggle="message">
                         <svg className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 25">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
                         </svg>
                     </a>
-                    </div>
+                    <MessageSendPopUp/> </> : ' '}
+                    
+                </div>
                     <h1 className='text-xs text-gray-500 p-1'>          
-                        {recept?.tags?.map(tag => (
-                            <span key={tag.name}>#{tag.name} </span>
-                        ))} </h1>
+                        {recept?.tags?.map((tag, index) => (
+                            <span key={`${tag.name}-${index}`}>#{tag.name} </span>
+                        ))}
+                    </h1>
                     <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-400 p-1">
                         <li className='text-sm'>
                             Kuhinja: {recept?.cuisine?.name}
@@ -268,9 +296,9 @@ function RecipeDisplay() {
                     </ul>
                     <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-400 p-1">
                         <p className='text-xl text-blue-700'>Sastojci</p>
-                        {recept?.ingredients?.map(ingredient => (
+                        {recept?.ingredientsNew?.map(ingredient => (
                             <li key={ingredient.id}>
-                                {ingredient.name} : {ingredient.amount} {ingredient.measuringUnit}    
+                                {ingredient.name} : {ingredient.amountAndUnit} 
                             </li>
                         ))}
                     </ul>
