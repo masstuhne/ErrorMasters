@@ -177,15 +177,13 @@ function RecipeDisplay() {
               },
         })
         .then(response =>{
-            console.log(recept?.user?.id);
+            console.log(response);
             setIsBell(response.data.some(item => item.authorId == recept?.user?.id));
         })
         .catch(err=>{
             console.error('Error fetching data:', err);
         })
-        } else {
-            setIsBell(false);
-        }
+        } 
     },[recept])
     
     const handleNext = () => {
@@ -206,6 +204,7 @@ function RecipeDisplay() {
         })
         .then(response => {
             console.log('Recipe deleted successfully:', response);
+            window.location.href = '/';
         })
         .catch(error => {
             console.error('Error deleting recipe:', error);

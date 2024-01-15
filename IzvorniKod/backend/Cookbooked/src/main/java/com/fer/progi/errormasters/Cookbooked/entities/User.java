@@ -18,7 +18,6 @@ public class User {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

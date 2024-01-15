@@ -11,6 +11,9 @@ function ChangePassPopUp({user}) {
   
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      console.log('Change Pass Render ', formData);
+      console.log('Pleaseee workkk');
   
       try {
         const response = await axios.put(
@@ -21,8 +24,8 @@ function ChangePassPopUp({user}) {
             "email": user.email,
             "phoneNumber": user.phoneNumber,
             "username": user.username,
-            "password": password,
-            "roleEnum": user.role //TODO pogledati dal je ovo tocno         
+            "password": formData,
+            "roleEnum": user.role.split('_')[0]         
         },
         {
             headers: {
