@@ -28,6 +28,7 @@ function NewRecipeForm() {
             let time=parseInt(cookingTime)
             let ingredientIds=userChoice.map(ingr => ingr.value)
             let tagsIds=selectedTags.map(tag => tag.value)
+
             const formData= new FormData()
      
             if (images!='') {
@@ -135,7 +136,7 @@ function NewRecipeForm() {
     const [descripton,setDescription]= useState("")
     const [selectedTags, setSelectedTags] = useState([]);
     const [cookingTime,setCookinTime]= useState('0')
-    const [images,setImages]=useState('')
+    const [images,setImages]=useState([]);
     const [video,setVideo]=useState('')
 
     const [chosenIngredients,setChosenIngredients]= useState([]);
@@ -234,6 +235,7 @@ function NewRecipeForm() {
                                 classNamePrefix="select"
                                 placeholder="Odaberi kuhinju"
                                 onChange={(choice) => {setSelectedCousine(choice);}}
+                                required
                             />
                         </div>
                         <div className="relative max-w-[40rem]">
@@ -245,6 +247,7 @@ function NewRecipeForm() {
                                 classNamePrefix="select"
                                 placeholder="Odaberi kategoriju"
                                 onChange={(choice) => {setSelectedCategory(choice);}}
+                                required
                             />
                         </div>
                         <div className="relative max-w-[40rem]">
@@ -309,13 +312,13 @@ function NewRecipeForm() {
                         </div>
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Dodajte video</label>
-                            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
+                            <input onChange={e=> setVideo(e.target.files[0])}className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
                             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">MPEG-4(MP4), MOV, AVI, WMV or AVCHD.</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex gap-4 justify-center w-1/3">
-                    <Button onChange={e=> setVideo(e.target.files[0])} type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
+                    <Button type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
                         Objavi recept
                     </Button>
                 </div>

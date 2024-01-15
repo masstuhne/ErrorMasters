@@ -204,6 +204,7 @@ function RecipeDisplay() {
         })
         .then(response => {
             console.log('Recipe deleted successfully:', response);
+            window.location.href = '/';
         })
         .catch(error => {
             console.error('Error deleting recipe:', error);
