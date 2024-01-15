@@ -47,7 +47,7 @@ public class RecipeController {
 
 
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @PreAuthorize("hasRole('ROLE_MEMBER ') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MEMBER') or hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> addRecipe( @ModelAttribute RecipeCreationModel recipeCreationModel) {
         SecurityUserDetails user = (SecurityUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -30,8 +30,9 @@ function NewRecipeForm() {
             let tagsIds=selectedTags.map(tag => tag.value)
 
             const formData= new FormData()
+
      
-            if (images!='') {
+            if (images.length > 0) {
                 for (let i = 0; i < images.length; i++) {
                     formData.append('imageFiles', images[i])
                 }
@@ -40,7 +41,7 @@ function NewRecipeForm() {
                 formData.append('imageFiles', '')
             }
 			
-            if(video!='') {
+            if(video!==undefined) {
 				formData.append('videoFile',video)
 			}
 			else {
