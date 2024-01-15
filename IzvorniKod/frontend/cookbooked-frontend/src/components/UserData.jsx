@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Label, TextInput, Button } from 'flowbite-react';
 import parseJwt from "./parseJwt";
-import DateTimePicker from 'react-datetime-picker';
 
 const REG_URL='http://localhost:8080/api/v1/users/profile/update'
 
@@ -26,6 +25,7 @@ function UserData() {
 
     const authToken = localStorage.getItem('user_ret');
     const url = 'http://localhost:8080/api/v1/users/' + parseJwt(authToken).id;
+    const dateUrl = 'http://localhost:8080/api/v1/users/' + parseJwt(authToken).id + '/communication-times';
 
     useEffect(() => {
         if (!authToken) {
@@ -106,24 +106,38 @@ function UserData() {
       const handleEndDateChange = (e) => {
         setEndDate(e.target.value);
       };
-    
-      const handleDateTimeSubmit = (e) => {
-        e.preventDefault();
-    
-        if (new Date(endDate) < new Date(startDate)) {
-          setDateTimeError("Završno vrijeme ne može biti prije početnog vremena.");
-          return;
+
+      const handleDateTimeSubmit= async (e)=>{
+        e.preventDefault() 
+        try{
+          if (new Date(endDate) < new Date(startDate)) {
+            setDateTimeError("Završno vrijeme ne može biti prije početnog vremena.");
+            return;
+          }
+        
+          console.log(startDate);
+          setDateTimeError("");
+  
+          console.log(dateUrl);
+          const response= await axios.post(dateUrl, {
+            start: new Date(startDate).toISOString(),
+            end: new Date(endDate).toISOString()
+          },
+          {headers :{
+            Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+            'Content-Type': 'application/json'
+          }})
+  
+          console.log(response.status)
+          console.log(response.data)
+      
+          console.log("Formatted Date Time Data:", dateTimeData);
         }
-        const localStartDate = new Date(startDate);
-        console.log(startDate);
-        setDateTimeError("");
-        const dateTimeData = {
-          start: localStartDate.toISOString(),
-          end: new Date(endDate).toISOString(),
-        };
+        catch(err){
+          console.log(err);
+        }
+      }
     
-        console.log("Formatted Date Time Data:", dateTimeData);
-      };
 
     return (
         <div className="flex items-center justify-center gap-20 mt-[15rem] mr-[2rem] ml-[2rem]">
