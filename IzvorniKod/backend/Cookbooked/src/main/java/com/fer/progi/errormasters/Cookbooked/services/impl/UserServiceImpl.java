@@ -9,8 +9,10 @@ import com.fer.progi.errormasters.Cookbooked.repositories.BookmarkedRecipeReposi
 import com.fer.progi.errormasters.Cookbooked.repositories.ChatMessageRepository;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
+import io.jsonwebtoken.security.Password;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,6 +24,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BookmarkedRecipeRepository bookmarkedRecipeRepository;
     private final ChatMessageRepository chatMessageRepository;
+
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAllUsers() {
@@ -231,7 +235,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());
         user.setLastName(userModel.getLastName());
-        user.setPassword(userModel.getPassword());
+        user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         user.setPhoneNumber(userModel.getPhoneNumber());
         user.setRole(role);
 
@@ -250,7 +254,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());
         user.setLastName(userModel.getLastName());
-        user.setPassword(userModel.getPassword());
+        user.setPassword(passwordEncoder.encode(userModel.getPassword()));
         user.setPhoneNumber(userModel.getPhoneNumber());
 
         userRepository.save(user);
