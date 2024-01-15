@@ -30,8 +30,21 @@ function NewRecipeForm() {
             let tagsIds=selectedTags.map(tag => tag.value)
             const formData= new FormData()
      
-            if(images!='') {formData.append('imageFiles',images)}
-            if(video!='') formData.append('videoFile',video)
+            if (images!='') {
+                for (let i = 0; i < images.length; i++) {
+                    formData.append('imageFiles', images[i])
+                }
+            }
+            else {
+                formData.append('imageFiles', '')
+            }
+			
+            if(video!='') {
+				formData.append('videoFile',video)
+			}
+			else {
+				formData.append('videoFile', '')
+			}
             formData.append('title',titile)
             formData.append('description',descripton)
             formData.append('cookingTime',time)
