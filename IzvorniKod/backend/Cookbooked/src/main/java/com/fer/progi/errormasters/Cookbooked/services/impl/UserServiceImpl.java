@@ -4,6 +4,7 @@ import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.UserUpdateModel;
 import com.fer.progi.errormasters.Cookbooked.repositories.BookmarkedRecipeRepository;
 import com.fer.progi.errormasters.Cookbooked.repositories.ChatMessageRepository;
 import com.fer.progi.errormasters.Cookbooked.repositories.UserRepository;
@@ -238,7 +239,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Integer userId, UserModel userModel, Role role) {
+    public void updateUser(Integer userId, UserUpdateModel userModel) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
@@ -251,7 +252,6 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userModel.getLastName());
         user.setPassword(userModel.getPassword());
         user.setPhoneNumber(userModel.getPhoneNumber());
-        user.setRole(role);
 
         userRepository.save(user);
     }
@@ -281,5 +281,18 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new RuntimeException("Bookmarked recipe with id " + recipeId + " not found!");
         }
+    }
+
+    @Override
+    public void updateUserRole(Integer userId, Role role) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            throw new RuntimeException("User with id " + userId + " not found!");
+        }
+
+        user.setRole(role);
+
+        userRepository.save(user);
     }
 }

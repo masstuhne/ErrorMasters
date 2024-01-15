@@ -1,18 +1,13 @@
 package com.fer.progi.errormasters.Cookbooked.controllers;
 
 import com.fer.progi.errormasters.Cookbooked.entities.*;
-import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
-import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
-import com.fer.progi.errormasters.Cookbooked.models.payloads.ProfileModel;
-import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.*;
 import com.fer.progi.errormasters.Cookbooked.models.security.SecurityUserDetails;
 import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import com.fer.progi.errormasters.Cookbooked.services.RoleService;
 import com.fer.progi.errormasters.Cookbooked.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -89,7 +84,7 @@ public class UserController {
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> addUser(@RequestBody UserModel userModel){
         try {
-            Role role = roleService.getRoleByName(userModel.getRoleEnum()).get();
+            Role role = roleService.getRoleByName(userModel.getRole()).get();
             userService.addUser(userModel, role);
 
             return ResponseEntity.ok("Korisnik uspješno dodan!");
@@ -98,13 +93,26 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{userId}/role")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @SecurityRequirement(name = "jwt")
+    public ResponseEntity<String> updateUserRole(@PathVariable Integer userId, @RequestBody Role role){
+        try {
+            userService.updateUserRole(userId, roleService.getRoleByName(role.getName()).get());
+
+            return ResponseEntity.ok("Uloga korisnika uspješno ažurirana!");
+        } catch (Exception e){
+            return ResponseEntity.badRequest().header("Error", e.getMessage()).body("Greška prilikom ažuriranja uloge korisnika!");
+        }
+    }
+
+
     @PutMapping("/{userId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SecurityRequirement(name = "jwt")
-    public ResponseEntity<String> updateUser(@PathVariable Integer userId, @RequestBody UserModel userModel){
+    public ResponseEntity<String> updateUser(@PathVariable Integer userId, @RequestBody UserUpdateModel userModel){
         try {
-            Role role = roleService.getRoleByName(userModel.getRoleEnum()).get();
-            userService.updateUser(userId, userModel, role);
+            userService.updateUser(userId, userModel);
 
             return ResponseEntity.ok("Korisnik uspješno ažuriran!");
         } catch (Exception e){
