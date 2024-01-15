@@ -12,6 +12,8 @@ function UserData() {
     const [last_name,setLastName]=useState('');
     const [phone,setPhone]=useState('');
     const [email1,setEmail]=useState('');
+    
+    const [communicationTimes, setCommunicationTimes] = useState([]);
 
     const formatPhoneNumber = (phoneNumber) => {
       const cleaned = ('' + phoneNumber).replace(/\D/g, '');
@@ -49,6 +51,27 @@ function UserData() {
         .catch(error => {
             console.log(error);
         });
+
+
+        axios.get(dateUrl,{
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+            },
+        })
+        .then((response) => {
+          const dateRangeObjects = response.data.map((dateRange) => ({
+            id: dateRange.id,
+            startTime: new Date(dateRange.startTime),
+            endTime: new Date(dateRange.endTime)
+          }));
+          setCommunicationTimes(dateRangeObjects);
+          console.log(dateRangeObjects)
+          console.log(response.data)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
     }, []);
 
     const handleSubmit= async (e)=>{
@@ -131,7 +154,6 @@ function UserData() {
           console.log(response.status)
           console.log(response.data)
       
-          console.log("Formatted Date Time Data:", dateTimeData);
         }
         catch(err){
           console.log(err);
