@@ -61,6 +61,8 @@ function NewRecipeForm() {
 
             console.log(response.status)
             console.log(response.data)
+
+            window.location.href = '/moji_recepti';
           
         }
         catch(err){

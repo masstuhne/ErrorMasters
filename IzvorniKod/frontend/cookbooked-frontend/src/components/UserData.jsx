@@ -110,6 +110,7 @@ function UserData() {
             } else {
               console.error('Invalid response structure');
             }
+            window.location.reload();
           } catch (err) {
             console.error('Error:', err);
             console.error('Fail:', err.response ? err.response.data : 'Unknown error');
@@ -151,6 +152,7 @@ function UserData() {
   
           console.log(response.status)
           console.log(response.data)
+          window.location.reload();
       
         }
         catch(err){
@@ -228,7 +230,9 @@ function UserData() {
                 <h1 className="text-xl">Već odabrani termini za komunikaciju:</h1>
                 {communicationTimes.map((termin) => (
                   <div key={termin.id} >
-                      <p>{formatDate(termin.startTime)} --- {formatDate(termin.endTime)}</p>
+                      <span>{formatDate(termin.startTime)}</span>
+                      <span> - </span>
+                      <span>{formatDate(termin.startTime)}</span>
                   </div>
                 ))}
               </div>

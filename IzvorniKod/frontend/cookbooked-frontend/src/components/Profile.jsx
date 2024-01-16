@@ -175,7 +175,9 @@ function Profile() {
                             <h1 className="text-xl">Termini za komunikaciju:</h1>
                             {communicationTimes.map((termin) => (
                             <div key={termin.id} >
-                                <p>{formatDate(termin.startTime)}  ---  {formatDate(termin.endTime)}</p>
+                                <span>{formatDate(termin.startTime)}</span>
+                                <span> - </span>
+                                <span>{formatDate(termin.startTime)}</span>
                             </div>
                             ))}
                         </div>
