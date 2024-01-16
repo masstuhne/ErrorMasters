@@ -274,12 +274,13 @@ function RecipeDisplay() {
                         </svg>
                         }
                     </a>
-                    <a className='px-1 text-blue-700' data-modal-toggle="message">
+                    <a className='px-1 text-blue-700' data-modal-toggle="message_1">
                         <svg className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 25">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
                         </svg>
                     </a>
-                    <MessageSendPopUp reciverId={recept?.user?.id}/> </> : ' '}
+                    <MessageSendPopUp reciverId={recept?.user?.id} messagageId={1} />
+                    </> : ' '}
                     
                 </div>
                     <h1 className='text-xs text-gray-500 p-1'>          
