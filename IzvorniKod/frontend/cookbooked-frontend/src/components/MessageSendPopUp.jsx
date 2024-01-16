@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import axios from "axios";
+import parseJwt from "./parseJwt";
 
-function MessageSendPopUp() {
+function MessageSendPopUp({reciverId}) {
 
     const [formData, setFormData] = useState('');
-        
+    const apiUrl= "http://localhost:8080/api/v1/users/"
     const handleChange = (e) => {
         setFormData(e.target.value);
     };
@@ -13,6 +14,25 @@ function MessageSendPopUp() {
         e.preventDefault();
 
         console.log('Slanje...' + formData);
+        let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+        let userId=tokenPayload.id
+        try{
+            const response= await axios.post(apiUrl+userId+"/chat-messages",JSON.stringify({
+                senderId : userId,
+                receiverId : reciverId,
+                content : formData
+            }),{headers :{"Content-Type":"application/json",
+            Authorization: `Bearer ${localStorage.getItem('user_ret')}`
+                } })
+            console.log('Success');
+            console.log(response.data)
+            setFormData('')         
+          }
+          catch(err){
+             console.log(err);
+            // setErrorText(err.response.data);
+          }
+
     };
 
     //TODO Poruke se mogu slat i iz profila i iz recepta pa onda ak si trebas neke id-eve slat u oba moras dodat
@@ -37,7 +57,7 @@ function MessageSendPopUp() {
                         <form className="space-y-4" action="#">
                             <div>
                                 <textarea name="message" rows="4" id='message'     
-                                    value={formData.comment}
+                                    value={formData}
                                     onChange={handleChange}
                                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ovdje našite svoju poruku" required>
                                 </textarea>                    

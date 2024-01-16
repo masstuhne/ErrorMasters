@@ -75,6 +75,8 @@ function RecipeDisplay() {
     const [videoList,setVideoList]=useState([])
     const [isSaved, setIsSaved]= useState(false)
     const [isBell, setIsBell]= useState(false)
+    
+    
         
 
     const apiUrl = 'http://localhost:8080/api/v1/recipes/' + id;
@@ -277,7 +279,7 @@ function RecipeDisplay() {
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
                         </svg>
                     </a>
-                    <MessageSendPopUp/> </> : ' '}
+                    <MessageSendPopUp reciverId={recept?.user?.id}/> </> : ' '}
                     
                 </div>
                     <h1 className='text-xs text-gray-500 p-1'>          

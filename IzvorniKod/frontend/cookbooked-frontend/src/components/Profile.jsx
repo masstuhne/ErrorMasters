@@ -130,7 +130,7 @@ function Profile() {
                 : '' 
             }
             <><button data-modal-toggle="message" type="button" onClick={e => e.preventDefault()}className='block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800' >Pošalji poruku</button>
-            <MessageSendPopUp/></> 
+            <MessageSendPopUp reciverId={id} /></> 
             <div className="flex justify-center flex-row w-full h-5/6 gap-10">
                 <div className="w-3/5">
                     <RecipeList headline={"Recepti"} recipes={recepti} />

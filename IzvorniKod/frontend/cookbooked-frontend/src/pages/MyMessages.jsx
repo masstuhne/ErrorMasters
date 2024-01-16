@@ -1,7 +1,9 @@
+import MessagesDisplay from "../components/MessagesDisplay";
+
 function MyMessages() {
     return (
         <>
-        Moje poruke
+        <MessagesDisplay/>
         </>
     );
 }
