@@ -12,6 +12,7 @@ function NewRecipeForm() {
 
     const RCP_URL="http://localhost:8080/api/v1/recipes/add"
 
+
     const handleSubmit= async (e)=>{
         e.preventDefault() 
         try{
@@ -22,15 +23,13 @@ function NewRecipeForm() {
     
             const recipeText = `${ingredientsText}\n$@%&#$%&\n${descripton}`;
 
-            setDescription(recipeText)
-
             let token=localStorage.getItem('user_ret')
             let time=parseInt(cookingTime)
             let ingredientIds=userChoice.map(ingr => ingr.value)
             let tagsIds=selectedTags.map(tag => tag.value)
 
             const formData= new FormData()
-
+            
      
             if (images.length > 0) {
                 for (let i = 0; i < images.length; i++) {
@@ -48,12 +47,12 @@ function NewRecipeForm() {
 				formData.append('videoFile', '')
 			}
             formData.append('title',titile)
-            formData.append('description',descripton)
             formData.append('cookingTime',time)
             formData.append('categoryId',selectedCategory.value)
             formData.append('cuisineId',selectedCuisine.value)
             formData.append('ingredients',ingredientIds)
             formData.append('tags', tagsIds);
+            formData.append('description',recipeText)
             console.log(formData);
             const response= await axios.post(RCP_URL,formData,{headers :{"Content-Type":"multipart/form-data",
                         Authorization: `Bearer ${token}`,
@@ -144,7 +143,6 @@ function NewRecipeForm() {
 
     const [chosenIngredients,setChosenIngredients]= useState([]);
 
-
     const mjerne_jedinice = [
         { value: 1, label: 'g' },
         { value: 2, label: 'dg' },
@@ -205,15 +203,11 @@ function NewRecipeForm() {
         const inputValue = e.target.value;
         const forbiddenString = "$@%&#$%&";
     
-        // Check if the description contains invalid characters
         if (inputValue.includes(forbiddenString)) {
-            // Set an error message if invalid characters are detected
             setDescriptionError("Description should not contain special characters like $@%&#$%&");
         } else {
-            // Update the description state and clear the error message if it's valid
             setDescription(inputValue);
     
-            // Clear the error message after a short delay
             setTimeout(() => {
                 setDescriptionError("");
             }, 500);
