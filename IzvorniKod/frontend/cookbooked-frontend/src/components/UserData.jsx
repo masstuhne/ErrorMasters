@@ -65,8 +65,6 @@ function UserData() {
             endTime: new Date(dateRange.endTime)
           }));
           setCommunicationTimes(dateRangeObjects);
-          console.log(dateRangeObjects)
-          console.log(response.data)
         })
         .catch(error => {
             console.log(error);
@@ -159,6 +157,19 @@ function UserData() {
           console.log(err);
         }
       }
+
+    function formatDate(date) {
+      const options = {
+        weekday: 'long',
+        hour: 'numeric',
+        minute: 'numeric',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      };
+    
+      return date.toLocaleString('hr-HR', options);
+    }
     
 
     return (
@@ -189,29 +200,39 @@ function UserData() {
                   Spremi podatke
                 </Button>
             </form>
-            <form onSubmit={handleDateTimeSubmit} className="w-1/2 flex items-center max-w-[40rem] min-h-[30rem] flex-col gap-4">
-              <p className="text-xl">Odaberite vrijeme kada ste dostupni za komunikaciju sa drugim korisnicima:</p>
-              <div className="flex gap-10">
-                <label>Od: </label>
-                <input
-                  type="datetime-local"
-                  value={startDate}
-                  onChange={handleStartDateChange}
-                />
-                <label>Do: </label>
-                <input
-                  type="datetime-local"
-                  value={endDate}
-                  onChange={handleEndDateChange}
-                />
-                </div>
-                <div className="flex w-1/2">
-                    <Button type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
-                        Spremi odabrano vrijeme
-                    </Button>
-                </div>
-                {dateTimeError && <p className="text-red-500">{dateTimeError}</p>}
-            </form>
+            <div className="w-1/2 flex items-center max-w-[40rem] min-h-[30rem] flex-col gap-20">
+              <form onSubmit={handleDateTimeSubmit} className="flex items-center max-w-[40rem] flex-col gap-4">
+                <p className="text-xl">Odaberite vrijeme kada ste dostupni za komunikaciju sa drugim korisnicima:</p>
+                <div className="flex gap-10">
+                  <label>Od: </label>
+                  <input
+                    type="datetime-local"
+                    value={startDate}
+                    onChange={handleStartDateChange}
+                  />
+                  <label>Do: </label>
+                  <input
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={handleEndDateChange}
+                  />
+                  </div>
+                  <div className="flex w-1/2">
+                      <Button type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
+                          Spremi odabrano vrijeme
+                      </Button>
+                  </div>
+                  {dateTimeError && <p className="text-red-500">{dateTimeError}</p>}
+              </form>
+              <div className="flex items-center max-w-[40rem] flex-col gap-4">
+                <h1 className="text-xl">Već odabrani termini za komunikaciju:</h1>
+                {communicationTimes.map((termin) => (
+                  <div key={termin.id} >
+                      <p>{formatDate(termin.startTime)} --- {formatDate(termin.endTime)}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
         </div>
     );
 };

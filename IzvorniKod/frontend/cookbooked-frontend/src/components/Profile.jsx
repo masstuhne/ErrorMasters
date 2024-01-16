@@ -11,11 +11,13 @@ function Profile() {
     const { id } = useParams();
     const [user, setUser] = useState({});
     const [recepti, setRecepti] = useState([]);
-
+    const [communicationTimes, setCommunicationTimes] = useState([]);
     
     const authToken = localStorage.getItem('user_ret');
     const url_user = 'http://localhost:8080/api/v1/users/' + id;
     const url_recepti = url_user + '/recipes';
+    const dateUrl = 'http://localhost:8080/api/v1/users/' + id + '/communication-times';
+
 
     useEffect(() => {
         if (!authToken) {
@@ -46,6 +48,23 @@ function Profile() {
             })
             .catch(error => {
                 console.error(error);
+            });
+
+        axios.get(dateUrl,{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                },
+            })
+            .then((response) => {
+            const dateRangeObjects = response.data.map((dateRange) => ({
+                id: dateRange.id,
+                startTime: new Date(dateRange.startTime),
+                endTime: new Date(dateRange.endTime)
+            }));
+            setCommunicationTimes(dateRangeObjects);
+            })
+            .catch(error => {
+                console.log(error);
             });
     }, []);
 
@@ -113,6 +132,21 @@ function Profile() {
         { id: 55, userName: 'user55' }
       ];
 
+    
+      function formatDate(date) {
+        const options = {
+          weekday: 'long',
+          hour: 'numeric',
+          minute: 'numeric',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        };
+      
+        return date.toLocaleString('hr-HR', options);
+      }
+
+    
 
     return (
 
@@ -135,23 +169,37 @@ function Profile() {
                 <div className="w-3/5">
                     <RecipeList headline={"Recepti"} recipes={recepti} />
                 </div>
-                <div className="w-1/5 mt-[5rem] ">
-                    <p className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Korisnik prati:</p>
-                    {korisnikPrati_proba.map((el) => (
-                        <li key={el.id}>
-                          <a className="mb-2 text-base font-semibold text-gray-900 dark:text-white" href={`/profil/${el.id}`}>{el.userName}</a>
-                        </li>
-                    ))}
-                </div>
-                <div className="w-1/5 mt-[5rem] ">
-                    <p className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Korisnika prate:</p>
-                    <p>
-                        {korisnikaPrate_proba.map((el) => (
-                            <li key={el.id}>
-                            <a className="mb-2 text-base font-semibold text-gray-900 dark:text-white" href={`/profil/${el.id}`}>{el.userName}</a>
-                            </li>
-                        ))}
-                    </p>
+                <div className="w-2/5 mt-[5rem] mr-[5rem]" >
+                    <div className="mr-[15rem]">
+                        <div className="flex items-center max-w-[40rem] flex-col gap-4">
+                            <h1 className="text-xl">Termini za komunikaciju:</h1>
+                            {communicationTimes.map((termin) => (
+                            <div key={termin.id} >
+                                <p>{formatDate(termin.startTime)}  ---  {formatDate(termin.endTime)}</p>
+                            </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex justify-center flex-row w-full h-5/6 gap-10">
+                        <div className="w-1/2 mt-[5rem] ">
+                            <p className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Korisnik prati:</p>
+                            {korisnikPrati_proba.map((el) => (
+                                <li key={el.id}>
+                                <a className="mb-2 text-base font-semibold text-gray-900 dark:text-white" href={`/profil/${el.id}`}>{el.userName}</a>
+                                </li>
+                            ))}
+                        </div>
+                        <div className="w-1/2 mt-[5rem] ">
+                            <p className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Korisnika prate:</p>
+                            <p>
+                                {korisnikaPrate_proba.map((el) => (
+                                    <li key={el.id}>
+                                    <a className="mb-2 text-base font-semibold text-gray-900 dark:text-white" href={`/profil/${el.id}`}>{el.userName}</a>
+                                    </li>
+                                ))}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             </> : 
