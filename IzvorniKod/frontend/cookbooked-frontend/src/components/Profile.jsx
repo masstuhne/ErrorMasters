@@ -86,6 +86,31 @@ function Profile() {
         });
     };
 
+    const[korisnikPrati_proba,setKorisnikPrati_proba]= useState([])
+    const[korisnikaPrate_proba,setKorisnikaPrate_proba]=useState([])
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/v1/users/${id}/following`)
+            .then((response) => {
+                let tmpList=response.data.map(el=>({
+                    id : el?.author?.id, userName:el?.author?.username}))
+                setKorisnikPrati_proba(tmpList)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+    useEffect(() => {
+        axios.get(`http://localhost:8080/api/v1/users/${id}/followers`)
+            .then((response) => {
+                console.log(response.data)
+                let tmpList=response.data.map(el=>({
+                    id : el?.follower?.id, userName:el?.follower?.username}))
+                    setKorisnikaPrate_proba(tmpList)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
     // const handleChangeRole = () => {
     //     let novi_role = '';
     //     //TODO MOŽDA BU I OVE IFOVE TREBALO MIJENJAT 
@@ -117,20 +142,20 @@ function Profile() {
     //     });
     // };
 
-    const korisnikPrati_proba = [
-        { id: 1, userName: 'user1' },
-        { id: 2, userName: 'user2' },
-        { id: 3, userName: 'user3' },
-        { id: 4, userName: 'user4' },
-        { id: 5, userName: 'user5' }
-      ];
-    const korisnikaPrate_proba = [
-        { id: 16, userName: 'user16' },
-        { id: 22, userName: 'user22' },
-        { id: 33, userName: 'user33' },
-        { id: 44, userName: 'user44' },
-        { id: 55, userName: 'user55' }
-      ];
+    // const korisnikPrati_proba = [
+    //     { id: 1, userName: 'user1' },
+    //     { id: 2, userName: 'user2' },
+    //     { id: 3, userName: 'user3' },
+    //     { id: 4, userName: 'user4' },
+    //     { id: 5, userName: 'user5' }
+    //   ];
+    // const korisnikaPrate_proba = [
+    //     { id: 16, userName: 'user16' },
+    //     { id: 22, userName: 'user22' },
+    //     { id: 33, userName: 'user33' },
+    //     { id: 44, userName: 'user44' },
+    //     { id: 55, userName: 'user55' }
+    //   ];
 
     
       function formatDate(date) {
