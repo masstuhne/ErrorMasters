@@ -69,6 +69,17 @@ public class User {
     @JsonIgnore
     private List<ChatMessage> receivedMessages;
 
+    // for tests only!
+    public User(Integer id, String firstName, String lastName, String phoneNumber, String username, String password, String email, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
