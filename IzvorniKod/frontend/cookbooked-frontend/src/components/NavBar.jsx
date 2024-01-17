@@ -19,8 +19,27 @@ function NavBar() {
     const handleToastClose = () => {
       setIsToastVisible(false);
     };
-
     useEffect(() => {
+        const yourFunction = () => {
+        if (localStorage.getItem('user')){
+            let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+            console.log(tokenPayload)
+            if(Date.now() >= tokenPayload.exp * 1000){
+                localStorage.removeItem('user');
+                localStorage.removeItem('user_ret');
+                window.location.href = '/prijava';
+            }
+
+            
+        }
+        }
+        const nMinutes = 5; 
+        const intervalMs = nMinutes * 60 * 1000;
+        const intervalId = setInterval(yourFunction, intervalMs);
+        return () => clearInterval(intervalId);
+    }, []);
+    
+      useEffect(() => {
         const yourFunction = () => {
             
 
