@@ -20,10 +20,10 @@ function NewRecipeForm() {
         try{
             const ingredientsText = chosenIngredients.map((ingredient) => {
                 const { name, quantity, unit } = ingredient;
-                return `${name}: ${quantity} ${unit}`;
+                return `${name}: ${quantity} ${unit}\n$@%&#$%&\n`;
             }).join('\n');
     
-            const recipeText = `${ingredientsText}\n$@%&#$%&\n${descripton}`;
+            const recipeText = `${ingredientsText}${descripton}`;
 
             let token=localStorage.getItem('user_ret')
             let time=parseInt(cookingTime)
@@ -54,6 +54,7 @@ function NewRecipeForm() {
             formData.append('cuisineId',selectedCuisine.value)
             formData.append('ingredients',ingredientIds)
             formData.append('tags', tagsIds);
+            console.log(recipeText);
             formData.append('description',recipeText)
             console.log(formData);
             const response= await axios.post(RCP_URL,formData,{headers :{"Content-Type":"multipart/form-data",
