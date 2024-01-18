@@ -32,7 +32,7 @@ public class Recipe {
     @JoinColumn(name = "cuisine_id")
     private Cuisine cuisine;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -49,11 +49,11 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Media> media;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<BookmarkedRecipe> bookmarkedRecipes;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.MERGE)
     private List<RecipeRating> recipeRatings;
 
     @ManyToMany
@@ -64,7 +64,7 @@ public class Recipe {
     )
     private List<Ingredient> ingredients;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "tag_recipe",
             joinColumns = @JoinColumn(name = "recipe_id"),

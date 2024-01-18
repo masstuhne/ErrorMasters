@@ -125,6 +125,10 @@ public class UserController {
     @SecurityRequirement(name = "jwt")
     public ResponseEntity<String> deleteUser(@PathVariable Integer userId){
         try {
+            List<Recipe> recipes = recipeService.getRecipesByUserId(userId);
+            for (Recipe recipe : recipes){
+                recipeService.deleteRecipe(recipe.getId());
+            }
             userService.deleteUser(userId);
             return ResponseEntity.ok("Korisnik uspješno izbrisan!");
         } catch (Exception e){

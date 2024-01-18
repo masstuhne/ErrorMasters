@@ -41,15 +41,15 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<CommunicationTime> communicationTimes;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Recipe> recipes;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<BookmarkedRecipe> bookmarkedRecipes;
 
