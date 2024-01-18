@@ -4,13 +4,15 @@ import axios from "axios";
 import { Button } from 'flowbite-react';
 import CreatableSelect from 'react-select/creatable';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function NewRecipeForm() {
     const [cuisines, setCuisines] = useState([]);
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
     const [tags, setTags] = useState([]);
 
-    const RCP_URL="http://localhost:8080/api/v1/recipes/add"
+    const RCP_URL=API_BASE_URL + '/recipes/add'
 
 
     const handleSubmit= async (e)=>{
@@ -70,10 +72,10 @@ function NewRecipeForm() {
       }
     
 
-    const url1 = 'http://localhost:8080/api/v1/cuisines';
-    const url2 = 'http://localhost:8080/api/v1/categories';
-    const url3 = 'http://localhost:8080/api/v1/ingredients';
-    const url4 = 'http://localhost:8080/api/v1/tags';
+    const url1 = API_BASE_URL + '/cuisines';
+    const url2 = API_BASE_URL + '/categories';
+    const url3 = API_BASE_URL + '/ingredients';
+    const url4 = API_BASE_URL + '/tags';
 
     useEffect(() => {
         axios.get(url1)

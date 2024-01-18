@@ -2,6 +2,8 @@ import RecipesDisplay from "../components/RecipesDisplay";
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function MyRecipes() {
 
     const location = useLocation();
@@ -39,7 +41,7 @@ function MyRecipes() {
         
         console.log(url);
         setQueryParams(paramsObject);
-        setLink('http://localhost:8080/api/v1/ingredients/recipes' + url);
+        setLink(API_BASE_URL + '/ingredients/recipes' + url);
     }, [location]);
     
     useEffect(() => {

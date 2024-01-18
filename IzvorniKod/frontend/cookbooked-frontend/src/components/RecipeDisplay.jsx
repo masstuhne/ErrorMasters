@@ -8,10 +8,15 @@ import ShowReviews from './ShowReviews';
 import AdminChangeCategory from './AdminChangeCategory';
 import MessageSendPopUp from './MessageSendPopUp';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 const isAdmin = true;
 
+
+
 function saveRecipe(id) {
-    const url = 'http://localhost:8080/api/v1/users/' + parseJwt(localStorage.getItem('user_ret')).id + '/bookmarked-recipes?recipeId=' + id;
+
+    const url = API_BASE_URL + '/users/' + parseJwt(localStorage.getItem('user_ret')).id + '/bookmarked-recipes?recipeId=' + id;
     console.log('saving \n' + url);
     
     axios.post(url, {}, {
@@ -29,7 +34,7 @@ function saveRecipe(id) {
 
 
 function unsaveRecipe(id) {
-    const url = 'http://localhost:8080/api/v1/users/bookmarked-recipes/' + id;
+    const url = API_BASE_URL + '/users/bookmarked-recipes/' + id;
     console.log('unsaving');
 
     axios.delete(url, {
@@ -46,7 +51,7 @@ function unsaveRecipe(id) {
 }
 
 function followAuthor(id) {
-    const url = 'http://localhost:8080/api/v1/follow/' + id;
+    const url = API_BASE_URL + '/follow/' + id;
     console.log('saving \n' + url);
     
     axios.post(url, {}, {
@@ -79,7 +84,7 @@ function RecipeDisplay() {
     
         
 
-    const apiUrl = 'http://localhost:8080/api/v1/recipes/' + id;
+    const apiUrl = API_BASE_URL + '/recipes/' + id;
 
     useEffect(() => {
         axios.get(apiUrl)
@@ -131,7 +136,7 @@ function RecipeDisplay() {
                 try{
 
                     let requests= media_ids.map(id=> 
-                        axios.get('http://localhost:8080/api/v1/media/'+id));
+                        axios.get(API_BASE_URL + '/media/'+id));
                     
                     let responses = await Promise.all(requests);
 
@@ -157,7 +162,7 @@ function RecipeDisplay() {
         if (localStorage.getItem('user_ret')) {
         let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
         let userId=tokenPayload.id
-        axios.get('http://localhost:8080/api/v1/users/' + userId + '/bookmarked-recipes',{
+        axios.get(API_BASE_URL + '/users/' + userId + '/bookmarked-recipes',{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
               },
@@ -173,7 +178,7 @@ function RecipeDisplay() {
 
     useEffect(()=>{
         if (localStorage.getItem('user_ret')) {
-        axios.get('http://localhost:8080/api/v1/follow',{
+        axios.get(API_BASE_URL + '/follow',{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
               },
@@ -197,9 +202,9 @@ function RecipeDisplay() {
 
     const handleDeleteRecipe = () => {
 
-        console.log(`http://localhost:8080/api/v1/recipes/${recept.id}`);
+        console.log(`${API_BASE_URL}/recipes/${recept.id}`);
     
-        axios.delete(`http://localhost:8080/api/v1/recipes/${recept.id}`,{
+        axios.delete(`${API_BASE_URL}/recipes/${recept.id}`,{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
             },

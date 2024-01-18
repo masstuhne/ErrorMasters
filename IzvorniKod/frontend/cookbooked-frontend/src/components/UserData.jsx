@@ -3,7 +3,9 @@ import axios from "axios";
 import {Label, TextInput, Button } from 'flowbite-react';
 import parseJwt from "./parseJwt";
 
-const REG_URL='http://localhost:8080/api/v1/users/profile/update'
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+const REG_URL=API_BASE_URL + '/users/profile/update'
 
 function UserData() {
     const [user, setUser] = useState([]);
@@ -26,8 +28,8 @@ function UserData() {
 
 
     const authToken = localStorage.getItem('user_ret');
-    const url = 'http://localhost:8080/api/v1/users/' + parseJwt(authToken).id;
-    const dateUrl = 'http://localhost:8080/api/v1/users/' + parseJwt(authToken).id + '/communication-times';
+    const url = API_BASE_URL + '/users/' + parseJwt(authToken).id;
+    const dateUrl = API_BASE_URL + '/users/' + parseJwt(authToken).id + '/communication-times';
 
     useEffect(() => {
         if (!authToken) {
@@ -89,7 +91,7 @@ function UserData() {
             }
           
             const response = await axios.put(
-              'http://localhost:8080/api/v1/users/profile/update',
+              API_BASE_URL + '/users/profile/update',
               {
                 firstName: first_name,
                 lastName: last_name,

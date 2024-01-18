@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import fromStringToTime from './fromStringToTime';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function AdminChangeCategory({recipe}) {
 
     console.log(recipe);
+    
 
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
   
     useEffect(() => {
-      axios.get('http://localhost:8080/api/v1/categories')
+      axios.get(API_BASE_URL + '/categories')
         .then(response => {
           setCategories(response.data);
         })
@@ -22,7 +25,7 @@ function AdminChangeCategory({recipe}) {
     const handleSubmit = (event) => {
         event.preventDefault();
     
-        axios.put('http://localhost:8080/api/v1/recipes/' + recipe.id, { 
+        axios.put(API_BASE_URL + '/recipes/' + recipe.id, { 
             'title' : recipe.title,
             'description' : recipe.description,
             'cookingTime' : fromStringToTime(recipe.cookingTime),

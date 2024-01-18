@@ -3,6 +3,8 @@ import axios from 'axios';
 import RecipeList from "./RecipeList";
 
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function SavedRecipesDisplay() {
 
   function parseJwt (token) {
@@ -17,7 +19,7 @@ function SavedRecipesDisplay() {
   useEffect(()=>{
     let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
     let userId=tokenPayload.id
-    axios.get('http://localhost:8080/api/v1/users/'+userId+'/bookmarked-recipes',{
+    axios.get(API_BASE_URL + '/users/'+userId+'/bookmarked-recipes',{
         headers: {
             Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
             
@@ -34,7 +36,7 @@ function SavedRecipesDisplay() {
             recept_id.map(async (id) => {
               try {
                 const response = await axios.get(
-                  'http://localhost:8080/api/v1/recipes/' + id
+                  API_BASE_URL + '/recipes/' + id
                 );
       
                 tmpReceptList.push({

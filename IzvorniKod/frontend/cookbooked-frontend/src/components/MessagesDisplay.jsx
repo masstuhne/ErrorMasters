@@ -3,10 +3,12 @@ import parseJwt from "./parseJwt";
 import axios from "axios";
 import MessageSendPopUp from "./MessageSendPopUp";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function MessagesDisplay() {
     const[msgs,setMsgs]=useState([])
-    
-    const apiUrl= "http://localhost:8080/api/v1/users/"
+
+    const apiUrl= API_BASE_URL + '/users/'
     useEffect(()=>{
         let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
         let userId=tokenPayload.id

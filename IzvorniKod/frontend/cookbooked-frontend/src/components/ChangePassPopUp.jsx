@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function ChangePassPopUp({user}) {
+
 
     const [formData, setFormData] = useState('');
 
@@ -17,7 +20,7 @@ function ChangePassPopUp({user}) {
   
       try {
         const response = await axios.put(
-          `http://localhost:8080/api/v1/users/` + user.id,
+          API_BASE_URL + '/users/' + user.id,
           {
             "firstName": user.firstName,
             "lastName": user.lastName,

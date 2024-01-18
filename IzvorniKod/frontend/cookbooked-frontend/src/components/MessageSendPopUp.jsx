@@ -2,10 +2,11 @@ import { useState } from 'react';
 import axios from "axios";
 import parseJwt from "./parseJwt";
 
-function MessageSendPopUp({reciverId,messagageId}) {
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
+function MessageSendPopUp({reciverId,messagageId}) {
     const [formData, setFormData] = useState('');
-    const apiUrl= "http://localhost:8080/api/v1/users/"
+    const apiUrl= API_BASE_URL + '/users/'
     const handleChange = (e) => {
         setFormData(e.target.value);
     };

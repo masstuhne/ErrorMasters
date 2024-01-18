@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function DohvatKategorija({cat, link, children}) {
     const [categories, seCategories] = useState([]);
     const [isOpen, setOpen] = useState(false);
@@ -9,7 +11,7 @@ function DohvatKategorija({cat, link, children}) {
 
     // console.log(cat);
     
-    const apiUrl = 'http://localhost:8080/api/v1/' + cat;
+    const apiUrl = API_BASE_URL + '/' + cat;
     // console.log(apiUrl);
     useEffect(() => {
         axios.get(apiUrl)

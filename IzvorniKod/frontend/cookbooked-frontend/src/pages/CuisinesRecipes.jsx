@@ -1,11 +1,13 @@
 import RecipesDisplay from "../components/RecipesDisplay";
 import { useParams } from 'react-router-dom';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function MyRecipes() {
     const { id } = useParams();
 
     return (
-        <RecipesDisplay link={'http://localhost:8080/api/v1/cuisines/{cuisineId}/recipes?cuisineId=' + id}/>
+        <RecipesDisplay link={API_BASE_URL + '/cuisines/{cuisineId}/recipes?cuisineId=' + id}/>
     );
 }
 

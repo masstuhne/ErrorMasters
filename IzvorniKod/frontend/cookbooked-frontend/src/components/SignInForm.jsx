@@ -5,7 +5,9 @@ import RedAlert from './RedAlert';
 import { AuthContext } from './NavBar';
 import { useNavigate } from "react-router-dom";
 
-const LOG_URL='http://localhost:8080/api/v1/login'
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+const LOG_URL=API_BASE_URL + '/login'
 
 function SignInForm() {
 

@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function UsersList() {
 
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/users',{
+        axios.get(API_BASE_URL + '/users',{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
             },

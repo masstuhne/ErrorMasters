@@ -7,16 +7,19 @@ import ChangePassPopUp from "./ChangePassPopUp";
 import MessageSendPopUp from "./MessageSendPopUp";
 import RedAlert from "./RedAlert";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function Profile() {
     const { id } = useParams();
     const [user, setUser] = useState({});
     const [recepti, setRecepti] = useState([]);
     const [communicationTimes, setCommunicationTimes] = useState([]);
-    
+
+
     const authToken = localStorage.getItem('user_ret');
-    const url_user = 'http://localhost:8080/api/v1/users/' + id;
+    const url_user = API_BASE_URL + '/users/' + id;
     const url_recepti = url_user + '/recipes';
-    const dateUrl = 'http://localhost:8080/api/v1/users/' + id + '/communication-times';
+    const dateUrl = API_BASE_URL + '/users/' + id + '/communication-times';
 
 
     useEffect(() => {
@@ -70,9 +73,9 @@ function Profile() {
 
     const handleDeleteUser = () => {
 
-        console.log(`http://localhost:8080/api/v1/users/${id}`);
+        console.log(`${API_BASE_URL}/users/${id}`);
     
-        axios.delete(`http://localhost:8080/api/v1/users/${id}`,{
+        axios.delete(`${API_BASE_URL}/users/${id}`,{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
             },
@@ -89,7 +92,7 @@ function Profile() {
     const[korisnikPrati_proba,setKorisnikPrati_proba]= useState([])
     const[korisnikaPrate_proba,setKorisnikaPrate_proba]=useState([])
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/v1/users/${id}/following`)
+        axios.get(`${API_BASE_URL}/users/${id}/following`)
             .then((response) => {
                 let tmpList=response.data.map(el=>({
                     id : el?.author?.id, userName:el?.author?.username}))
@@ -100,7 +103,7 @@ function Profile() {
             });
     }, []);
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/v1/users/${id}/followers`)
+        axios.get(`${API_BASE_URL}/users/${id}/followers`)
             .then((response) => {
                 console.log(response.data)
                 let tmpList=response.data.map(el=>({
@@ -119,7 +122,7 @@ function Profile() {
     //     } else {
     //         novi_role = 'ADMIN'
     //     }
-    //     axios.put(`http://localhost:8080/api/v1/users/${id}`,{
+    //     axios.put(`${API_BASE_URL}/users/${id}`,{
     //         "firstName": user.firstName,
     //         "lastName": user.lastName,
     //         "email": user.email,

@@ -6,15 +6,18 @@ import NotificationToast from "./NotificationToast";
 import parseJwt from "./parseJwt";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 export const AuthContext = createContext();
 
 function NavBar() {
+
     const [isToastVisible, setIsToastVisible] = useState(false);
     const [notifType,setNotifType]=useState("Nova poruka")
     const [sender,setSender]=useState("")
     const [content,setConetent]= useState("")
     const checEvery=5
-    const apiUrl= "http://localhost:8080/api/v1/users/"
+    const apiUrl= API_BASE_URL + '/users/'
 
     const handleToastClose = () => {
       setIsToastVisible(false);
