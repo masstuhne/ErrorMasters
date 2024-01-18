@@ -85,50 +85,7 @@ function NavBar() {
       }, []);
 
 
-      useEffect(() => {
-        const yourFunction = () => {
-            
-
-            if (localStorage.getItem('user')){
-                let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
-                let userId=tokenPayload.id
-                axios.get(apiUrl+userId+'/followers', {
-                headers: {
-                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
-                },
-                    })
-                .then(response =>{
-                    let dataLenght=response.data.length
-                    let newFollower=""
-                    let oldFollower=""
-                    if(dataLenght>0 && localStorage.getItem("mostrecentFollower") ){
-                        newFollower=response.data[dataLenght-1]?.follower?.username
-                        oldFollower= localStorage.getItem("mostrecentFollower")
-                    }
-                    if( dataLenght>0 && oldFollower!=newFollower ){
-                        setIsToastVisible(true);
-                        setNotifType("Nova obavjest")
-                        setSender(newFollower)
-                        setConetent("vas je počeo pratiti")
-                        localStorage.setItem("mostrecentFollower",newFollower)
-                        
-                    }
-                    if(dataLenght>0 && !localStorage.getItem("mostrecentFollower") ){
-                        newFollower=response.data[dataLenght-1]?.follower?.username
-                        localStorage.setItem("mostrecentFollower",newFollower)
-                    }
-                })
-                .catch(err=>{
-                    console.log(err);
-                })
-            }
-          
-        };
-        const nMinutes = checEvery; 
-        const intervalMs = nMinutes * 60 * 1000;
-        const intervalId = setInterval(yourFunction, intervalMs);
-        return () => clearInterval(intervalId);
-      }, []);
+      
       
       
       useEffect(() => {
@@ -155,32 +112,7 @@ function NavBar() {
         
       }, []);
 
-      useEffect(() => {
-       
-
-            if (localStorage.getItem('user')){
-                let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
-                let userId=tokenPayload.id
-                axios.get(apiUrl+userId+'/followers', {
-                headers: {
-                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
-                },
-                    })
-                .then(response =>{
-                    let newNoFolowers=response.data.length
-                    if(response.data.length>0){
-                        localStorage.setItem('mostrecentFollower', response?.data[newNoFolowers-1]?.follower?.username);
-                        console.log("folower set")
-                    }
-                    else console.log("no folowers")
-                })
-                .catch(err=>{
-                    console.log(err);
-                })
-        }
-
-        
-      }, []);
+      
 
 
 
