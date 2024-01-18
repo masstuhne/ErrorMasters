@@ -52,6 +52,7 @@ function NavBar() {
                 },
                     })
                 .then(response =>{
+                    if(localStorage.getItem("noMsgs")){
                     let newNoMsgs=response.data.length
                     let oldNoMsg= localStorage.getItem("noMsgs")
                     if(oldNoMsg!=newNoMsgs){
@@ -63,6 +64,10 @@ function NavBar() {
                         localStorage.setItem("noMsgs",newNoMsgs)
                         console.log("Showing new notifficatio")
                     }
+                }
+                else{
+                    localStorage.setItem("noMsgs",response.data.length)
+                }
                 })
                 .catch(err=>{
                     console.log(err);
@@ -93,9 +98,13 @@ function NavBar() {
                     let dataLenght=response.data.length
                     let newFollower=""
                     let oldFollower=""
-                    if(dataLenght>0){
+                    if(dataLenght>0 && localStorage.getItem("mostrecentFollower") ){
                         newFollower=response.data[dataLenght-1]?.follower?.username
                         oldFollower= localStorage.getItem("mostrecentFollower")
+                    }
+                    if(dataLenght>0 && !localStorage.getItem("mostrecentFollower") ){
+                        newFollower=response.data[dataLenght-1]?.follower?.username
+                        localStorage.setItem("mostrecentFollower",newFollower)
                     }
                     if( dataLenght>0 && oldFollower!=newFollower ){
                         setIsToastVisible(true);
