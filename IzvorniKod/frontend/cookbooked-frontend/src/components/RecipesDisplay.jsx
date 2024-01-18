@@ -14,12 +14,12 @@ function RecipesDisplay({link}) {
               console.log(tmpRcipeList)
               setRecpti(tmpRcipeList);
         } else {
-          setRecpti('');
+          setRecpti([]);
         }
       })
     .catch(err=>{
       console.log('nema recepata');
-      setRecpti(null);
+      setRecpti([]);
     })
 
   },[link])
