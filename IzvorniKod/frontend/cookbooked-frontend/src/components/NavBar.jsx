@@ -102,10 +102,6 @@ function NavBar() {
                         newFollower=response.data[dataLenght-1]?.follower?.username
                         oldFollower= localStorage.getItem("mostrecentFollower")
                     }
-                    if(dataLenght>0 && !localStorage.getItem("mostrecentFollower") ){
-                        newFollower=response.data[dataLenght-1]?.follower?.username
-                        localStorage.setItem("mostrecentFollower",newFollower)
-                    }
                     if( dataLenght>0 && oldFollower!=newFollower ){
                         setIsToastVisible(true);
                         setNotifType("Nova obavjest")
@@ -113,6 +109,10 @@ function NavBar() {
                         setConetent("vas je počeo pratiti")
                         localStorage.setItem("mostrecentFollower",newFollower)
                         
+                    }
+                    if(dataLenght>0 && !localStorage.getItem("mostrecentFollower") ){
+                        newFollower=response.data[dataLenght-1]?.follower?.username
+                        localStorage.setItem("mostrecentFollower",newFollower)
                     }
                 })
                 .catch(err=>{
