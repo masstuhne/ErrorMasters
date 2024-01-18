@@ -23,15 +23,68 @@
 	
 		\section{Ispitivanje programskog rješenja}
 			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
-	
-			
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
+
+			\noindent Svi testovi napravljeni su pomoću JUnit, AssertJ i Mockito dependancy-a.
+			\medbreak
+			\noindent Za repliciranje kontrolera, servisa i repozitorija korištene su @MockBean, @Mock te @InjectMocks
+			anotacije.
+			\medbreak
+			\noindent U svim testovima korišten je "Given-When-Then" način testiranja.
+			\medbreak
+			\noindent Za svaki test prikazan je dio izvornog koda (u obliku slike zbog preglednosti).
+			Način nazivanja svake test funkcije prikazuje gdje se testira, što se testira te koji se povratni
+			rezulat očekuje.
+			\eject
 			
-			
+			\noindent\textbf{AuthorizationControllerTest}
+			\begin{figure}[H]
+				\includegraphics[scale=0.45]{slike/auth_controller_test.png}
+				\centering
+				\caption{AuthorizationControllerTest kod}
+				\label{fig:authtest}
+			\end{figure}
+
+			\noindent\textbf{RecipeControllerTest}
+			\begin{figure}[H]
+				\includegraphics[scale=0.45]{slike/recipe_controller_test.png}
+				\centering
+				\caption{RecipeControllerTest kod}
+				\label{fig:reccontrolltest}
+			\end{figure}
+
+			\eject
+			\noindent\textbf{CategoryServiceTest}
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/category_service_test.png}
+				\centering
+				\caption{CategoryServiceTest kod}
+				\label{fig:cattest}
+			\end{figure}
+
+			\noindent\textbf{RecipeServiceTest}
+			\begin{figure}[H]
+				\includegraphics[scale=0.5]{slike/recipe_controller_test.png}
+				\centering
+				\caption{RecipeServiceTest kod}
+				\label{fig:recest}
+			\end{figure}
+
+			\eject
+			\noindent\textbf{UserRepositoryTest}
+			\begin{figure}[H]
+				\includegraphics[scale=0.4]{slike/user_repository_test.png}
+				\centering
+				\caption{UserRepositoryTest kod}
+				\label{fig:recest}
+			\end{figure}
+
+			\noindent\textbf{Prikaz rezultata testova:}
+			\eject
+
+
+
+
 			
 			\subsection{Ispitivanje sustava}
 			
