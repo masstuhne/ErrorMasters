@@ -41,6 +41,22 @@ function NavBar() {
         const intervalId = setInterval(yourFunction, intervalMs);
         return () => clearInterval(intervalId);
     }, []);
+
+    useEffect(() => {
+        
+        if (localStorage.getItem('user')){
+            let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+            console.log(tokenPayload)
+            if(Date.now() >= tokenPayload.exp * 1000){
+                localStorage.removeItem('user');
+                localStorage.removeItem('user_ret');
+                window.location.href = '/prijava';
+            }
+
+            
+        }
+        
+    }, []);
     
       useEffect(() => {
         const yourFunction = () => {
