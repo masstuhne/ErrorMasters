@@ -7,7 +7,7 @@
 			\item 	Baza podataka		
 		\end{itemize}
 
-		\underbar{Web preglednik} predstavlja softverski program koji omogućuje korisnicima 
+		\underbar{Web preglednik} predstavlja program koji omogućuje korisnicima 
 		pregledavanje web-stranica i konzumiranje povezanih multimedijskih sadržaja. 
 		Svaki internetski preglednik djeluje kao prevoditelj, interpretirajući kôd web 
 		stranica napisan u određenom programskom jeziku i pretvarajući ga u vizualni 
@@ -18,7 +18,7 @@
 		prijenosa informacija i omogućava korisnicima interakciju s odabranim sadržajem.
 
 
-		\underbar{Web poslužitelj} temelj je rada web aplikacije. Zadužen je za komunikaciju
+		\underbar{Web poslužitelj} zadužen je za komunikaciju
 		klijenta sa aplikacijom. Međusobna komunikacija odvija se putem HTTP (engl. \textit{Hyper
 		Text Transfer Protocol}) protokola, koji je jedan od protokola za prijenos informacija
 		na webu.
@@ -39,12 +39,12 @@
 			\item Dokumentacija - Visual Studio Code		
 		\end{itemize}
 
-		Arhitekura sustava zasnivat će se na MVC (Model-View-Controller) konceptu.
+		Arhitekura sustava zasnivat će se na arh. obrascu MVC (Model-View-Controller).
 		Spring Boot nudi veliku podršku za rad sa Spring MVC-om te kao takav
 		odgovara našim zahtjevima (također olakšava konfiguraciju potrebnu za validan rad
 		Spring MVC-a).
 
-		MVC koncept omogućava nezavisan razvoj pojedinih dijelova aplikacije te kao takav
+		Arh. obrazac MVC omogućava nezavisan razvoj pojedinih dijelova aplikacije te kao takav
 		olakšava ispitivanje, razvijanje i dodavanje novih svojstva u aplikaciju.
 
 		\medbreak
@@ -74,7 +74,7 @@
 
 			\medbreak
 
-			Entiteti bazom podataka:
+			Entiteti baze podataka:
 			\begin{itemize}
 				\item users
 				\item userFollow		
@@ -97,7 +97,7 @@
 
 			\subsection{Opis tablica}
 
-				\textbf{users} Relacija pohranjuje entitete modela koji predstavlaju korisnika.
+				Relacija \textbf{users} pohranjuje entitete modela koji predstavlaju korisnika.
 				Ograničenje stranog ključa odnosi se na atribut roleId koji označava id
 				razine pristup (Klijent, Vlasnik, Admin) koju korisnik ima; referencirana je
 				relacija role, stupac id. 
@@ -120,7 +120,7 @@
 					\SetCell{LightBlue} roleId	& VARCHAR &  identifikator razine pristupa korisnika (role.id) 	\\ \hline 
 				\end{longtblr}
 
-				\textbf{userFollow} Relacija pohranjuje entitete modela koji predstavlja odnos praćenja
+				Relacija \textbf{userFollow} pohranjuje entitete modela koji predstavlja odnos praćenja
 				korisnika i autora.
 				Ograničenje stranog ključa odnosi se na atribute followerId i authorId koji označavaju
 				id korisnika koji je inicirao praćenje, tj. korisnika koji je autor recepta; referencirana je
@@ -141,7 +141,7 @@
 					followedAt & TIMESTAMP	&  vrijeme početka praćenja		\\ \hline
 				\end{longtblr}
 
-				\textbf{chatMessage} Relacija pohranjuje entitete modela koji predstavlja
+				Relacija \textbf{chatMessage} pohranjuje entitete modela koji predstavlja
 				poruke koje se koriste pri komunikaciji.
 				Ograničenje stranog ključa odnosi se na atribute senderId i receiverId koji označavaju
 				id korisnika koji je posalo poruku, tj. korisnika koji poruku treba primiti; referencirana je
@@ -162,7 +162,7 @@
 					content & VARCHAR	&  sadržaj poruke		\\ \hline
 				\end{longtblr}
 
-				\textbf{communicationTime} Relacija pohranjuje entitete modela koji predstavlja
+				Relacija \textbf{communicationTime} pohranjuje entitete modela koji predstavlja
 				dostupnost korisnika za komunikaciju.
 				Ograničenje stranog ključa odnosi se na atribut userId koji označava
 				id korisnika koji prikazuje vrijeme u koje je dostupan za komunikaciju; referencirana je
@@ -178,12 +178,12 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{communicationTime}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}id & INT	&  	jedinstveni identifikator \\ \hline
-					\SetCell{LightGreen}userId	& INT &   jedinstveni identifikator korisnika (user.id)\\ \hline 
-					\SetCell{LightGreen}start & TIMESTAMP & vrijeme od  \\ \hline 
-					\SetCell{LightGreen}end & TIMESTAMP	&  vrijeme do		\\ \hline
+					\SetCell{LightBlue}userId	& INT &   jedinstveni identifikator korisnika (user.id)\\ \hline 
+					\SetCell{LightBlue}start & TIMESTAMP & vrijeme od  \\ \hline 
+					\SetCell{LightBlue}end & TIMESTAMP	&  vrijeme do		\\ \hline
 				\end{longtblr}
 
-				\textbf{recipe} Relacija pohranjuje entitete modela recept.
+				Relacija \textbf{recipe} pohranjuje entitete modela recept.
 				Ograničenje stranog ključa odnosi se na atribute ingredientId, tagId, categoryId, cuisineId, mediaId
 				te userId koji označavaju, redom, sastojke recepta, oznake recepta, kategoriju u koju recept spada,
 				kuhinju u koju recept spada, multimedijske sadržaje koje recept sadrži te autora recepta.
@@ -209,7 +209,7 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{recipe}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}id & INT	&  	jedinstveni identifikator recepta  	\\ \hline
-					\SetCell{LightBlue} ingredientId	& INT &   id sastojka 	(ingredient.id)\\ \hline 
+					\SetCell{LightBlue} ingredientId	& List<INT> &   id sastojka 	(ingredient.id)\\ \hline 
 					\SetCell{LightBlue} tagId	& INT &   id oznake	(tag.id)\\ \hline 
 					\SetCell{LightBlue} categoryId	& INT &   id kategorije	(category.id)\\ \hline 
 					\SetCell{LightBlue} cuisineId & INT & id zemlje podrijetla (cuisine.id) \\ \hline 
@@ -220,7 +220,7 @@
 					cookingTime	& INTERVAL &  vrijeme kuhanja 	\\ \hline 
 				\end{longtblr}
 
-				\textbf{recipeRating} Relacija pohranjuje modele entiteta koji predstavljaju
+				Relacija \textbf{recipeRating} pohranjuje modele entiteta koji predstavljaju
 				\textit{feedback} na recept; ocjenu i komentar.
 				Ograničenje stranog ključa odnosi se na atribute userId i recipeId koji označavaju
 				id korisnika koji daje \textit{feedback} i recept koji se komentira; referencirana je
@@ -243,7 +243,7 @@
 					createdAt & TIMESTAMP	& vrijeme nastanka ocjene		\\ \hline  
 				\end{longtblr}
 
-				\textbf{bookmarkedRecipe} Relacija pohranjuje model entiteta koji predstavlja zabilježbu recepta
+				Relacija \textbf{bookmarkedRecipe} pohranjuje model entiteta koji predstavlja zabilježbu recepta
 				od strane nekog korisnika.
 				Ograničenje stranog ključa odnosi se na atribute userId i recipeId koji označavaju
 				id korisnika koji zabilježuje recept te id recepta koji se zabilježuje; referencirana je
@@ -280,7 +280,7 @@
 					name	& VARCHAR &  ime razine pristupa  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{category} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{category} pohranjuje model entiteta koji predstavlja
 				kategoriju u koju recept može pripadati.
 
 				\begin{longtblr}[
@@ -296,7 +296,7 @@
 					name	& VARCHAR &  ime kategorije  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{tag} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{tag} pohranjuje model entiteta koji predstavlja
 				oznaku koji recept može imati (npr. Vegan, Healthy, Quick...)
 				
 				\begin{longtblr}[
@@ -312,7 +312,7 @@
 					name	& VARCHAR &  opis oznake recepta  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{ingredient} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{ingredient} pohranjuje model entiteta koji predstavlja
 				sastojak koji recept može sadržavati.
 
 				\begin{longtblr}[
@@ -344,7 +344,7 @@
 					name	& VARCHAR &  ime zemlje kuhanja  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{video} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{video} pohranjuje model entiteta koji predstavlja
 				medijski zapis oblika videa.
 
 				\begin{longtblr}[
@@ -380,7 +380,7 @@
 				
 				\eject
 
-				\textbf{media} Relacija pohranjuje model entiteta koji predstavlja medijski sadržaj
+				Relacija \textbf{media} pohranjuje model entiteta koji predstavlja medijski sadržaj
 				koji je objavio neki korisnik, uz neki recept.
 				Ograničenje stranog ključa odnosi se na atribute recipeId 
 				id recepta uz okji je medijski sadržaj postavljen; referencirana je

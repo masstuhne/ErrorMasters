@@ -48,7 +48,7 @@
 				\item  \underbar{Vlasnik (inicijator) može:}
 				
 				\begin{packed_enum}
-					\item \textbf{*sva funkcionalnost Klijenta w/o brisanje svog računa*}
+					\item \textbf{*sva funkcionalnost Klijenta bez brisanje svog računa*}
 					\item brisati neželjene recepte
 					\item brisati neželjene komentare
 					\item brisati/dodavati kategorije
@@ -57,7 +57,7 @@
 				\item  \underbar{Administrator (inicijator) može:}
 				
 				\begin{packed_enum}
-					\item \textbf{*sva funkcionalnost Vlasnika w/o funckionalost klijenta*}
+					\item \textbf{*sva funkcionalnost Vlasnika bez funckionalost klijenta*}
 					\item vidjeti popis svih registriranih korisnika i njihovih osobnih podataka
 	 				\begin{packed_enum}
 						\item mijenjati korisničke podatke
@@ -185,12 +185,11 @@
 						\item \textbf{Glavni sudionik: } Klijent
 						\item  \textbf{Cilj:} Promijenti osobne podatke
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav
+						\item  \textbf{Preduvjet:} UC4 - Pregled osobnih podataka
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
-							
-							\item Klijent pregledava osobne podatke
+						
 							\item Klijent odabire opciju za promjenu podataka
 							\item Klijent mijenja svoje osobne podatke
 							\item Klijent sprema promjene
@@ -219,12 +218,11 @@
 						\item \textbf{Glavni sudionik: } Klijent
 						\item  \textbf{Cilj:} Izbrisati korisnički račun
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav
+						\item  \textbf{Preduvjet:} UC4 - Pregled osobnih podataka
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item Klijent pregledava osobne podatke
 							\item Klijent odabire opciju brisanja korisničkog računa
 							\item Klijent briše račun
 							\item Posljedično se brišu i svi recepti te komentari klijenta
@@ -405,7 +403,7 @@
 						\end{packed_enum}
 					\end{packed_item}
 
-					\noindent \underbar{\textbf{UC14 - Micanje recepta}}
+					\noindent \underbar{\textbf{UC14 - Uklanjanje recepta}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: } Klijent
@@ -519,7 +517,6 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item Klijent se prijavljuje u sustav
 							\item Klijent odabire opciju provjere obavijesti
 							\item Klijent čita obavijest
 						\end{packed_enum}
@@ -536,7 +533,6 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item Vlasnik/Administrator se prijavljuje u sustav
 							\item Vlasnik/Administrator odabire opciju dodavanja kategorija
 							\item Vlasnik/Administrator dodaje novu kategoriju
 							\item Baza podataka se ažurira
@@ -571,7 +567,6 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item Vlasnik/Administrator se prijavljuje u sustav
 							\item Vlasnik/Administrator odabire opciju brisanja kategorija
 							\item Vlasnik/Administrator briše kategoriju
 							\item Baza podataka se ažurira
@@ -589,7 +584,6 @@
 						
 						\item[] \begin{packed_enum}
 							
-							\item Vlasnik/Administrator se prijavljuje u sustav
 							\item Vlasnik/Administrator odabire komentar koji želi obrisati
 							\item Vlasnik/Administrator briše komentar
 							\item Baza podataka se ažurira
@@ -619,12 +613,11 @@
 						\item \textbf{Glavni sudionik: } Administrator
 						\item  \textbf{Cilj:} Obrisati korisnički račun klijenta
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav (kao jedan od sudionika)
+						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav (kao jedan od sudionika), UC24 - Pregled korisnika
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 							
-							\item Administrator se prijavljuje u sustav
 							\item Administrator odabire željenog korisnika
 							\item Administrator odabire opciju brisanja korisnika
 							\item Korisnički račun klijenta se obriše
@@ -639,7 +632,7 @@
 						\item \textbf{Glavni sudionik: } Administrator
 						\item  \textbf{Cilj:} Promijeniti razinu pristupa korisnika
 						\item  \textbf{Sudionici:} Baza podataka
-						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav (kao jedan od sudionika)
+						\item  \textbf{Preduvjet:} UC3 - Prijava u sustav (kao jedan od sudionika), UC24 - Pregled korisnika
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
@@ -655,7 +648,7 @@
 					
 			\subsubsection{Dijagrami obrazaca uporabe}
 				\begin{figure}[H]
-					\includegraphics[scale=0.6]{dijagrami/Korisnik_klijent.png} 
+					\includegraphics[scale=0.3]{dijagrami/Korisnik_klijent.png} 
 					\centering
 					\caption{Dijagram obrasca uporabe, funkcionalnost korisnika i klijenta}
 					\label{fig:korisnik-klijent}
