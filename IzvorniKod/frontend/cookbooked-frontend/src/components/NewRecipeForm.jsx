@@ -28,11 +28,10 @@ function NewRecipeForm() {
             let token=localStorage.getItem('user_ret')
             let time=parseInt(cookingTime)
             let ingredientIds=userChoice.map(ingr => ingr.value)
-            let tagsIds=selectedTags.map(tag => tag.value)
-
+            let tagsNames=selectedTags.map(tag => tag.label)
+            console.log(tagsNames);
             const formData= new FormData()
-            
-     
+
             if (images.length > 0) {
                 for (let i = 0; i < images.length; i++) {
                     formData.append('imageFiles', images[i])
@@ -53,7 +52,7 @@ function NewRecipeForm() {
             formData.append('categoryId',selectedCategory.value)
             formData.append('cuisineId',selectedCuisine.value)
             formData.append('ingredients',ingredientIds)
-            formData.append('tags', tagsIds);
+            formData.append('tags', tagsNames);
             console.log(recipeText);
             formData.append('description',recipeText)
             console.log(formData);
