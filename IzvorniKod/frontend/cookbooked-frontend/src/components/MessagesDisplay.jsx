@@ -7,6 +7,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function MessagesDisplay() {
     const[msgs,setMsgs]=useState([])
+   
 
     const apiUrl= API_BASE_URL + '/users/'
     useEffect(()=>{
@@ -21,7 +22,6 @@ function MessagesDisplay() {
         
     
         let responseData = response.data
-        responseData=responseData.slice().reverse()
         console.log(responseData)
         let tmpMsgs=responseData.map(el=>({
             id : el.id,
@@ -58,6 +58,7 @@ function MessagesDisplay() {
     return (
 
     <>
+        
         <div className="flex items-center justify-center flex-col mt-[5rem] w-full gap-10">
                 <div className="flex items-center justify-center flex-row min-w-[100rem]">
                   <div className="flex items-center justify-end gap-10"> {/* Fix: justify-end instead of justify-content: flex-end */}
@@ -72,14 +73,9 @@ function MessagesDisplay() {
                             <div className="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div className="w-3/6">
                                     <h1 className="text-2xl font-medium text-gray-900 truncate dark:text-white">
-                                    {"Šalje " +el.sender }
+                                    {"Šalje "}
+                                    <a className="text-2xl font-medium text-gray-900 truncate dark:text-white" href={`/profil/${el.id}`}>{el.sender}</a>
                                     </h1>
-                                </div>
-                                <div className="flex justify-center w-2/6">
-                                    <>
-                                    <button  type="button" data-modal-toggle={`message_${index}`}   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Odgovori</button>
-                                    <MessageSendPopUp messagageId={`${index}`} reciverId={el.senderId}/>
-                                    </>
                                 </div>
                             </div>
                             <p className="text-lg text-gray-500  dark:text-gray-400">
@@ -91,6 +87,7 @@ function MessagesDisplay() {
                         }
                         </ul>
                     </div>
+                    
                  :'' }
 
         </div>
