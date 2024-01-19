@@ -1,0 +1,755 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AuthorizationController {
+  + login(LoginModel): ResponseEntity<String>
+  + register(RegisterModel): ResponseEntity<String>
+}
+class AuthorizationService {
+  + setUserDetailsService(JpaUserDetailsService): void
+  + getAuthenticationManager(): AuthenticationManager
+  + getUserDetailsService(): JpaUserDetailsService
+  + getJwtUtils(): JwtUtils
+  + setAuthenticationManager(AuthenticationManager): void
+  + setJwtUtils(JwtUtils): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+  + generateToken(String, String): String
+}
+class BookmarkedRecipe {
+  + getId(): Integer
+  + hashCode(): int
+  + getUser(): User
+  # canEqual(Object): boolean
+  + getRecipe(): Recipe
+  + getCreatedAt(): Date
+  + setId(Integer): void
+  + setUser(User): void
+  + setRecipe(Recipe): void
+  + setCreatedAt(Date): void
+  + equals(Object): boolean
+  + toString(): String
+}
+interface BookmarkedRecipeRepository << interface >>
+class Category {
+  + setRecipes(List<Recipe>): void
+  + getId(): Integer
+  + getName(): String
+  + getRecipes(): List<Recipe>
+  + setId(Integer): void
+  + setName(String): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+class CategoryController {
+  + getCategories(): ResponseEntity<List<Category>>
+  + getRecipesByCategory(Integer): ResponseEntity<List<Recipe>>
+  + getCategory(int): ResponseEntity<Category>
+}
+interface CategoryRepostiory << interface >>
+interface CategoryService << interface >> {
+  + getCategory(int): Optional<Category>
+  + getCategoryById(Integer): Category
+  + getAllCategories(): List<Category>
+}
+class CategoryServiceImpl {
+  + getAllCategories(): List<Category>
+  + getCategory(int): Optional<Category>
+  + getCategoryById(Integer): Category
+}
+class ChatController {
+  + saveChatMessage(ChatMessageModel): ResponseEntity<String>
+  + getChatMessage(Integer): ResponseEntity<ChatMessage>
+}
+class ChatMessage {
+  + getSender(): User
+  # canEqual(Object): boolean
+  + getId(): Integer
+  + getReceiver(): User
+  + getContent(): String
+  + equals(Object): boolean
+  + hashCode(): int
+  + getSentTime(): Date
+  + setId(Integer): void
+  + setSentTime(Date): void
+  + setSender(User): void
+  + setReceiver(User): void
+  + setContent(String): void
+  + toString(): String
+}
+class ChatMessageModel {
+  + equals(Object): boolean
+  + getSenderId(): Integer
+  + getReceiverId(): Integer
+  + getContent(): String
+  + setSenderId(Integer): void
+  + setReceiverId(Integer): void
+  + setContent(String): void
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+interface ChatMessageRepository << interface >>
+class ChatMessageWebsocketModel {
+  + setContent(String): void
+  + getType(): MessageType
+  + getSender(): String
+  + getContent(): String
+  + setSender(String): void
+  + setType(MessageType): void
+}
+interface ChatService << interface >> {
+  + getMessage(Integer): ChatMessage
+  + saveMessage(ChatMessageModel): void
+}
+class ChatServiceImpl {
+  + getMessage(Integer): ChatMessage
+  + saveMessage(ChatMessageModel): void
+}
+class CommunicationTime {
+  # canEqual(Object): boolean
+  + getId(): Integer
+  + getUser(): User
+  + getStartTime(): Date
+  + getEndTime(): Date
+  + setId(Integer): void
+  + hashCode(): int
+  + setUser(User): void
+  + setStartTime(Date): void
+  + setEndTime(Date): void
+  + equals(Object): boolean
+  + toString(): String
+}
+class CommunicationTimeModel {
+  + getStart(): Date
+  + getEnd(): Date
+  + setStart(Date): void
+  + setEnd(Date): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+class CookbookedApplication {
+  + main(String[]): void
+}
+class Cuisine {
+  + getId(): Integer
+  + getName(): String
+  + getRecipes(): List<Recipe>
+  + setId(Integer): void
+  + setName(String): void
+  + setRecipes(List<Recipe>): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+class CuisineController {
+  + getCuisine(int): ResponseEntity<Cuisine>
+  + getRecipesByCuisine(Integer): ResponseEntity<List<Recipe>>
+  + getCuisines(): ResponseEntity<List<Cuisine>>
+}
+interface CuisineRepository << interface >>
+interface CuisineService << interface >> {
+  + getCuisineById(Integer): Optional<Cuisine>
+  + getAllCuisines(): List<Cuisine>
+}
+class CuisineServiceImpl {
+  + getAllCuisines(): List<Cuisine>
+  + getCuisineById(Integer): Optional<Cuisine>
+}
+class FollowController {
+  + getFollowers(): ResponseEntity<List<UserFollowModel>>
+  + addFollower(String): ResponseEntity<String>
+  + deleteFollower(String): ResponseEntity<String>
+}
+class Image {
+  + equals(Object): boolean
+  + getWidth(): int
+  + getHeight(): int
+  + getFormat(): String
+  + setWidth(int): void
+  + setHeight(int): void
+  + setFormat(String): void
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+interface ImageRepository << interface >>
+class Ingredient {
+  + getId(): Integer
+  + getName(): String
+  + getRecipes(): List<Recipe>
+  + setId(Integer): void
+  + setName(String): void
+  + setRecipes(List<Recipe>): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+class IngredientController {
+  + getIngredients(): ResponseEntity<List<Ingredient>>
+  + getIngredient(int): ResponseEntity<Ingredient>
+  + getRecipesByIngredients(List<Integer>): ResponseEntity<List<Recipe>>
+  + getRecipesByIngredient(Integer): ResponseEntity<List<Recipe>>
+}
+interface IngredientRepository << interface >> {
+  + findRecipesByIngredientIds(List<Integer>, Long): List<Recipe>
+}
+interface IngredientService << interface >> {
+  + getRecipesByIngredient(Integer): List<Recipe>
+  + getIngredientById(Integer): Optional<Ingredient>
+  + getRecipesByIngredients(List<Integer>): List<Recipe>
+  + getAllIngredients(): List<Ingredient>
+}
+class IngredientServiceImpl {
+  + getAllIngredients(): List<Ingredient>
+  + getIngredientById(Integer): Optional<Ingredient>
+  + getRecipesByIngredient(Integer): List<Recipe>
+  + getRecipesByIngredients(List<Integer>): List<Recipe>
+}
+class JpaUserDetailsService {
+  + loadUserByUsername(String): UserDetails
+}
+class JwtAuthFilter {
+  # doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): void
+}
+class JwtUtils {
+  - isExpired(String): boolean
+  + generateJwtToken(UserDetails): String
+  + validateJwtToken(String, UserDetails): boolean
+  - getSignKey(): SecretKey
+  + extractUsername(String): String
+  + extractAllClaims(String): Claims
+}
+class LoginModel {
+  + getUsername(): String
+  + getPassword(): String
+  + setUsername(String): void
+  + setPassword(String): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+class Media {
+  + getId(): Integer
+  + getRecipe(): Recipe
+  + getKey(): String
+  + setKey(String): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + setMediaType(MediaTypeEnum): void
+  + hashCode(): int
+  + setUploadDate(Date): void
+  + getDescription(): String
+  + getUploadDate(): Date
+  + getMediaType(): MediaTypeEnum
+  + setId(Integer): void
+  + setRecipe(Recipe): void
+  + setDescription(String): void
+  + toString(): String
+}
+class MediaController {
+  + getMedia(int): ResponseEntity<MediaModel>
+}
+class MediaModel {
+  + getMediaName(): String
+  + getLink(): String
+  + getUploadDate(): Date
+  + setMediaName(String): void
+  + setLink(String): void
+  + setUploadDate(Date): void
+  + fromEntity(Media): MediaModel
+}
+interface MediaRepository << interface >>
+interface MediaService << interface >> {
+  + getMedia(int): Optional<Media>
+}
+class MediaServiceImpl {
+  + getMedia(int): Optional<Media>
+}
+enum MediaTypeEnum << enumeration >> {
+  + valueOf(String): MediaTypeEnum
+  + values(): MediaTypeEnum[]
+}
+class ProfileModel {
+  + getEmail(): String
+  + getFirstName(): String
+  + getLastName(): String
+  + getPhoneNumber(): String
+  + setFirstName(String): void
+  + toString(): String
+  + setLastName(String): void
+  + setEmail(String): void
+  + hashCode(): int
+  + setPhoneNumber(String): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+}
+class Recipe {
+  + toString(): String
+  + setCuisine(Cuisine): void
+  + setTitle(String): void
+  + getTags(): List<Tag>
+  + setBookmarkedRecipes(List<BookmarkedRecipe>): void
+  + setDescription(String): void
+  + getId(): Integer
+  + getCategory(): Category
+  + getCuisine(): Cuisine
+  + hashCode(): int
+  + getUser(): User
+  + setId(Integer): void
+  + setMedia(List<Media>): void
+  + setTags(List<Tag>): void
+  + equals(Object): boolean
+  + getTitle(): String
+  + getDescription(): String
+  + getRecipeRatings(): List<RecipeRating>
+  + setRecipeRatings(List<RecipeRating>): void
+  + setIngredients(List<Ingredient>): void
+  + getIngredients(): List<Ingredient>
+  # canEqual(Object): boolean
+  + getCookingTime(): Duration
+  + setCookingTime(Duration): void
+  + builder(): RecipeBuilder
+  + setCategory(Category): void
+  + getMedia(): List<Media>
+  + getBookmarkedRecipes(): List<BookmarkedRecipe>
+  + setUser(User): void
+}
+class RecipeController {
+  + getRecipeRatings(Integer): ResponseEntity<List<RecipeRating>>
+  + rateRecipe(Integer, RecipeRatingModel): ResponseEntity<String>
+  + getRecipeById(Integer): ResponseEntity<Recipe>
+  + deleteRecipe(Integer): ResponseEntity<String>
+  + getRecipes(): ResponseEntity<List<Recipe>>
+  + updateRecipe(Integer, RecipeUpdateModel): ResponseEntity<String>
+  + addRecipe(RecipeCreationModel): ResponseEntity<String>
+}
+class RecipeCreationModel {
+  + getCookingTime(): Integer
+  + setIngredients(List<Integer>): void
+  + getTitle(): String
+  + setCategoryId(Integer): void
+  + getVideoFile(): MultipartFile
+  + getDescription(): String
+  + setCookingTime(Integer): void
+  + getCategoryId(): Integer
+  + setTags(List<String>): void
+  + getCuisineId(): Integer
+  + getIngredients(): List<Integer>
+  + setCuisineId(Integer): void
+  + getTags(): List<String>
+  + getImageFiles(): List<MultipartFile>
+  + setDescription(String): void
+  + setImageFiles(List<MultipartFile>): void
+  + setVideoFile(MultipartFile): void
+  + setTitle(String): void
+}
+class RecipeRating {
+  + getId(): Integer
+  + getUser(): User
+  + getRecipe(): Recipe
+  + getRating(): Integer
+  + getComment(): String
+  + setRating(Integer): void
+  # canEqual(Object): boolean
+  + equals(Object): boolean
+  + getCreatedAt(): Date
+  + setCreatedAt(Date): void
+  + setRecipe(Recipe): void
+  + setId(Integer): void
+  + setComment(String): void
+  + hashCode(): int
+  + setUser(User): void
+  + toString(): String
+}
+class RecipeRatingModel {
+  + getComment(): String
+  + getRating(): Integer
+  + getCreatedAt(): Date
+  + setRating(Integer): void
+  + setComment(String): void
+  + setCreatedAt(Date): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+interface RecipeRatingRepository << interface >>
+interface RecipeRepository << interface >> {
+  + findAllByUserId(Integer): List<Recipe>
+  + findAllByCuisineId(Integer): List<Recipe>
+  + findAllByUserUsername(String): List<Recipe>
+  + findAllByCategoryId(Integer): List<Recipe>
+}
+interface RecipeService << interface >> {
+  + getRecipesByCategory(Integer): List<Recipe>
+  + getRecipesByCuisine(Integer): List<Recipe>
+  + getRecipeById(Integer): Recipe
+  + getRecipeRatings(Integer): List<RecipeRating>
+  + updateRecipe(Integer, RecipeUpdateModel): void
+  + deleteRecipe(Integer): void
+  + getRecipesByUserId(Integer): List<Recipe>
+  + rateRecipe(User, Integer, RecipeRatingModel): void
+  + getAllRecipes(): List<Recipe>
+  + addRecipe(User, RecipeCreationModel): void
+}
+class RecipeServiceImpl {
+  + getAllRecipes(): List<Recipe>
+  + getRecipeRatings(Integer): List<RecipeRating>
+  + getRecipesByCategory(Integer): List<Recipe>
+  + getRecipesByUserId(Integer): List<Recipe>
+  + updateRecipe(Integer, RecipeUpdateModel): void
+  + getRecipesByCuisine(Integer): List<Recipe>
+  + addRecipe(User, RecipeCreationModel): void
+  + getRecipeById(Integer): Recipe
+  + rateRecipe(User, Integer, RecipeRatingModel): void
+  + deleteRecipe(Integer): void
+}
+class RecipeUpdateModel {
+  + getTitle(): String
+  # canEqual(Object): boolean
+  + getDescription(): String
+  + getCookingTime(): Integer
+  + getCategoryId(): Integer
+  + getCuisineId(): Integer
+  + setTitle(String): void
+  + setDescription(String): void
+  + equals(Object): boolean
+  + toString(): String
+  + hashCode(): int
+  + setCookingTime(Integer): void
+  + setCategoryId(Integer): void
+  + setCuisineId(Integer): void
+}
+class RegisterModel {
+  + getPassword(): String
+  + getFirstName(): String
+  + getLastName(): String
+  + getUsername(): String
+  + getEmail(): String
+  # canEqual(Object): boolean
+  + getPhoneNumber(): String
+  + setPhoneNumber(String): void
+  + setFirstName(String): void
+  + setEmail(String): void
+  + toString(): String
+  + equals(Object): boolean
+  + setLastName(String): void
+  + setUsername(String): void
+  + hashCode(): int
+  + setPassword(String): void
+}
+class Role {
+  + getId(): Integer
+  + getName(): RoleEnum
+  + getUsers(): List<User>
+  + setId(Integer): void
+  + setName(RoleEnum): void
+  + setUsers(List<User>): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+enum RoleEnum << enumeration >> {
+  + valueOf(String): RoleEnum
+  + values(): RoleEnum[]
+}
+interface RoleRepository << interface >> {
+  + findByName(RoleEnum): Optional<Role>
+}
+interface RoleService << interface >> {
+  + getRoleByName(RoleEnum): Optional<Role>
+}
+class RoleServiceImpl {
+  + getRoleByName(RoleEnum): Optional<Role>
+}
+class S3StorageService {
+  + getAllFiles(): List<String>
+  + uploadFile(MultipartFile): String
+}
+class SecurityConfig {
+  + passwordEncoder(): PasswordEncoder
+  + authenticationManager(AuthenticationConfiguration): AuthenticationManager
+  + securityFilterChain(HttpSecurity): SecurityFilterChain
+}
+class SecurityUserDetails {
+  + isAccountNonExpired(): boolean
+  + isCredentialsNonExpired(): boolean
+  + getId(): Integer
+  + getUsername(): String
+  + isAccountNonLocked(): boolean
+  + getPassword(): String
+  + isEnabled(): boolean
+  + getAuthorities(): Collection<GrantedAuthority>
+}
+interface StorageService << interface >> {
+  + getAllFiles(): List<String>
+  + uploadFile(MultipartFile): String
+}
+class StringEmptyMultipartConverter {
+  + convert(String): MultipartFile?
+}
+class Tag {
+  + setRecipe(List<Recipe>): void
+  + getId(): Integer
+  + getName(): String
+  + getRecipe(): List<Recipe>
+  + setId(Integer): void
+  + setName(String): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+class TagController {
+  + getAllTags(): ResponseEntity<List<Tag>>
+  + getRecipesByTagId(Integer): ResponseEntity<List<Recipe>>
+}
+interface TagRepository << interface >> {
+  + findByName(String): Optional<Tag>
+}
+interface TagService << interface >> {
+  + getRecipesWithTag(Integer): List<Recipe>
+  + getTagByName(String): Optional<Tag>
+  + getAllTags(): List<Tag>
+}
+class TagServiceImpl {
+  + getTagByName(String): Optional<Tag>
+  + getAllTags(): List<Tag>
+  + getRecipesWithTag(Integer): List<Recipe>
+}
+class User {
+  + getCommunicationTimes(): List<CommunicationTime>
+  + setFirstName(String): void
+  + getId(): Integer
+  + getRole(): Role
+  + setId(Integer): void
+  + getFollowing(): List<UserFollow>
+  + getSentMessages(): List<ChatMessage>
+  + setRecipes(List<Recipe>): void
+  + getFirstName(): String
+  + getLastName(): String
+  + setRole(Role): void
+  + setSentMessages(List<ChatMessage>): void
+  + setFollowers(List<UserFollow>): void
+  + setReceivedMessages(List<ChatMessage>): void
+  + getBookmarkedRecipes(): List<BookmarkedRecipe>
+  + equals(Object): boolean
+  + setUsername(String): void
+  + hashCode(): int
+  + getEmail(): String
+  + getRecipes(): List<Recipe>
+  + setLastName(String): void
+  # canEqual(Object): boolean
+  + setCommunicationTimes(List<CommunicationTime>): void
+  + setEmail(String): void
+  + getPhoneNumber(): String
+  + getUsername(): String
+  + setFollowing(List<UserFollow>): void
+  + setBookmarkedRecipes(List<BookmarkedRecipe>): void
+  + getReceivedMessages(): List<ChatMessage>
+  + setPassword(String): void
+  + getPassword(): String
+  + getFollowers(): List<UserFollow>
+  + setPhoneNumber(String): void
+  + toString(): String
+}
+class UserController {
+  + updateUserRole(Integer, Role): ResponseEntity<String>
+  + deleteBookmarkedRecipe(Integer): ResponseEntity<String>
+  + addChatMessage(Integer, ChatMessageModel): ResponseEntity<String>
+  + getUserCommunicationTimes(Integer): ResponseEntity<List<CommunicationTime>>
+  + getBookmarkedRecipes(Integer): ResponseEntity<List<BookmarkedRecipe>>
+  + updateUser(Integer, UserUpdateModel): ResponseEntity<String>
+  + deleteUser(Integer): ResponseEntity<String>
+  + addUser(UserModel): ResponseEntity<String>
+  + addBookmarkedRecipe(Integer, Integer): ResponseEntity<String>
+  + addUserCommunicationTime(Integer, CommunicationTimeModel): ResponseEntity<String>
+  + getRecipesByUserId(Integer): ResponseEntity<List<Recipe>>
+  + updateUserProfile(ProfileModel): ResponseEntity<String>
+  + getUserById(Integer): ResponseEntity<User>
+  + getChatMessages(Integer): ResponseEntity<List<ChatMessage>>
+  + getFollowing(Integer): ResponseEntity<List<UserFollow>>
+  + getUserProfile(): ResponseEntity<ProfileModel>
+  + getFollowers(Integer): ResponseEntity<List<UserFollow>>
+  + getUsers(): ResponseEntity<List<User>>
+}
+class UserFollow {
+  + getId(): Integer
+  + getFollower(): User
+  + getAuthor(): User
+  # canEqual(Object): boolean
+  + getFollowedAt(): Date
+  + setId(Integer): void
+  + setFollower(User): void
+  + setAuthor(User): void
+  + hashCode(): int
+  + setFollowedAt(Date): void
+  + equals(Object): boolean
+  + toString(): String
+}
+class UserFollowModel {
+  + getFirstName(): String
+  + getAuthorId(): Integer
+  + getLastName(): String
+  + getPhoneNumber(): String
+  + getUsername(): String
+  + setAuthorId(Integer): void
+  # canEqual(Object): boolean
+  + setFirstName(String): void
+  + setLastName(String): void
+  + hashCode(): int
+  + setPhoneNumber(String): void
+  + toString(): String
+  + equals(Object): boolean
+  + setUsername(String): void
+  + convertToModel(List<UserFollow>): List<UserFollowModel>
+}
+interface UserFollowRepository << interface >> {
+  + findAllByFollowerId(Integer): List<UserFollow>
+  + deleteByFollowerIdAndAuthorId(Integer, Integer): void
+  + existsByFollowerIdAndAuthorId(Integer, Integer): boolean
+}
+interface UserFollowService << interface >> {
+  + getAllUserFollowsByFollowerId(Integer): List<UserFollow>
+  + saveUserFollow(UserFollow): void
+  + doesUserAlreadyFollowAuthor(Integer, Integer): boolean
+  + getAllUserFollows(): List<UserFollow>
+  + deleteUserFollow(Integer, Integer): void
+}
+class UserFollowServiceImpl {
+  + deleteUserFollow(Integer, Integer): void
+  + getAllUserFollowsByFollowerId(Integer): List<UserFollow>
+  + saveUserFollow(UserFollow): void
+  + getAllUserFollows(): List<UserFollow>
+  + doesUserAlreadyFollowAuthor(Integer, Integer): boolean
+}
+class UserModel {
+  + getPhoneNumber(): String
+  + getLastName(): String
+  + toString(): String
+  + getFirstName(): String
+  + setPhoneNumber(String): void
+  + hashCode(): int
+  # canEqual(Object): boolean
+  + getEmail(): String
+  + setEmail(String): void
+  + getUsername(): String
+  + getPassword(): String
+  + setPassword(String): void
+  + equals(Object): boolean
+  + getRole(): RoleEnum
+  + setRole(RoleEnum): void
+  + setUsername(String): void
+  + setFirstName(String): void
+  + setLastName(String): void
+}
+interface UserRepository << interface >> {
+  + existsByEmail(String): boolean
+  + findByUsername(String): Optional<User>
+  + existsByUsername(String): boolean
+}
+interface UserService << interface >> {
+  + addUserCommunicationTime(Integer, CommunicationTimeModel): void
+  + addUser(UserModel, Role): void
+  + userExistsByUsername(String): boolean
+  + getAllUsers(): List<User>
+  + updateUser(Integer, UserUpdateModel): void
+  + addFollower(Integer, Integer): void
+  + saveUser(User): void
+  + addChatMessage(Integer, ChatMessageModel): void
+  + updateUserRole(Integer, Role): void
+  + getBookmarkedRecipes(Integer): List<BookmarkedRecipe>
+  + getFollowing(Integer): List<UserFollow>
+  + getChatMessages(Integer): List<ChatMessage>
+  + deleteBookmarkedRecipe(Integer, User): void
+  + getFollowers(Integer): List<UserFollow>
+  + userExistsByEmail(String): boolean
+  + getUserCommunicationTimes(Integer): List<CommunicationTime>
+  + bookmarkRecipe(Integer, Recipe): void
+  + deleteUser(Integer): void
+  + getUserById(Integer): User
+  + addFollowing(Integer, Integer): void
+  + getUserByUsername(String): User
+}
+class UserServiceImpl {
+  + updateUser(Integer, UserUpdateModel): void
+  + updateUserRole(Integer, Role): void
+  + getChatMessages(Integer): List<ChatMessage>
+  + bookmarkRecipe(Integer, Recipe): void
+  + addUser(UserModel, Role): void
+  + getFollowing(Integer): List<UserFollow>
+  + addFollowing(Integer, Integer): void
+  + getUserByUsername(String): User
+  + userExistsByUsername(String): boolean
+  + getUserById(Integer): User
+  + addFollower(Integer, Integer): void
+  + getAllUsers(): List<User>
+  + deleteUser(Integer): void
+  + getUserCommunicationTimes(Integer): List<CommunicationTime>
+  + deleteBookmarkedRecipe(Integer, User): void
+  + getBookmarkedRecipes(Integer): List<BookmarkedRecipe>
+  + getFollowers(Integer): List<UserFollow>
+  + addChatMessage(Integer, ChatMessageModel): void
+  + userExistsByEmail(String): boolean
+  + addUserCommunicationTime(Integer, CommunicationTimeModel): void
+  + saveUser(User): void
+}
+class UserUpdateModel {
+  + getPhoneNumber(): String
+  + getFirstName(): String
+  # canEqual(Object): boolean
+  + setPhoneNumber(String): void
+  + equals(Object): boolean
+  + setUsername(String): void
+  + getLastName(): String
+  + getEmail(): String
+  + getUsername(): String
+  + getPassword(): String
+  + setFirstName(String): void
+  + setPassword(String): void
+  + toString(): String
+  + setLastName(String): void
+  + hashCode(): int
+  + setEmail(String): void
+}
+class Video {
+  + getDuration(): Duration
+  + setDuration(Duration): void
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+}
+interface VideoRepository << interface >>
+class WebConfig {
+  + webConfigurer(): WebMvcConfigurer
+}
+
+CategoryServiceImpl            -[#008200,dashed]-^  CategoryService               
+ChatServiceImpl                -[#008200,dashed]-^  ChatService                   
+CuisineServiceImpl             -[#008200,dashed]-^  CuisineService                
+Image                          -[#000082,plain]-^  Media                         
+IngredientServiceImpl          -[#008200,dashed]-^  IngredientService             
+MediaServiceImpl               -[#008200,dashed]-^  MediaService                  
+RecipeServiceImpl              -[#008200,dashed]-^  RecipeService                 
+RoleServiceImpl                -[#008200,dashed]-^  RoleService                   
+S3StorageService               -[#008200,dashed]-^  StorageService                
+TagServiceImpl                 -[#008200,dashed]-^  TagService                    
+UserFollowServiceImpl          -[#008200,dashed]-^  UserFollowService             
+UserServiceImpl                -[#008200,dashed]-^  UserService                   
+Video                          -[#000082,plain]-^  Media                         
+@enduml
