@@ -4,6 +4,7 @@ import com.fer.progi.errormasters.Cookbooked.entities.*;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.ChatMessageModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.CommunicationTimeModel;
 import com.fer.progi.errormasters.Cookbooked.models.payloads.UserModel;
+import com.fer.progi.errormasters.Cookbooked.models.payloads.UserUpdateModel;
 
 import java.util.List;
 
@@ -38,11 +39,13 @@ public interface UserService {
 
     void addUser(UserModel userModel, Role role);
 
-    void updateUser(Integer userId, UserModel userModel, Role role);
+    void updateUser(Integer userId, UserUpdateModel userModel);
 
     void saveUser(User user);
 
     void deleteUser(Integer id);
 
     void deleteBookmarkedRecipe(Integer recipeId, User userDetails);
+
+    void updateUserRole(Integer userId, Role role);
 }

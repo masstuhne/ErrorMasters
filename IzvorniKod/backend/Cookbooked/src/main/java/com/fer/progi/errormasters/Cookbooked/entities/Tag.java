@@ -21,7 +21,7 @@ public class Tag {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags", cascade = {CascadeType.PERSIST})
     @JsonIgnore
     private List<Recipe> recipe;
 

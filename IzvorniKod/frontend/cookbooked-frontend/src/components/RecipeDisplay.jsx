@@ -6,11 +6,17 @@ import ReviewPopUp from './ReviewPopUp';
 import fromStringToTime from './fromStringToTime';
 import ShowReviews from './ShowReviews';
 import AdminChangeCategory from './AdminChangeCategory';
+import MessageSendPopUp from './MessageSendPopUp';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const isAdmin = true;
 
+
+
 function saveRecipe(id) {
-    const url = 'http://localhost:8080/api/v1/users/' + parseJwt(localStorage.getItem('user_ret')).id + '/bookmarked-recipes?recipeId=' + id;
+
+    const url = API_BASE_URL + '/users/' + parseJwt(localStorage.getItem('user_ret')).id + '/bookmarked-recipes?recipeId=' + id;
     console.log('saving \n' + url);
     
     axios.post(url, {}, {
@@ -28,7 +34,7 @@ function saveRecipe(id) {
 
 
 function unsaveRecipe(id) {
-    const url = 'http://localhost:8080/api/v1/users/bookmarked-recipes/' + id;
+    const url = API_BASE_URL + '/users/bookmarked-recipes/' + id;
     console.log('unsaving');
 
     axios.delete(url, {
@@ -45,7 +51,7 @@ function unsaveRecipe(id) {
 }
 
 function followAuthor(id) {
-    const url = 'http://localhost:8080/api/v1/follow/' + id;
+    const url = API_BASE_URL + '/follow/' + id;
     console.log('saving \n' + url);
     
     axios.post(url, {}, {
@@ -62,7 +68,21 @@ function followAuthor(id) {
 }
 
 function unfollowAuthor(id){
-    console.log('unfollowing');
+    console.log('unfollowing ' + id);
+    const url1 = API_BASE_URL + '/follow/' + id;
+    console.log(url1);
+    
+    axios.delete(url1, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+        },
+    })
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+    });
 }
 
 function RecipeDisplay() {
@@ -74,15 +94,37 @@ function RecipeDisplay() {
     const [videoList,setVideoList]=useState([])
     const [isSaved, setIsSaved]= useState(false)
     const [isBell, setIsBell]= useState(false)
+    
+    
         
 
-    const apiUrl = 'http://localhost:8080/api/v1/recipes/' + id;
+    const apiUrl = API_BASE_URL + '/recipes/' + id;
 
     useEffect(() => {
         axios.get(apiUrl)
         .then(response =>{
-            setRecept(response.data)
+            console.log(response.data.description.split("$@%&#$%&"))
+            let splitted = response.data.description.split("$@%&#$%&");
+            response.data.description = splitted[splitted.length-1].trim();
             console.log(response.data)
+            const jsonData = splitted.map(item => {
+                const parts = item.split(':');
+                if (parts.length === 2) {
+                    const name = parts[0].trim();
+                    const amountAndUnit = parts[1].trim();
+                    return { name: name, amountAndUnit: amountAndUnit };
+                }
+                return null; 
+            }).filter(item => item !== null);
+            response.data.ingredientsNew = jsonData;
+            const mergedIngredients = response.data.ingredients.map(ingredient => {
+                const matchingIngredient = response.data.ingredientsNew.find(newIngredient => newIngredient.name === ingredient.name);
+                return matchingIngredient ? { ...ingredient, ...matchingIngredient } : ingredient;
+            });
+            console.log(mergedIngredients);
+            response.data.ingredientsNew = mergedIngredients
+            console.log(response.data)
+            setRecept(response.data)
             
             if(response.data.recipeRatings.length>0){
                 let sum_raiting=0
@@ -108,13 +150,11 @@ function RecipeDisplay() {
                 try{
 
                     let requests= media_ids.map(id=> 
-                        axios.get('http://localhost:8080/api/v1/media/'+id));
+                        axios.get(API_BASE_URL + '/media/'+id));
                     
                     let responses = await Promise.all(requests);
 
                     let tmpMediaList=responses.map(mediaResponse=>mediaResponse.data)
-                    // za testiranje ako je samo jedna slika da se doda jos jedan link pa da se mogu dvije mijenjati
-                    // tmpMediaList.push({link:"https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg"})
                     if (video) setVideoList(tmpMediaList) 
                     else setMeidaList(tmpMediaList)
 
@@ -136,7 +176,7 @@ function RecipeDisplay() {
         if (localStorage.getItem('user_ret')) {
         let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
         let userId=tokenPayload.id
-        axios.get('http://localhost:8080/api/v1/users/' + userId + '/bookmarked-recipes',{
+        axios.get(API_BASE_URL + '/users/' + userId + '/bookmarked-recipes',{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
               },
@@ -151,18 +191,20 @@ function RecipeDisplay() {
     },[])
 
     useEffect(()=>{
-        axios.get('http://localhost:8080/api/v1/follow',{
+        if (localStorage.getItem('user_ret')) {
+        axios.get(API_BASE_URL + '/follow',{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
               },
         })
         .then(response =>{
-            console.log(recept?.user?.id);
+            console.log(response.data);
             setIsBell(response.data.some(item => item.authorId == recept?.user?.id));
         })
         .catch(err=>{
             console.error('Error fetching data:', err);
         })
+        } 
     },[recept])
     
     const handleNext = () => {
@@ -174,15 +216,16 @@ function RecipeDisplay() {
 
     const handleDeleteRecipe = () => {
 
-        console.log(`http://localhost:8080/api/v1/recipes/${recept.id}`);
+        console.log(`${API_BASE_URL}/recipes/${recept.id}`);
     
-        axios.delete(`http://localhost:8080/api/v1/recipes/${recept.id}`,{
+        axios.delete(`${API_BASE_URL}/recipes/${recept.id}`,{
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
             },
         })
         .then(response => {
             console.log('Recipe deleted successfully:', response);
+            window.location.href = '/';
         })
         .catch(error => {
             console.error('Error deleting recipe:', error);
@@ -226,6 +269,8 @@ function RecipeDisplay() {
                 <div>
                     <h1 className='text-4xl text-blue-700 p-1'>{recept.title}</h1>
                     <div className='flex p-1'><p>Autor: <a href={`/profil/${recept?.user?.id}`}>{recept?.user?.username}</a></p>
+                    {localStorage.getItem('user_ret') ? 
+                    <>
                     <a href='#' className='px-1 text-blue-700'>
                         {isBell ?  
                         <svg onClick={e=>{setIsBell(false); unfollowAuthor(recept?.user?.username);}} className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 25">
@@ -248,16 +293,20 @@ function RecipeDisplay() {
                         </svg>
                         }
                     </a>
-                    <a href='/moje_poruke' className='px-1 text-blue-700'>
+                    <a className='px-1 text-blue-700' data-modal-toggle="message_1">
                         <svg className="w-6 h-6 text-blue-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 25">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5h9M5 9h5m8-8H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h4l3.5 4 3.5-4h5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
                         </svg>
                     </a>
-                    </div>
+                    <MessageSendPopUp reciverId={recept?.user?.id} messagageId={1} />
+                    </> : ' '}
+                    
+                </div>
                     <h1 className='text-xs text-gray-500 p-1'>          
-                        {recept?.tags?.map(tag => (
-                            <span key={tag.name}>#{tag.name} </span>
-                        ))} </h1>
+                        {recept?.tags?.map((tag, index) => (
+                            <span key={`${tag.name}-${index}`}>#{tag.name} </span>
+                        ))}
+                    </h1>
                     <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-400 p-1">
                         <li className='text-sm'>
                             Kuhinja: {recept?.cuisine?.name}
@@ -268,9 +317,9 @@ function RecipeDisplay() {
                     </ul>
                     <ul className="max-w-md space-y-1 list-disc list-inside dark:text-gray-400 p-1">
                         <p className='text-xl text-blue-700'>Sastojci</p>
-                        {recept?.ingredients?.map(ingredient => (
+                        {recept?.ingredientsNew?.map(ingredient => (
                             <li key={ingredient.id}>
-                                {ingredient.name} : {ingredient.amount} {ingredient.measuringUnit}    
+                                {ingredient.name} : {ingredient.amountAndUnit} 
                             </li>
                         ))}
                     </ul>

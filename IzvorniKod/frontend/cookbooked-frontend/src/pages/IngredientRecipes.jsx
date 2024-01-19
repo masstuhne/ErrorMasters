@@ -2,6 +2,8 @@ import RecipesDisplay from "../components/RecipesDisplay";
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function MyRecipes() {
 
     const location = useLocation();
@@ -9,7 +11,6 @@ function MyRecipes() {
     const [link, setLink] = useState('');
 
     useEffect(() => {
-        // Parse and store query parameters when the location changes
         const params = new URLSearchParams(location.search);
         let paramsObject = {};
         
@@ -39,12 +40,10 @@ function MyRecipes() {
         
         console.log(url);
         setQueryParams(paramsObject);
-        setLink('http://localhost:8080/api/v1/ingredients/recipes' + url);
+        setLink(API_BASE_URL + '/ingredients/recipes' + url);
     }, [location]);
     
     useEffect(() => {
-        // You can add additional logic here if needed
-        // This effect will run whenever the 'link' state changes
     }, [link]);
 
     return (

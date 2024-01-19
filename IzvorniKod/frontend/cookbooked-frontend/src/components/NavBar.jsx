@@ -1,11 +1,137 @@
-import React, {createContext, useState} from "react";
+import React, {createContext, useState,useEffect} from "react";
 import SignUpButton from "./SignUpButton";
 import BarKategorije from "./BarKategorije";
 import UserLog from "./UserLog";
+import NotificationToast from "./NotificationToast";
+import parseJwt from "./parseJwt";
+import axios from "axios";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export const AuthContext = createContext();
 
 function NavBar() {
+
+    const [isToastVisible, setIsToastVisible] = useState(false);
+    const [notifType,setNotifType]=useState("Nova poruka")
+    const [sender,setSender]=useState("")
+    const [content,setConetent]= useState("")
+    const checEvery=5
+    const apiUrl= API_BASE_URL + '/users/'
+
+    const handleToastClose = () => {
+      setIsToastVisible(false);
+    };
+    useEffect(() => {
+        const yourFunction = () => {
+        if (localStorage.getItem('user')){
+            let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+            console.log(tokenPayload)
+            if(Date.now() >= tokenPayload.exp * 1000){
+                localStorage.removeItem('user');
+                localStorage.removeItem('user_ret');
+                window.location.href = '/prijava';
+            }
+
+            
+        }
+        }
+        const nMinutes = 5; 
+        const intervalMs = nMinutes * 60 * 1000;
+        const intervalId = setInterval(yourFunction, intervalMs);
+        return () => clearInterval(intervalId);
+    }, []);
+
+    useEffect(() => {
+        
+        if (localStorage.getItem('user')){
+            let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+            console.log(tokenPayload)
+            if(Date.now() >= tokenPayload.exp * 1000){
+                localStorage.removeItem('user');
+                localStorage.removeItem('user_ret');
+                window.location.href = '/prijava';
+            }
+
+            
+        }
+        
+    }, []);
+    
+      useEffect(() => {
+        const yourFunction = () => {
+            
+
+            if (localStorage.getItem('user')){
+                let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+                let userId=tokenPayload.id
+                axios.get(apiUrl+userId+'/chat-messages', {
+                headers: {
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                },
+                    })
+                .then(response =>{
+                    if(localStorage.getItem("noMsgs")){
+                    let newNoMsgs=response.data.length
+                    let oldNoMsg= localStorage.getItem("noMsgs")
+                    if(oldNoMsg!=newNoMsgs){
+                        setIsToastVisible(true);
+                        setNotifType("Nova poruka")
+                        let lastMsg=response.data[newNoMsgs-1]
+                        setSender(lastMsg?.sender?.username)
+                        setConetent(lastMsg?.content)
+                        localStorage.setItem("noMsgs",newNoMsgs)
+                        console.log("Showing new notifficatio")
+                    }
+                }
+                else{
+                    localStorage.setItem("noMsgs",response.data.length)
+                }
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            }
+          
+        };
+        const nMinutes = checEvery; 
+        const intervalMs = nMinutes * 60 * 1000;
+        const intervalId = setInterval(yourFunction, intervalMs);
+        return () => clearInterval(intervalId);
+      }, []);
+
+
+      
+      
+      
+      useEffect(() => {
+       
+
+        if (localStorage.getItem('user')){
+                let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
+                let userId=tokenPayload.id
+                axios.get(apiUrl+userId+'/chat-messages', {
+                headers: {
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                },
+                    })
+            .then(response =>{
+                let newNoMsgs=response.data.length
+                localStorage.setItem('noMsgs', newNoMsgs);
+                console.log("noMsgs Set")
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
+
+        
+      }, []);
+
+      
+
+
+
     return (
         <nav className="bg-white dark:bg-gray-900 w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600"> 
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -25,6 +151,10 @@ function NavBar() {
                         <SignUpButton/>
                     )}
                 </div>
+                   
+                  { isToastVisible && <div id="toast-notification" class="fixed flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow right-5 bottom-5 dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+                    <NotificationToast onClose={handleToastClose} notificatioType={notifType} content={content} sender={sender}/>
+                    </div>}
             </div>
         </nav>
     );

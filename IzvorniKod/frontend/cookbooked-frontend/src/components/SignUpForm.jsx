@@ -7,8 +7,9 @@ import {Icon} from 'react-icons-kit';
 import {eyeOff} from 'react-icons-kit/feather/eyeOff';
 import {eye} from 'react-icons-kit/feather/eye'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
-const REG_URL='http://localhost:8080/api/v1/register'
+const REG_URL=API_BASE_URL + '/register'
 
 
 function SignUpForm() {

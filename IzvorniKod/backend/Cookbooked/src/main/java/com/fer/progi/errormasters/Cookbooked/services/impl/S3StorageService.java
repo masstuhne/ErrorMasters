@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.fer.progi.errormasters.Cookbooked.services.StorageService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,20 +21,40 @@ import java.util.UUID;
 public class S3StorageService implements StorageService {
     private final AmazonS3 space;
 
-    public S3StorageService() {
-        AWSCredentialsProvider awsCredentialProv = new AWSStaticCredentialsProvider( new BasicAWSCredentials("DO00JNJXDJN7UDBBJF77","W02d9NQ0AOgzDb9e4HiIH1uwEFtGNLG9XgUKE+HOw5I"));
+    private String accessKey;
+
+    private String secretKey;
+
+    private String serverUrl;
+
+    private String bucketName;
+
+    private String bucketRegion;
+
+    public S3StorageService(@Value("${s3.access.key}") String accessKey,
+                            @Value("${s3.secret.key}") String secretKey,
+                            @Value("${s3.server.url}") String serverUrl,
+                            @Value("${s3.bucket.name}") String bucketName,
+                            @Value("${s3.bucket.region}") String bucketRegion ) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.serverUrl = serverUrl;
+        this.bucketName = bucketName;
+        this.bucketRegion = bucketRegion;
+
+        AWSCredentialsProvider awsCredentialProv = new AWSStaticCredentialsProvider( new BasicAWSCredentials(accessKey,secretKey));
 
         space = AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(awsCredentialProv)
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration("ams3.digitaloceanspaces.com", "ams3"))
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(serverUrl, bucketRegion))
                 .build();
     }
 
 
     @Override
     public List<String> getAllFiles() {
-        ListObjectsV2Result result = space.listObjectsV2("cookbooked-storage");
+        ListObjectsV2Result result = space.listObjectsV2(bucketName);
         List<S3ObjectSummary> objects = result.getObjectSummaries();
         List<String> keys = new ArrayList<>();
 //        objects.forEach(object -> keys.add(object.getKey()));

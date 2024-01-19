@@ -20,6 +20,7 @@ public class RecipeRating {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+
     private User user;
 
     @ManyToOne

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function ReviewPopUp({recipeId}) {
 
     const [formData, setFormData] = useState({
@@ -28,7 +30,7 @@ function ReviewPopUp({recipeId}) {
             
             try {
                 const response = await axios.post(
-                    'http://localhost:8080/api/v1/recipes/' + recipeId + '/recipe-ratings', {
+                    API_BASE_URL + '/recipes/' + recipeId + '/recipe-ratings', {
                         "rating": Number(newFormData.rating),
                         "comment": newFormData.comment,
                         "createdAt": newFormData.createdAt

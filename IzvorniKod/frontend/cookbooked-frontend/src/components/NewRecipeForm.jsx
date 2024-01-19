@@ -2,49 +2,68 @@ import Select from 'react-select';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from 'flowbite-react';
+import CreatableSelect from 'react-select/creatable';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 function NewRecipeForm() {
     const [cuisines, setCuisines] = useState([]);
     const [categories, setCategories] = useState([]);
     const [ingredients, setIngredients] = useState([]);
-    const RCP_URL="http://localhost:8080/api/v1/recipes/add"
+    const [tags, setTags] = useState([]);
+
+    const RCP_URL=API_BASE_URL + '/recipes/add'
+
 
     const handleSubmit= async (e)=>{
         e.preventDefault() 
         try{
-            console.log(chosenIngredients);
-
             const ingredientsText = chosenIngredients.map((ingredient) => {
                 const { name, quantity, unit } = ingredient;
-                return `${name}: ${quantity} ${unit}`;
+                return `${name}: ${quantity} ${unit}\n$@%&#$%&\n`;
             }).join('\n');
     
-            const recipeText = `${ingredientsText}\n$@%&#$%&\n${descripton}`;
-            console.log(recipeText);
-
-            setDescription(recipeText)
+            const recipeText = `${ingredientsText}${descripton}`;
 
             let token=localStorage.getItem('user_ret')
             let time=parseInt(cookingTime)
             let ingredientIds=userChoice.map(ingr => ingr.value)
+            let tagsNames=selectedTags.map(tag => tag.label)
+            console.log(tagsNames);
             const formData= new FormData()
-            
-            if(images!='') {formData.append('imageFiles',images)}
-            if(video!='') formData.append('videoFile',video)
-            formData.append('title',titile)
-            formData.append('description',descripton)
-            formData.append('cookingTime',time)
-            formData.append('categoryId',selectedCategory)
-            formData.append('cuisineId',selectedCuisine)
-            formData.append('ingredients',ingredientIds)
-            formData.append('tags',[])
 
+            if (images.length > 0) {
+                for (let i = 0; i < images.length; i++) {
+                    formData.append('imageFiles', images[i])
+                }
+            }
+            else {
+                formData.append('imageFiles', '')
+            }
+			
+            if(video!==undefined) {
+				formData.append('videoFile',video)
+			}
+			else {
+				formData.append('videoFile', '')
+			}
+            formData.append('title',titile)
+            formData.append('cookingTime',time)
+            formData.append('categoryId',selectedCategory.value)
+            formData.append('cuisineId',selectedCuisine.value)
+            formData.append('ingredients',ingredientIds)
+            formData.append('tags', tagsNames);
+            console.log(recipeText);
+            formData.append('description',recipeText)
+            console.log(formData);
             const response= await axios.post(RCP_URL,formData,{headers :{"Content-Type":"multipart/form-data",
                         Authorization: `Bearer ${token}`,
             }})
 
             console.log(response.status)
             console.log(response.data)
+
+            window.location.href = '/moji_recepti';
           
         }
         catch(err){
@@ -53,10 +72,10 @@ function NewRecipeForm() {
       }
     
 
-
-    const url1 = 'http://localhost:8080/api/v1/cuisines';
-    const url2 = 'http://localhost:8080/api/v1/categories';
-    const url3 = 'http://localhost:8080/api/v1/ingredients';
+    const url1 = API_BASE_URL + '/cuisines';
+    const url2 = API_BASE_URL + '/categories';
+    const url3 = API_BASE_URL + '/ingredients';
+    const url4 = API_BASE_URL + '/tags';
 
     useEffect(() => {
         axios.get(url1)
@@ -65,7 +84,7 @@ function NewRecipeForm() {
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
 
         axios.get(url2)
             .then((response) => {
@@ -73,7 +92,7 @@ function NewRecipeForm() {
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
         
         axios.get(url3)
             .then((response) => {
@@ -81,7 +100,19 @@ function NewRecipeForm() {
             })
             .catch(error => {
                 console.error(error);
-            });
+        });
+
+        axios.get(url4, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+                },
+            })
+            .then((response) => {
+                setTags(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+        });
     }, []);
 
     const cuisines_names = cuisines.map(item => ({
@@ -96,6 +127,10 @@ function NewRecipeForm() {
         value: item.id,
         label: item.name
       }));
+    const tags_names = tags.map(item => ({
+        value: item.id,
+        label: item.name
+      }));
 
 
     const [userChoice, setUserChoice] = useState([]);
@@ -103,12 +138,12 @@ function NewRecipeForm() {
     const [selectedCuisine,setSelectedCousine]= useState([])
     const [titile,setTitle]=useState("")
     const [descripton,setDescription]= useState("")
+    const [selectedTags, setSelectedTags] = useState([]);
     const [cookingTime,setCookinTime]= useState('0')
-    const [images,setImages]=useState('')
+    const [images,setImages]=useState([]);
     const [video,setVideo]=useState('')
 
     const [chosenIngredients,setChosenIngredients]= useState([]);
-
 
     const mjerne_jedinice = [
         { value: 1, label: 'g' },
@@ -117,9 +152,9 @@ function NewRecipeForm() {
         { value: 4, label: 'ml' },
         { value: 5, label: 'dcl' },
         { value: 6, label: 'l' },
-        { value: 7, label: 'jušna žlica' },
+        { value: 7, label: 'velika žlica' },
         { value: 8, label: 'srednja žlica' },
-        { value: 9, label: 'kavska žlica' },
+        { value: 9, label: 'mala žlica' },
         { value: 10, label: 'kom' }
     ];
 
@@ -147,13 +182,13 @@ function NewRecipeForm() {
     const handleUserChoiceChange = (choice) => {
         setUserChoice(choice);
     
-        // Initialize chosenIngredients for selected ingredients
+
         const updatedIngredients = choice.map((ingredient) => {
             const existingIngredient = chosenIngredients.find((el) => el.name === ingredient.label);
             if (existingIngredient) {
                 return existingIngredient;
             }
-            // If the ingredient is not in the existing chosenIngredients, create a new entry
+
             return {
                 name: ingredient.label,
                 quantity: "",
@@ -170,15 +205,11 @@ function NewRecipeForm() {
         const inputValue = e.target.value;
         const forbiddenString = "$@%&#$%&";
     
-        // Check if the description contains invalid characters
         if (inputValue.includes(forbiddenString)) {
-            // Set an error message if invalid characters are detected
             setDescriptionError("Description should not contain special characters like $@%&#$%&");
         } else {
-            // Update the description state and clear the error message if it's valid
             setDescription(inputValue);
     
-            // Clear the error message after a short delay
             setTimeout(() => {
                 setDescriptionError("");
             }, 500);
@@ -203,6 +234,7 @@ function NewRecipeForm() {
                                 classNamePrefix="select"
                                 placeholder="Odaberi kuhinju"
                                 onChange={(choice) => {setSelectedCousine(choice);}}
+                                required
                             />
                         </div>
                         <div className="relative max-w-[40rem]">
@@ -214,6 +246,7 @@ function NewRecipeForm() {
                                 classNamePrefix="select"
                                 placeholder="Odaberi kategoriju"
                                 onChange={(choice) => {setSelectedCategory(choice);}}
+                                required
                             />
                         </div>
                         <div className="relative max-w-[40rem]">
@@ -258,31 +291,33 @@ function NewRecipeForm() {
                             <input onChange={e=> setCookinTime(e.target.value)} type="number" id="vrijeme_kuhanja" min="0" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 max-w-[15rem]" placeholder="45" required/>
                         </div>
                         <div className="relative max-w-[40rem]">
-                            <Select
+                            <CreatableSelect
                                 defaultValue={"0"}
                                 isMulti
                                 name="Oznake"
-                                options={"0"}
+                                options={tags_names}
                                 className="basic-multi-select"
                                 classNamePrefix="select"
                                 placeholder="Odaberi oznake"
+                                onChange={(choice) => {setSelectedTags(choice);}}
+
                             />
                         </div>
                         <div className='max-h-[20rem]'>
 
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="multiple_files">Dodajte slike</label>
-                            <input onChange={e=> setImages(e.target.files[0])} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple/>
+                            <input onChange={ (e) => {setImages(e.target.files);} } className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple/>
                             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF.</p>
                         </div>
                         <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Dodajte video</label>
-                            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
+                            <input onChange={e=> setVideo(e.target.files[0])}className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file"/>
                             <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">MPEG-4(MP4), MOV, AVI, WMV or AVCHD.</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex gap-4 justify-center w-1/3">
-                    <Button onChange={e=> setVideo(e.target.files[0])} type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
+                    <Button type="submit" className='w-full text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 '>
                         Objavi recept
                     </Button>
                 </div>

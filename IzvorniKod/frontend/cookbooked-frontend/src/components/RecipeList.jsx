@@ -3,6 +3,8 @@ import fromStringToTime from "./fromStringToTime";
 
 function RecipeList({headline, recipes}) {
 
+    const reversedRecipes = [...recipes].reverse();
+
 
     return (
         <>
@@ -16,7 +18,7 @@ function RecipeList({headline, recipes}) {
                 {recipes && recipes.length > 0 ? (
                   <div className="flex w-full min-h-[35rem] flex-col items-center justify-center gap-4">
                     <ul className="w-3/5 max-w-[48rem] space-y-1 text-2xl text-gray-500 list-disc dark:text-gray-400">
-                      {recipes.map((el) => (
+                      {reversedRecipes.map((el) => (
                         <li key={el.id} className="py-3 sm:py-4 border-b border-gray-300">
                             <div className="flex items-center space-x-4 rtl:space-x-reverse">
                                 <div className="w-3/6">

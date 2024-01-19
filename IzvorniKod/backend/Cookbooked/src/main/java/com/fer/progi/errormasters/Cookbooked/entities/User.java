@@ -18,7 +18,6 @@ public class User {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -46,11 +45,11 @@ public class User {
     @JsonIgnore
     private List<CommunicationTime> communicationTimes;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Recipe> recipes;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<BookmarkedRecipe> bookmarkedRecipes;
 
@@ -69,6 +68,17 @@ public class User {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ChatMessage> receivedMessages;
+
+    // for tests only!
+    public User(Integer id, String firstName, String lastName, String phoneNumber, String username, String password, String email, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+    }
 
     @Override
     public String toString() {

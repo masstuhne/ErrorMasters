@@ -4,13 +4,15 @@ import RecipeList from "./RecipeList";
 import axios from 'axios';
 import parseJwt from "./parseJwt";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function MyRecipesDisplay() {
 
   useEffect(()=>{
     let tokenPayload=parseJwt(localStorage.getItem('user_ret'))
     let userId=tokenPayload.id
     console.log(userId)
-    axios.get('http://localhost:8080/api/v1/users/'+userId+'/recipes')
+    axios.get(API_BASE_URL + '/users/'+userId+'/recipes')
     .then(response =>{
         
         let tmpRcipeList=response.data.map(recept=>({

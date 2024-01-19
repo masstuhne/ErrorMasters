@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function DohvatSastojci({cat, link, children}) {
     const [categories, seCategories] = useState([]);
     const [isOpen, setOpen] = useState(false);
@@ -9,8 +11,8 @@ function DohvatSastojci({cat, link, children}) {
     const navBarId = "dropdownNavbar " + cat;
 
     // console.log(cat);
-    
-    const apiUrl = 'http://localhost:8080/api/v1/' + cat;
+
+    const apiUrl = API_BASE_URL + '/' + cat;
     // console.log(apiUrl);
     useEffect(() => {
         axios.get(apiUrl)
@@ -27,7 +29,6 @@ function DohvatSastojci({cat, link, children}) {
     const navigate = useNavigate();
   
     const handleCheckboxChange = (categoryId) => {
-      // Toggle the category in the selectedCategories state
       setSelectedCategories((prevSelected) => {
         if (prevSelected.includes(categoryId)) {
           return prevSelected.filter((id) => id !== categoryId);
@@ -38,18 +39,14 @@ function DohvatSastojci({cat, link, children}) {
     };
   
     const handleSubmit = () => {
-      // Perform the submission logic with the selectedCategories
       console.log('Submitting:', selectedCategories);
-      // You can send the selectedCategories to your API endpoint here
   
-      // Set submitting to true to show loading state or disable the button
       setSubmitting(true);
 
       const url = `/sastojci?categories=${selectedCategories.join(',')}`;
       console.log(url);
       navigate(url);
   
-      // Simulate an asynchronous operation (replace with your actual API call)
       setTimeout(() => {
         setSubmitting(false);
       }, 2000);
