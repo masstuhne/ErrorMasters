@@ -134,8 +134,14 @@ function UserData() {
       const handleDateTimeSubmit= async (e)=>{
         e.preventDefault() 
         try{
-          if (new Date(endDate) < new Date(startDate)) {
-            setDateTimeError("Završno vrijeme ne može biti prije početnog vremena.");
+          const newStartDate = new Date(startDate);
+          var fiveMinutesNewStartDate = new Date(newStartDate.getTime() + 5 * 60 * 1000);
+          if (new Date(endDate) <= newStartDate) {
+            setDateTimeError("Završno vrijeme mora biti nakon početnog vremena.");
+            return;
+          }
+          if (new Date(endDate) <= fiveMinutesNewStartDate) {
+            setDateTimeError("Ostavite razmak od barem 5 minuta između početnog i završnog vremena.");
             return;
           }
         
@@ -234,7 +240,7 @@ function UserData() {
                   <div key={termin.id} >
                       <span>{formatDate(termin.startTime)}</span>
                       <span> - </span>
-                      <span>{formatDate(termin.startTime)}</span>
+                      <span>{formatDate(termin.endTime)}</span>
                   </div>
                 ))}
               </div>

@@ -207,7 +207,7 @@ function Profile() {
                             <div key={termin.id} >
                                 <span>{formatDate(termin.startTime)}</span>
                                 <span> - </span>
-                                <span>{formatDate(termin.startTime)}</span>
+                                <span>{formatDate(termin.endTime)}</span>
                             </div>
                             ))}
                         </div>
