@@ -11,7 +11,6 @@ function MyRecipes() {
     const [link, setLink] = useState('');
 
     useEffect(() => {
-        // Parse and store query parameters when the location changes
         const params = new URLSearchParams(location.search);
         let paramsObject = {};
         
@@ -45,8 +44,6 @@ function MyRecipes() {
     }, [location]);
     
     useEffect(() => {
-        // You can add additional logic here if needed
-        // This effect will run whenever the 'link' state changes
     }, [link]);
 
     return (

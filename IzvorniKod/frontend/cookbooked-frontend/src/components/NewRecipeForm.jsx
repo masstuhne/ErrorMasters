@@ -182,13 +182,13 @@ function NewRecipeForm() {
     const handleUserChoiceChange = (choice) => {
         setUserChoice(choice);
     
-        // Initialize chosenIngredients for selected ingredients
+
         const updatedIngredients = choice.map((ingredient) => {
             const existingIngredient = chosenIngredients.find((el) => el.name === ingredient.label);
             if (existingIngredient) {
                 return existingIngredient;
             }
-            // If the ingredient is not in the existing chosenIngredients, create a new entry
+
             return {
                 name: ingredient.label,
                 quantity: "",

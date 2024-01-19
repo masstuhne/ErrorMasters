@@ -36,7 +36,6 @@ function MessageSendPopUp({reciverId,messagageId}) {
 
     };
 
-    //TODO Poruke se mogu slat i iz profila i iz recepta pa onda ak si trebas neke id-eve slat u oba moras dodat
     return (
 
     <>
