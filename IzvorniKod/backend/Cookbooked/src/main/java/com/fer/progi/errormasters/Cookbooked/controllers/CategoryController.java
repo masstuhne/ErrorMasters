@@ -2,7 +2,9 @@ package com.fer.progi.errormasters.Cookbooked.controllers;
 
 import com.fer.progi.errormasters.Cookbooked.entities.Category;
 import com.fer.progi.errormasters.Cookbooked.entities.Ingredient;
+import com.fer.progi.errormasters.Cookbooked.entities.Recipe;
 import com.fer.progi.errormasters.Cookbooked.services.CategoryService;
+import com.fer.progi.errormasters.Cookbooked.services.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,19 +18,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/categories")
+@AllArgsConstructor
 public class CategoryController {
-    @Autowired
+
     private CategoryService categoryService;
+    private RecipeService recipeService;
+
+
 
     @GetMapping
     public ResponseEntity<List<Category>> getCategories(){
         List<Category> categories = categoryService.getAllCategories();
 
-        if (categories.isEmpty()){
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(categories);
-        }
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("{id}")
@@ -36,5 +38,11 @@ public class CategoryController {
         Optional<Category> category = categoryService.getCategory(id);
 
         return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    @GetMapping ("/{categoryId}/recipes")
+    public ResponseEntity<List<Recipe>> getRecipesByCategory(Integer categoryId){
+        return ResponseEntity.ok(recipeService.getRecipesByCategory(categoryId));
     }
 }

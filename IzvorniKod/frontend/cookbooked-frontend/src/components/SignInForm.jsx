@@ -1,12 +1,13 @@
 import { Button, Label, TextInput } from 'flowbite-react';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import RedAlert from './RedAlert';
 import { AuthContext } from './NavBar';
 import { useNavigate } from "react-router-dom";
 
-const LOG_URL='http://localhost:8080/api/v1/login'
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+const LOG_URL=API_BASE_URL + '/login'
 
 function SignInForm() {
 
@@ -64,9 +65,9 @@ function SignInForm() {
                 <Button type="submit" className='text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Prijava</Button>
                 <div>
                     Nemate korisnički račun?
-                    <Link to="/registracija" className="ml-1 font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                    <a href="/registracija" className="ml-1 font-medium text-cyan-600 hover:underline dark:text-cyan-500">
                     Registracija
-                    </Link>
+                    </a>
                     .
                 </div>
                 {showAlert && (

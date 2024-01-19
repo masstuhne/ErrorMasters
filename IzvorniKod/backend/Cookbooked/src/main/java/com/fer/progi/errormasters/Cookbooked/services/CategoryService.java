@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
-    public List<Category> getAllCategories();
+     List<Category> getAllCategories();
 
-    public Optional<Category> getCategory(int id);
+     Optional<Category> getCategory(int id);
+
+    Category getCategoryById(Integer categoryId);
 }

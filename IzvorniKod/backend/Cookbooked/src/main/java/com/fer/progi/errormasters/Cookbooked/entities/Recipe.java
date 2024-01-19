@@ -1,0 +1,92 @@
+package com.fer.progi.errormasters.Cookbooked.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.springframework.context.annotation.Lazy;
+
+import java.time.Duration;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "recipe")
+public class Recipe {
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "cuisine_id")
+    private Cuisine cuisine;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(name = "title", nullable = false)
+    private String title;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(columnDefinition = "interval", name = "cooking_time")
+    @Type(PostgreSQLIntervalType.class)
+    private Duration cookingTime;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Media> media;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<BookmarkedRecipe> bookmarkedRecipes;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<RecipeRating> recipeRatings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_ingredient",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(
+            name = "tag_recipe",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "id=" + id +
+                ", category=" + category +
+                ", cuisine=" + cuisine +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", cookingTime=" + cookingTime +
+                ", media=" + media +
+                ", bookmarkedRecipes=" + bookmarkedRecipes +
+                ", recipeRatings=" + recipeRatings +
+                ", ingredients=" + ingredients +
+                ", tags=" + tags +
+                '}';
+    }
+
+}

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function DohvatKategorija({cat, children}) {
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+function DohvatKategorija({cat, link, children}) {
     const [categories, seCategories] = useState([]);
     const [isOpen, setOpen] = useState(false);
 
@@ -9,7 +11,7 @@ function DohvatKategorija({cat, children}) {
 
     // console.log(cat);
     
-    const apiUrl = 'http://localhost:8080/api/v1/' + cat;
+    const apiUrl = API_BASE_URL + '/' + cat;
     // console.log(apiUrl);
     useEffect(() => {
         axios.get(apiUrl)
@@ -37,11 +39,11 @@ function DohvatKategorija({cat, children}) {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m1 1 4 4 4-4"/>
                     </svg>
             </button>
-            <div id={navBarId} className={`z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ${isOpen ? "block" : "hidden"}`}> 
+            <div id={navBarId} className={`z-40 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ${isOpen ? "block" : "hidden"}`}> 
                 <ul className="dropdown py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                 {categories.map(el => (
                     <li key={el.id}>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a href={'/' + link + '/' + el.id} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             {el.name}
                         </a>
                     </li>
