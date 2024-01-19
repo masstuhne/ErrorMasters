@@ -152,9 +152,9 @@ function NewRecipeForm() {
         { value: 4, label: 'ml' },
         { value: 5, label: 'dcl' },
         { value: 6, label: 'l' },
-        { value: 7, label: 'jušna žlica' },
+        { value: 7, label: 'velika žlica' },
         { value: 8, label: 'srednja žlica' },
-        { value: 9, label: 'kavska žlica' },
+        { value: 9, label: 'mala žlica' },
         { value: 10, label: 'kom' }
     ];
 
