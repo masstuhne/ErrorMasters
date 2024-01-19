@@ -74,7 +74,7 @@ function MessagesDisplay() {
                                 <div className="w-3/6">
                                     <h1 className="text-2xl font-medium text-gray-900 truncate dark:text-white">
                                     {"Šalje "}
-                                    <a className="text-2xl font-medium text-gray-900 truncate dark:text-white" href={`/profil/${el.id}`}>{el.sender}</a>
+                                    <a className="text-blue-700 text-2xl font-medium truncate dark:text-white" href={`/profil/${el.senderId}`}>{el.sender}</a>
                                     </h1>
                                 </div>
                             </div>
