@@ -7,7 +7,7 @@
 			\item 	Baza podataka		
 		\end{itemize}
 
-		\underbar{Web preglednik} predstavlja softverski program koji omogućuje korisnicima 
+		\underbar{Web preglednik} predstavlja program koji omogućuje korisnicima 
 		pregledavanje web-stranica i konzumiranje povezanih multimedijskih sadržaja. 
 		Svaki internetski preglednik djeluje kao prevoditelj, interpretirajući kôd web 
 		stranica napisan u određenom programskom jeziku i pretvarajući ga u vizualni 
@@ -18,7 +18,7 @@
 		prijenosa informacija i omogućava korisnicima interakciju s odabranim sadržajem.
 
 
-		\underbar{Web poslužitelj} temelj je rada web aplikacije. Zadužen je za komunikaciju
+		\underbar{Web poslužitelj} zadužen je za komunikaciju
 		klijenta sa aplikacijom. Međusobna komunikacija odvija se putem HTTP (engl. \textit{Hyper
 		Text Transfer Protocol}) protokola, koji je jedan od protokola za prijenos informacija
 		na webu.
@@ -39,12 +39,12 @@
 			\item Dokumentacija - Visual Studio Code		
 		\end{itemize}
 
-		Arhitekura sustava zasnivat će se na MVC (Model-View-Controller) konceptu.
+		Arhitekura sustava zasnivat će se na arh. obrascu MVC (Model-View-Controller).
 		Spring Boot nudi veliku podršku za rad sa Spring MVC-om te kao takav
 		odgovara našim zahtjevima (također olakšava konfiguraciju potrebnu za validan rad
 		Spring MVC-a).
 
-		MVC koncept omogućava nezavisan razvoj pojedinih dijelova aplikacije te kao takav
+		Arh. obrazac MVC omogućava nezavisan razvoj pojedinih dijelova aplikacije te kao takav
 		olakšava ispitivanje, razvijanje i dodavanje novih svojstva u aplikaciju.
 
 		\medbreak
@@ -74,7 +74,7 @@
 
 			\medbreak
 
-			Entiteti bazom podataka:
+			Entiteti baze podataka:
 			\begin{itemize}
 				\item users
 				\item userFollow		
@@ -97,7 +97,7 @@
 
 			\subsection{Opis tablica}
 
-				\textbf{users} Relacija pohranjuje entitete modela koji predstavlaju korisnika.
+				Relacija \textbf{users} pohranjuje entitete modela koji predstavlaju korisnika.
 				Ograničenje stranog ključa odnosi se na atribut roleId koji označava id
 				razine pristup (Klijent, Vlasnik, Admin) koju korisnik ima; referencirana je
 				relacija role, stupac id. 
@@ -120,7 +120,7 @@
 					\SetCell{LightBlue} roleId	& VARCHAR &  identifikator razine pristupa korisnika (role.id) 	\\ \hline 
 				\end{longtblr}
 
-				\textbf{userFollow} Relacija pohranjuje entitete modela koji predstavlja odnos praćenja
+				Relacija \textbf{userFollow} pohranjuje entitete modela koji predstavlja odnos praćenja
 				korisnika i autora.
 				Ograničenje stranog ključa odnosi se na atribute followerId i authorId koji označavaju
 				id korisnika koji je inicirao praćenje, tj. korisnika koji je autor recepta; referencirana je
@@ -141,7 +141,7 @@
 					followedAt & TIMESTAMP	&  vrijeme početka praćenja		\\ \hline
 				\end{longtblr}
 
-				\textbf{chatMessage} Relacija pohranjuje entitete modela koji predstavlja
+				Relacija \textbf{chatMessage} pohranjuje entitete modela koji predstavlja
 				poruke koje se koriste pri komunikaciji.
 				Ograničenje stranog ključa odnosi se na atribute senderId i receiverId koji označavaju
 				id korisnika koji je posalo poruku, tj. korisnika koji poruku treba primiti; referencirana je
@@ -162,7 +162,7 @@
 					content & VARCHAR	&  sadržaj poruke		\\ \hline
 				\end{longtblr}
 
-				\textbf{communicationTime} Relacija pohranjuje entitete modela koji predstavlja
+				Relacija \textbf{communicationTime} pohranjuje entitete modela koji predstavlja
 				dostupnost korisnika za komunikaciju.
 				Ograničenje stranog ključa odnosi se na atribut userId koji označava
 				id korisnika koji prikazuje vrijeme u koje je dostupan za komunikaciju; referencirana je
@@ -178,12 +178,12 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{communicationTime}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}id & INT	&  	jedinstveni identifikator \\ \hline
-					\SetCell{LightGreen}userId	& INT &   jedinstveni identifikator korisnika (user.id)\\ \hline 
-					\SetCell{LightGreen}start & TIMESTAMP & vrijeme od  \\ \hline 
-					\SetCell{LightGreen}end & TIMESTAMP	&  vrijeme do		\\ \hline
+					\SetCell{LightBlue}userId	& INT &   jedinstveni identifikator korisnika (user.id)\\ \hline 
+					\SetCell{LightBlue}start & TIMESTAMP & vrijeme od  \\ \hline 
+					\SetCell{LightBlue}end & TIMESTAMP	&  vrijeme do		\\ \hline
 				\end{longtblr}
 
-				\textbf{recipe} Relacija pohranjuje entitete modela recept.
+				Relacija \textbf{recipe} pohranjuje entitete modela recept.
 				Ograničenje stranog ključa odnosi se na atribute ingredientId, tagId, categoryId, cuisineId, mediaId
 				te userId koji označavaju, redom, sastojke recepta, oznake recepta, kategoriju u koju recept spada,
 				kuhinju u koju recept spada, multimedijske sadržaje koje recept sadrži te autora recepta.
@@ -209,7 +209,7 @@
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 					\hline \SetCell[c=3]{c}{\textbf{recipe}}	 \\ \hline[3pt]
 					\SetCell{LightGreen}id & INT	&  	jedinstveni identifikator recepta  	\\ \hline
-					\SetCell{LightBlue} ingredientId	& INT &   id sastojka 	(ingredient.id)\\ \hline 
+					\SetCell{LightBlue} ingredientId	& List<INT> &   id sastojka 	(ingredient.id)\\ \hline 
 					\SetCell{LightBlue} tagId	& INT &   id oznake	(tag.id)\\ \hline 
 					\SetCell{LightBlue} categoryId	& INT &   id kategorije	(category.id)\\ \hline 
 					\SetCell{LightBlue} cuisineId & INT & id zemlje podrijetla (cuisine.id) \\ \hline 
@@ -220,7 +220,7 @@
 					cookingTime	& INTERVAL &  vrijeme kuhanja 	\\ \hline 
 				\end{longtblr}
 
-				\textbf{recipeRating} Relacija pohranjuje modele entiteta koji predstavljaju
+				Relacija \textbf{recipeRating} pohranjuje modele entiteta koji predstavljaju
 				\textit{feedback} na recept; ocjenu i komentar.
 				Ograničenje stranog ključa odnosi se na atribute userId i recipeId koji označavaju
 				id korisnika koji daje \textit{feedback} i recept koji se komentira; referencirana je
@@ -243,7 +243,7 @@
 					createdAt & TIMESTAMP	& vrijeme nastanka ocjene		\\ \hline  
 				\end{longtblr}
 
-				\textbf{bookmarkedRecipe} Relacija pohranjuje model entiteta koji predstavlja zabilježbu recepta
+				Relacija \textbf{bookmarkedRecipe} pohranjuje model entiteta koji predstavlja zabilježbu recepta
 				od strane nekog korisnika.
 				Ograničenje stranog ključa odnosi se na atribute userId i recipeId koji označavaju
 				id korisnika koji zabilježuje recept te id recepta koji se zabilježuje; referencirana je
@@ -280,7 +280,7 @@
 					name	& VARCHAR &  ime razine pristupa  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{category} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{category} pohranjuje model entiteta koji predstavlja
 				kategoriju u koju recept može pripadati.
 
 				\begin{longtblr}[
@@ -296,7 +296,7 @@
 					name	& VARCHAR &  ime kategorije  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{tag} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{tag} pohranjuje model entiteta koji predstavlja
 				oznaku koji recept može imati (npr. Vegan, Healthy, Quick...)
 				
 				\begin{longtblr}[
@@ -312,7 +312,7 @@
 					name	& VARCHAR &  opis oznake recepta  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{ingredient} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{ingredient} pohranjuje model entiteta koji predstavlja
 				sastojak koji recept može sadržavati.
 
 				\begin{longtblr}[
@@ -344,7 +344,7 @@
 					name	& VARCHAR &  ime zemlje kuhanja  	\\ \hline 
 				\end{longtblr}
 
-				\textbf{video} Relacija pohranjuje model entiteta koji predstavlja
+				Relacija \textbf{video} pohranjuje model entiteta koji predstavlja
 				medijski zapis oblika videa.
 
 				\begin{longtblr}[
@@ -380,7 +380,7 @@
 				
 				\eject
 
-				\textbf{media} Relacija pohranjuje model entiteta koji predstavlja medijski sadržaj
+				Relacija \textbf{media} pohranjuje model entiteta koji predstavlja medijski sadržaj
 				koji je objavio neki korisnik, uz neki recept.
 				Ograničenje stranog ključa odnosi se na atribute recipeId 
 				id recepta uz okji je medijski sadržaj postavljen; referencirana je
@@ -455,3 +455,116 @@
 			\caption{Dijagram razreda - dio Models}
 			\label{fig:bpdiag}
 		\end{figure}
+
+		\eject
+
+		\section{Dijagrami nakon implementacije programskih rješenja}
+		Prikaz dijagrama razreda nakon završetka druge faze projekta nalazi se direktoriju
+		"/Dokumentacija" u dva oblika:
+
+		\begin{itemize}
+			\item 	CookBookedModel.plantuml
+			\item 	CookBookedModelImage.png
+		\end{itemize}
+
+		Izvedba je u ovom obliku zbog preglednosti prikaza istih.
+
+		Grafovi su automatski generirani pomoću IntelliJ IDEA Ultimate razvojnog okruženja.
+
+		\eject
+
+		\section{Dijagram stanja}
+		Dijagram stanja prikazuje stanja objekata te prijelaze iz jednog stanja u drugo
+		temeljene na događajima. Na slici 4.5 prikazan je dijagram stanja za registriranog
+		korisnika.
+
+		\noindent Nakon što se prijavi, klijent je preusmjeren na početnu stranicu s koje može
+		pristupiti ostalim stranicama ("Postavke profila", "Moji recepti", "Dodavanje recepta", "Stranica s receptima",
+		"Pregledavanje pristiglih poruka").
+
+		\noindent Ako klijent odluči pregledavati recepte, iz padajućeg izbornika ima opciju
+		filtrirati iste po kategoriji, kuhinji ili sastojcima recepta. Nakon prikaza svih filtriranih
+		recepata, klijent može detaljnije pregledati svaki pojedinačni recept te objaviti komentar ili
+		kontaktirati njegova autora.
+
+		\noindent Preostale stranice nude očekivane opcije vezane uz postavke korisničkog profila,
+		brisanje korisničkog profila, uređivanje već objavljenih recepata, njihovo brisanje, dodavanje novih
+		te komunikaciju sa korisnicima koji sutemeljem već objavljenih recepata klijenta kontaktirali.
+
+		\begin{figure}[H]
+			\includegraphics[scale=0.42]{dijagrami/dijagram_stanja.png}
+			\centering
+			\caption{Dijagram stanja}
+			\label{fig:bpdiag}
+		\end{figure}
+		\eject
+		
+		\section{Dijagram aktivnosti}
+
+		\noindent Na slici 4.6 prikazi su procesi akcija koje korisnik može izvršiti ukoliko se nađe na početnoj stranici.
+		Detaljnije je obrađen slučaj ako korisnik želi pregledati pojedine recepte.
+		Korisnik se prijavi u sustav, odabere koju stranicu želi vidjeti (detaljnije obrađena stranica prikaza recepata),
+		a odabirom prikaza recepata prikažu mu se recepti. Odabirom pojedinog recepta korisnik može komentirati recept,
+		poslati poruku autoru ili, ako je recept njegov, urediti podatke o receptu.
+
+		\noindent Svaka od akcija uključuje ispunjenje određe forme od strane korisnika, slanje upita od strane web-aplikacije
+		bazi podatakam potom odgovor baze podataka na taj upit te prikaz tog odgovora od strane web-aplikacije.
+
+		\eject
+
+		\begin{figure}[H]
+			\includegraphics[scale=0.6]{dijagrami/dijagram_aktivnosti.png}
+			\centering
+			\caption{Dijagram aktivnosti}
+			\label{fig:bpdiag}
+		\end{figure}
+
+		\eject
+
+		\noindent Na slici 4.7 prikazan je dijagram komponenti koji opisuje organizaciju i međuovisnost
+		komponenti, interne strukture i odnose prema okolini.
+
+		\noindent Sustavu se može pristupiti preko dva raziličita sučelja:
+
+		\medbreak
+		\noindent 1. Sučelje za dohvat HTML, CSS i JS datoteka
+
+		- služi za posluživanje datoteka koje pripadaju \textit{frontend} dijelu aplikacije
+
+		- router je komponenta koja ovisno o url-u u upitu poslužuje određene datoteke
+		
+		- \textit{frontend} dio sastoji se od niza JavaScript datoteka raspoređenih u logičke 
+		
+		cjeline
+		
+		- JavaScript datoteke ovise o React biblioteci
+		
+		\medbreak
+		\noindent 2. Sučelje za dohvat JSON podataka
+
+		- preko njega se pristupa REST API komponenti
+		
+		- REST API poslužuje podatke koji pripadaju \textit{backend} dijelu aplikacije
+
+		- Hibernate je zadužen za dohvaćanje tablica iz baze podataka pomoću SQL 
+		
+		upita
+
+		- podaci koji su pristigli iz baze se šalju dalje MVC arhitekturi u obliku DTO-a 
+		
+		i/ili modela
+
+		\medbreak
+		\noindent React-view komponenta preko dosputnih sučelja komunicira sa CookBooked aplikacijom,
+		omogućuje ažuriranje prikaza ovisno o korisničkim radnjama te omogućuje dohvaćanje novih podataka
+		ili datoteka prema potrebi.
+
+		\eject
+
+		\begin{figure}[H]
+			\includegraphics[scale=0.2]{dijagrami/dijagram_komponenti.jpeg}
+			\centering
+			\caption{Dijagram aktivnosti}
+			\label{fig:bpdiag}
+		\end{figure}
+		\eject
