@@ -34,6 +34,7 @@ public class AuthorizationController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    // login endpoint
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginModel loginModel){
 
