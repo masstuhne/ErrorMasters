@@ -68,7 +68,21 @@ function followAuthor(id) {
 }
 
 function unfollowAuthor(id){
-    console.log('unfollowing');
+    console.log('unfollowing ' + id);
+    const url1 = API_BASE_URL + '/follow/' + id;
+    console.log(url1);
+    
+    axios.delete(url1, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('user_ret')}`,
+        },
+    })
+    .then(response => {
+        console.log(response.data);
+    })
+    .catch(err => {
+        console.error('Error fetching data:', err);
+    });
 }
 
 function RecipeDisplay() {
@@ -184,7 +198,7 @@ function RecipeDisplay() {
               },
         })
         .then(response =>{
-            console.log(response);
+            console.log(response.data);
             setIsBell(response.data.some(item => item.authorId == recept?.user?.id));
         })
         .catch(err=>{
